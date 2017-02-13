@@ -8,3 +8,8 @@ These kits come with access to the following websites:
 username = kristof.lievens@i8c.be  
 password = L0Ra2017!  
 
+
+
+As a first step: follow this tutorial to get up and running: http://docs.allthingstalk.com/tutorials/setup-lora-rapid-development-kit/  
+
+
