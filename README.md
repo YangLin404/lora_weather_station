@@ -10,6 +10,9 @@ password = L0Ra2017!
 
 
 
-As a first step: follow this tutorial to get up and running: http://docs.allthingstalk.com/tutorials/setup-lora-rapid-development-kit/  
+As a first step, follow these tutorial to get up and running:
+* http://docs.allthingstalk.com/tutorials/setup-lora-rapid-development-kit/  
+* http://docs.enco.io/docs/getting-started-with-enco  
+
 
 
