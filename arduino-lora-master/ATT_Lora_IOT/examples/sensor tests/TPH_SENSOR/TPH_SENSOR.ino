@@ -63,15 +63,15 @@ void loop()
   
   Serial.print("Temperature: ");
   Serial.print(temp);
-  Serial.println(" C");
+  Serial.println(" °C");
   
   Serial.print("Temperature (BMP sensor): ");
   Serial.print(bmp_temp);
-  Serial.println(" C");
+  Serial.println(" °C");
   
   Serial.print("Temperature (SHT sensor): ");
   Serial.print(sht_temp);
-  Serial.println(" C");
+  Serial.println(" °C");
   
   Serial.print("Humidity: ");
   Serial.print(hum);
@@ -83,10 +83,10 @@ void loop()
   Serial.println();
 
   Device.Send(temp, TEMPERATURE_SENSOR);
-  //Device.Send(hum, HUMIDITY_SENSOR);
-  //Device.Send(pres, PRESSURE_SENSOR);
+  Device.Send(hum, HUMIDITY_SENSOR);
+  Device.Send(pres, PRESSURE_SENSOR);
   
-  delay(20000);
+  delay(3000);
 }
 
 
