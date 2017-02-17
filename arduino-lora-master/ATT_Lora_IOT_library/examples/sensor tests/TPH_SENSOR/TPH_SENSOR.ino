@@ -31,48 +31,79 @@
  **/
 
 #include <Wire.h>
+#include <Sodaq_TPH.h>
 #include <ATT_LoRa_IOT.h>
 #include "keys.h"
 #include <MicrochipLoRaModem.h>
 
-#define SERIAL_BAUD 57600
 
-#define AnalogSensor A4
+#define SERIAL_BAUD 57600
 
 
 MicrochipLoRaModem Modem(&Serial1, &Serial);
 ATTDevice Device(&Modem, &Serial);
 
+
 void setup() 
 {
-  pinMode(AnalogSensor,INPUT);
-  while((!Serial) && (millis()) < 2000){}						//wait until serial bus is available, so we get the correct logging on screen. If no serial, then blocks for 2 seconds before run
+  tph.begin();                                        // connect TPH sensor to the I2C pin (SCL/SDA)
   Serial.begin(SERIAL_BAUD);
   Serial1.begin(Modem.getDefaultBaudRate());					// init the baud rate of the serial connection so that it's ok for the modem
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  Serial.println("Ready to send data");
+  Serial.println("Ready to send data");  
 }
-
-float value = 0;
 
 void loop() 
 {
-  int sensorValue = analogRead(AnalogSensor); 
-  float Rsensor= sensorValue * 3.3 / 1023;
-  Rsensor = pow(10, Rsensor);
-  Serial.println(Rsensor);
-  if((int)value != Rsensor){			// we round the value so we don't send too many value changes
-    value = Rsensor;
-    SendValue();
-  }
-  delay(3000);
-}
+  float temp = tph.readTemperature();
+  float bmp_temp = tph.readTemperatureBMP();
+  float sht_temp = tph.readTemperatureSHT();
+  float hum = tph.readHumidity();
+  float pres = tph.readPressure()/100.0;
+  
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.println(" °C");
+  /*
+  Serial.print("Temperature (BMP sensor): ");
+  Serial.print(bmp_temp);
+  Serial.println(" °C");
+  
+  Serial.print("Temperature (SHT sensor): ");
+  Serial.print(sht_temp);
+  Serial.println(" °C");
+  */
+  Serial.print("Humidity: ");
+  Serial.print(hum);
+  Serial.println(" %");
+  
+  Serial.print("Pressure: ");
+  Serial.print(pres);
+  Serial.println(" hPa");
+  Serial.println();
+  
+   //Modem.WakeUp();
+  //Device.Queue(pres);
+  Serial.print("sending presu:\n");
+  Device.Send(pres, PRESSURE_SENSOR);
 
-void SendValue()
-{
-  Serial.print("Sending value: ");
-  Serial.println(value);
-  Device.Send(value, LIGHT_SENSOR);
+  Modem.WakeUp();
+  //Device.Queue(temp);
+  Serial.print("sending temp:\n");
+  Device.Send(temp, TEMPERATURE_SENSOR);
+
+  Modem.WakeUp();
+  //Device.Queue(hum);
+  Serial.print("sending humi:\n");
+  Device.Send(hum, HUMIDITY_SENSOR);
+
+  /*
+  Modem.WakeUp();
+  Device.Queue(pres);
+  Serial.print("sending presu:\n");
+  Device.Send(pres, PRESSURE_SENSOR);*/
+  
+  delay(10000);
 }
 
 

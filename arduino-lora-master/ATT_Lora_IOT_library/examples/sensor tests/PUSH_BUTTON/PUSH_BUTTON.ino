@@ -62,12 +62,14 @@ void loop()
 	{
 		sensorVal = sensorRead;
 		SendValue(sensorRead);
+		delay(500);
 	}
-	delay(100);
+
 }
 
 void SendValue(bool val)
 {
+  Modem.WakeUp();
   Serial.println(val);
   Device.Send(val, PUSH_BUTTON);
 }
