@@ -29,4 +29,9 @@ Tijdens de stage ga ik gebruik maken van een AllThingsTalk [starter kit](http://
 1. doorzoeken header files en bestuderen protocol zodat we de error's uit de code kunnen hallen/ de oorzaak achterhalen.
 2. er voor zorgen dat we betroubaarder kunnen uploaden.
 
+##17 feb 
+
+1. Info opzoeken voor het gebruiken van de API van EnCo.
+2. Postman gebruiken voor opvragen van API's
+3. Opzoeken comando's van RN2483 in datasheet
 

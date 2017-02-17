@@ -17,7 +17,7 @@
 #include <Arduino.h>
 
 #define PORT 0x01
-//#define FULLDEBUG
+#define FULLDEBUG		//FULLDEBUG laat alle moggelijke informatie zien
 
 #define PACKET_TIME_OUT 45000
 
@@ -117,7 +117,7 @@ bool MicrochipLoRaModem::Start()
 	PRINTLN("Sending the network start commands");
 	#endif		
 	_stream->print(STR_CMD_JOIN);
-	_stream->print(STR_ABP);
+	_stream->print(STR_ABP);			//eerst ABP
 	_stream->print(CRLF);
 
 	#ifdef FULLDEBUG	
@@ -161,7 +161,7 @@ unsigned char MicrochipLoRaModem::macTransmit(const char* type, const unsigned c
 {
 	_stream->print(STR_CMD_MAC_TX);
 	_stream->print(type);
-	_stream->print(PORT);
+	_stream->print(PORT);				// gebruikt altijd dezelfde poort
 	_stream->print(" ");
 	
 	#ifdef FULLDEBUG	

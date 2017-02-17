@@ -37,6 +37,8 @@
 #include <MicrochipLoRaModem.h>
 
 
+
+
 #define SERIAL_BAUD 57600
 
 
@@ -51,6 +53,7 @@ void setup()
   Serial1.begin(Modem.getDefaultBaudRate());					// init the baud rate of the serial connection so that it's ok for the modem
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
   Serial.println("Ready to send data");  
+
 }
 
 void loop() 
@@ -81,21 +84,24 @@ void loop()
   Serial.print(pres);
   Serial.println(" hPa");
   Serial.println();
-  
-   //Modem.WakeUp();
+  Modem.Start();
+  //Device.Queue(temp);
+  Serial.print("sending temp:\n");
+  Device.Send(temp, TEMPERATURE_SENSOR); 
+
+   Modem.Start();
+  //Device.Queue(hum);
+  Serial.print("sending humi:\n");
+  Device.Send(hum, HUMIDITY_SENSOR);
+   
+   Modem.Start();
   //Device.Queue(pres);
   Serial.print("sending presu:\n");
   Device.Send(pres, PRESSURE_SENSOR);
 
-  Modem.WakeUp();
-  //Device.Queue(temp);
-  Serial.print("sending temp:\n");
-  Device.Send(temp, TEMPERATURE_SENSOR);
 
-  Modem.WakeUp();
-  //Device.Queue(hum);
-  Serial.print("sending humi:\n");
-  Device.Send(hum, HUMIDITY_SENSOR);
+
+
 
   /*
   Modem.WakeUp();
