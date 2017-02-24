@@ -92,6 +92,11 @@ class MicrochipLoRaModem: public LoRaModem
 		Deze functie roept getMacParam op en vraagt enkel de status van de modem en print deze af
 		*/
 		void PrintModemStatus();
+		/*
+		*	Deze functie bepaalt of modem automatich antwoord op Acknowledges
+		*	true= use, false = do not use ar	
+		*/
+		bool SetAutomaticReply(bool ar = true);
 
 		//wakes up the device after it has been put the sleep.
 		void WakeUp();
@@ -119,5 +124,6 @@ class MicrochipLoRaModem: public LoRaModem
 		//retrieves the specified parameter from the radio
 		char* getMacParam(const char* paramName, unsigned short timeout = DEFAULT_TIMEOUT);
 };
+
 
 #endif

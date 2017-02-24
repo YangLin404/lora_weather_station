@@ -30,73 +30,54 @@
  *  
  **/
 
-#include <Wire.h>
-#include <Sodaq_TPH.h>
+//#include <Wire.h>
 #include <ATT_LoRa_IOT.h>
 #include "keys.h"
 #include <MicrochipLoRaModem.h>
 
-
-
-
 #define SERIAL_BAUD 57600
 
-
-MicrochipLoRaModem Modem(&Serial1, &Serial);
-ATTDevice Device(&Modem, &Serial);
+int DigitalSensor = 20;                                        // digital sensor is connected to pin D20/21
+MicrochipLoRaModem Modem(&Serial1, &SerialUSB);
+ATTDevice Device(&Modem, &SerialUSB);
 
 
 void setup() 
 {
-  tph.begin();                                        // connect TPH sensor to the I2C pin (SCL/SDA)
-  Serial.begin(SERIAL_BAUD);
+  //pinMode(DigitalSensor, INPUT);					            // initialize the digital pin as an input.          
+  digitalWrite(ENABLE_PIN_IO, HIGH);
+  delay(3000);
+  while((!Serial) && (millis()) < 2000){}						//wait until serial bus is available, so we get the correct logging on screen. If no serial, then blocks for 2 seconds before run
+  
+  SerialUSB.begin(SERIAL_BAUD);
   Serial1.begin(Modem.getDefaultBaudRate());					// init the baud rate of the serial connection so that it's ok for the modem
-  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  Serial.println("Ready to send data");  
 
+  
+  while(!Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY));
+  SerialUSB.println("Ready to send data");
+
+  Modem.PrintModemConfig();
 }
+
+bool sensorVal = true;
 
 void loop() 
 {
-  float temp = tph.readTemperature();
-  float bmp_temp = tph.readTemperatureBMP();
-  float sht_temp = tph.readTemperatureSHT();
-  float hum = tph.readHumidity();
-  float pres = tph.readPressure()/100.0;
-  
-  Serial.print("Temperature: ");
-  Serial.print(temp);
-  Serial.println(" °C");
-  /*
-  Serial.print("Temperature (BMP sensor): ");
-  Serial.print(bmp_temp);
-  Serial.println(" °C");
-  
-  Serial.print("Temperature (SHT sensor): ");
-  Serial.print(sht_temp);
-  Serial.println(" °C");
-  */
-  Serial.print("Humidity: ");
-  Serial.print(hum);
-  Serial.println(" %");
-  
-  Serial.print("Pressure: ");
-  Serial.print(pres);
-  Serial.println(" hPa");
-  Serial.println();
-  
-  Serial.print("sending temp:\n");
-  Device.Send(temp, TEMPERATURE_SENSOR,true); 
+  //bool sensorRead = digitalRead(DigitalSensor);		    // read status Digital Sensor
+  //if (sensorVal != sensorRead) 				                // verify if value has changed
+  //{
+     //sensorVal = sensorRead;
+	   SendValue(sensorVal);
+	   sensorVal = !sensorVal;
+	   
+  //}
+  delay(2000);
+}
 
-/*
-  Serial.print("sending humi:\n");
-  Device.Send(hum, HUMIDITY_SENSOR);
-   
-  Serial.print("sending presu:\n");
-  Device.Send(pres, PRESSURE_SENSOR);
-*/
-  
-  delay(60000);
+void SendValue(bool val)
+{
+  SerialUSB.println(val);
+  Device.Send(val, PUSH_BUTTON);
 }
 
 

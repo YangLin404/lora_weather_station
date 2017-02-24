@@ -752,12 +752,53 @@ void MicrochipLoRaModem::PrintModemConfig()
 	PRINT("ch status 15 = ") PRINTLN(res);
 	
 }
-void PrintModemStatus()
+
+void MicrochipLoRaModem::PrintModemStatus()
 {
+/*
+	char* res =  getMacParam("status");
+	PRINT("status = ") PRINTLN(res);
+*/
+	char* res = getMacParam("devaddr");
+	PRINT("devaddr = ") PRINTLN(res);
+	res = getMacParam("deveui");
+	PRINT("deveui = ") PRINTLN(res);
+	res = getMacParam("appeui");
+	PRINT("appeui = ") PRINTLN(res);
+	res = getMacParam("dr");
+	PRINT("dr = ") PRINTLN(res);
+	res = getMacParam("band");
+	PRINT("band = ") PRINTLN(res);
+	res = getMacParam("pwridx");
+	PRINT("pwridx = ") PRINTLN(res);
+	res = getMacParam("adr");
+	PRINT("adr = ") PRINTLN(res);
+	res = getMacParam("retx");
+	PRINT("retx = ") PRINTLN(res);
+	res = getMacParam("rxdelay1");
+	PRINT("rxdelay1 = ") PRINTLN(res);
+	res = getMacParam("rxdelay2");
+	PRINT("rxdelay2 = ") PRINTLN(res);
+	res = getMacParam("ar");
+	PRINT("ar = ") PRINTLN(res);
+	res = getMacParam("rx2 868");
+	PRINT("rx2 = ") PRINTLN(res);
+	res = getMacParam("dcycleps");
+	PRINT("dcycleps = ") PRINTLN(res);
+	res = getMacParam("mrgn");
+	PRINT("mrgn = ") PRINTLN(res);
+	res = getMacParam("gwnb");
+	PRINT("gwnb = ") PRINTLN(res);
 	res = getMacParam("status");
 	PRINT("status = ") PRINTLN(res);
 }
-
+/*
+	Functie voor het enabele van de ar 
+*/
+bool MicrochipLoRaModem::SetAutomaticReply(bool ar)
+{
+	return setMacParam("ar ", BOOL_TO_ONOFF(ar));
+}
 //convert the text value for spreading factor into a number between 0 and 6
 int MicrochipLoRaModem::sfToIndex(char* value)
 {

@@ -31,72 +31,66 @@
  **/
 
 #include <Wire.h>
-#include <Sodaq_TPH.h>
+#include <MMA7660.h>
 #include <ATT_LoRa_IOT.h>
 #include "keys.h"
 #include <MicrochipLoRaModem.h>
 
-
-
-
 #define SERIAL_BAUD 57600
 
 
+MMA7660 accelemeter;                                  // connect to the I2C port (SCL/SDA)
 MicrochipLoRaModem Modem(&Serial1, &Serial);
 ATTDevice Device(&Modem, &Serial);
 
-
 void setup() 
 {
-  tph.begin();                                        // connect TPH sensor to the I2C pin (SCL/SDA)
+  accelemeter.init();
+  while((!Serial) && (millis()) < 2000){}				//wait until serial bus is available, so we get the correct logging on screen. If no serial, then blocks for 2 seconds before run
   Serial.begin(SERIAL_BAUD);
-  Serial1.begin(Modem.getDefaultBaudRate());					// init the baud rate of the serial connection so that it's ok for the modem
+  Serial1.begin(Modem.getDefaultBaudRate());			// init the baud rate of the serial connection so that it's ok for the modem
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  Serial.println("Ready to send data");  
-
+  Serial.println("Ready to send data");
 }
+
+float accx, accy, accz;
+int8_t x,y,z; 
 
 void loop() 
 {
-  float temp = tph.readTemperature();
-  float bmp_temp = tph.readTemperatureBMP();
-  float sht_temp = tph.readTemperatureSHT();
-  float hum = tph.readHumidity();
-  float pres = tph.readPressure()/100.0;
+  accelemeter.getXYZ(&x, &y, &z);
+  Serial.println("Values");
+  Serial.print("  x: ");
+  Serial.println(x);
+  Serial.print("  y: ");
+  Serial.println(y);
+  Serial.print("  z: ");
+  Serial.println(z);
   
-  Serial.print("Temperature: ");
-  Serial.print(temp);
-  Serial.println(" °C");
-  /*
-  Serial.print("Temperature (BMP sensor): ");
-  Serial.print(bmp_temp);
-  Serial.println(" °C");
-  
-  Serial.print("Temperature (SHT sensor): ");
-  Serial.print(sht_temp);
-  Serial.println(" °C");
-  */
-  Serial.print("Humidity: ");
-  Serial.print(hum);
-  Serial.println(" %");
-  
-  Serial.print("Pressure: ");
-  Serial.print(pres);
-  Serial.println(" hPa");
-  Serial.println();
-  
-  Serial.print("sending temp:\n");
-  Device.Send(temp, TEMPERATURE_SENSOR,true); 
+  accelemeter.getAcceleration(&accx, &accy, &accz);
+  Serial.println("Accleration");
+  Serial.print("  x: ");
+	Serial.print(accx);
+  Serial.println(" g");
+  Serial.print("  y: ");
+	Serial.print(accy);
+	Serial.println(" g");
+	Serial.print("  z: ");
+	Serial.print(accz);
+	Serial.println(" g");
+	Serial.println();
 
-/*
-  Serial.print("sending humi:\n");
-  Device.Send(hum, HUMIDITY_SENSOR);
-   
-  Serial.print("sending presu:\n");
-  Device.Send(pres, PRESSURE_SENSOR);
-*/
+  SendValue();
   
-  delay(60000);
+  delay(1000);
+}
+
+void SendValue()
+{
+  Device.Queue(accx);
+  Device.Queue(accy);
+  Device.Queue(accz);
+  Device.Send(ACCELEROMETER);
 }
 
 

@@ -30,73 +30,55 @@
  *  
  **/
 
+ /**** 
+  *  values ranges
+  *  
+  * 0-300 is good air quality
+  * 300-700 is polluted
+  * above 700 is highly polluted
+  **/
+
 #include <Wire.h>
-#include <Sodaq_TPH.h>
+#include "AirQuality2.h"
+#include"Arduino.h"
 #include <ATT_LoRa_IOT.h>
 #include "keys.h"
 #include <MicrochipLoRaModem.h>
 
-
-
-
 #define SERIAL_BAUD 57600
 
 
+#define AnalogSensor A4
+
 MicrochipLoRaModem Modem(&Serial1, &Serial);
 ATTDevice Device(&Modem, &Serial);
-
+AirQuality2 airqualitysensor;
+short value;
 
 void setup() 
 {
-  tph.begin();                                        // connect TPH sensor to the I2C pin (SCL/SDA)
+  while((!Serial) && (millis()) < 2000){}						//wait until serial bus is available, so we get the correct logging on screen. If no serial, then blocks for 2 seconds before run
   Serial.begin(SERIAL_BAUD);
   Serial1.begin(Modem.getDefaultBaudRate());					// init the baud rate of the serial connection so that it's ok for the modem
+  airqualitysensor.init(AnalogSensor);
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  Serial.println("Ready to send data");  
-
+  Serial.println("Ready to send data");
 }
 
 void loop() 
 {
-  float temp = tph.readTemperature();
-  float bmp_temp = tph.readTemperatureBMP();
-  float sht_temp = tph.readTemperatureSHT();
-  float hum = tph.readHumidity();
-  float pres = tph.readPressure()/100.0;
-  
-  Serial.print("Temperature: ");
-  Serial.print(temp);
-  Serial.println(" °C");
-  /*
-  Serial.print("Temperature (BMP sensor): ");
-  Serial.print(bmp_temp);
-  Serial.println(" °C");
-  
-  Serial.print("Temperature (SHT sensor): ");
-  Serial.print(sht_temp);
-  Serial.println(" °C");
-  */
-  Serial.print("Humidity: ");
-  Serial.print(hum);
-  Serial.println(" %");
-  
-  Serial.print("Pressure: ");
-  Serial.print(pres);
-  Serial.println(" hPa");
-  Serial.println();
-  
-  Serial.print("sending temp:\n");
-  Device.Send(temp, TEMPERATURE_SENSOR,true); 
+  value = airqualitysensor.getRawData();
+  SendValue();
+  delay(3000);
+}
 
-/*
-  Serial.print("sending humi:\n");
-  Device.Send(hum, HUMIDITY_SENSOR);
-   
-  Serial.print("sending presu:\n");
-  Device.Send(pres, PRESSURE_SENSOR);
-*/
-  
-  delay(60000);
+void SendValue()
+{
+  Serial.print("Air quality: ");
+  Serial.print(value);
+  Serial.println("   Analog (0-1023)");
+  Serial.print("Sending");
+  Device.Send(value, AIR_QUALITY_SENSOR);
 }
 
 
