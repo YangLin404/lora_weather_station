@@ -1,0 +1,7 @@
+/services/msf4j/target/*
+/services/msf4j/.classpath
+/services/msf4j/.gitignore
+/services/msf4j/.project
+/services/msf4j/.settings/*
+/services/msf4j/dependency-reduced-pom.xml
+/services/msf4j/bin/*

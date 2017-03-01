@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package be.i8c.yanglin.loRa-RestService;
+package be.i8c.yanglin.loRa_RestService;
+
+
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -29,6 +32,7 @@ import javax.ws.rs.Path;
  *
  * @since 0.1-SNAPSHOT
  */
+@Component
 @Path("/service")
 public class loRaRestService {
 

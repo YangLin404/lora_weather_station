@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package be.i8c.yanglin.loRa-RestService;
+package be.i8c.yanglin.loRa_RestService;
 
-import org.wso2.msf4j.MicroservicesRunner;
+import org.wso2.msf4j.spring.MSF4JSpringApplication;
 
 /**
  * Application entry point.
@@ -25,8 +25,6 @@ import org.wso2.msf4j.MicroservicesRunner;
  */
 public class Application {
     public static void main(String[] args) {
-        new MicroservicesRunner()
-                .deploy(new loRaRestService())
-                .start();
+        MSF4JSpringApplication.run(Application.class, args);
     }
 }
