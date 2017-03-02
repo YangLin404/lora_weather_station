@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package be.i8c.yanglin.loRa_RestService;
+package be.i8c.yanglin.loRa_RestService.services;
 
 
 import org.springframework.stereotype.Component;
+import java.io.InputStream;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Consumes;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is the Microservice resource class.
@@ -34,34 +40,38 @@ import javax.ws.rs.Path;
  */
 @Component
 @Path("/service")
-public class loRaRestService {
+public class LoRaRestService 
+{
+
+    private static final Logger logger = LoggerFactory.getLogger(LoRaRestService.class);
 
     @GET
     @Path("/")
     public String get() {
         // TODO: Implementation for HTTP GET request
-        System.out.println("GET invoked");
+        logger.debug("get invoked");
         return "Hello from WSO2 MSF4J";
     }
 
     @POST
     @Path("/")
-    public void post() {
+    public void post(Object s) 
+    {
         // TODO: Implementation for HTTP POST request
-        System.out.println("POST invoked");
+        logger.debug("post invoked. data: " + s);
     }
 
     @PUT
     @Path("/")
     public void put() {
         // TODO: Implementation for HTTP PUT request
-        System.out.println("PUT invoked");
+        logger.debug("put invoked.");
     }
 
     @DELETE
     @Path("/")
     public void delete() {
         // TODO: Implementation for HTTP DELETE request
-        System.out.println("DELETE invoked");
+        logger.debug("delete invoked.");
     }
 }
