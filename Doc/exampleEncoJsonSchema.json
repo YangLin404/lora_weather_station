@@ -1,0 +1,20 @@
+{
+	"device_last_x_location":null,
+	"device_last_y_location":null,
+	"deviceDescription":null,
+	"deviceId":"1C8779C0000001FE",
+	"deviceName":"Yang Lin",
+	"isPublic":false,
+	"loudness_value":1.0533693,
+	"owner":"kristof.lievens@i8c.be",
+	"stream_id":"12",
+	"stream_value_last_x_location":null,
+	"stream_value_last_y_location":null,
+	"stream_value_time":1488457817421,
+	"streamDescription":"Loudness sensor",
+	"streamId":"12",
+	"streamName":"12",
+	"streamUnit":"dB",
+	"streamValueTime":1488457818477,
+	"uuid":"4a4af1df-7917-44dd-9bc9-97df8062cce6"
+}
