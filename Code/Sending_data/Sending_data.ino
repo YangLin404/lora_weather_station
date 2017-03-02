@@ -1,3 +1,4 @@
+
 /*
  * Dit programma verstuurd data over lora naar de EnCo cloud.
  * de data van de demo's zijn niet consequent en komen niet altijd aan en zijn niet voorzien van commentaar.
@@ -30,7 +31,7 @@ void setup()
   
   Modem.SetAutomaticReply(true);              //zet de ar aan -> test om acknowladges te krijgen
   
-  //Modem.PrintModemConfig();                   //drukt alle configuraties af van de modem
+  Modem.PrintModemConfig();                   //drukt alle configuraties af van de modem
   
   Serial.println("Ready to send data");       //in de seriel monitor printen dat we klaar zijn om data te versturen.
 }
@@ -49,8 +50,8 @@ void loop()
   SendValue();
   delay(50000);
 
-  Modem.PrintModemStatus();
-
+  //Modem.PrintModemStatus();
+  Modem.PrintModemConfig();
 }
 
 void SendValue()
@@ -62,6 +63,6 @@ void SendValue()
   debug.print(aantal);
   debug.print("\n");
   aantal = aantal +1;
-  Device.Send(value, NUMBER_SENSOR, true);
+  Device.Send(value, LIGHT_SENSOR, true);
 }
 
