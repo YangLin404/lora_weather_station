@@ -48,7 +48,7 @@ void loop()
   float Rsensor = SensorValue * 3.3 / 1023;
   value = pow(10, Rsensor);
   SendValue();
-  delay(50000);
+  delay(60000);
 
   //Modem.PrintModemStatus();
   Modem.PrintModemConfig();
@@ -63,6 +63,6 @@ void SendValue()
   debug.print(aantal);
   debug.print("\n");
   aantal = aantal +1;
-  Device.Send(value, LIGHT_SENSOR, true);
+  Device.Send(value, NUMBER_SENSOR, true);
 }
 
