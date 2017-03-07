@@ -20,7 +20,26 @@ package be.i8c.yanglin.loRa_RestService.models;
  * @author yanglin
  */
 public enum SensorType {
-    Binary, Loudness, Temperature, Light, 
-    Accelerometer, Pressure, Humility, 
-    AirQuality, BatteryLevel, Integer;
+    Binary("Binary sensor","binary_value"), Loudness("Loudness sensor","loudness_value"), Temperature("Temperature sensor","temperature_value"), Light("Light sensor","light_value"), 
+    Accelerometer("Accelerometer sensor","accelerometer_value"), Pressure("Pressure sensor","pressure_value"), Humility("Humility sensor","humility_value"), 
+    AirQuality("AirQuality sensor","airquality_value"), BatteryLevel("BatteryLevel sensor","batterylevel_value"), Integer("Integer sensor","integer_sensor");
+    
+    private String desc;
+    private String valueString;
+    
+    SensorType(String s, String v)
+    {
+        this.desc = s;
+        this.valueString = v;
+    }
+    
+    public boolean compDesc(String s)
+    {
+        return s.equals(this.desc);
+    }
+    
+    public String getValueString()
+    {
+        return this.valueString;
+    }
 }

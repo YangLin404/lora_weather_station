@@ -20,11 +20,7 @@ package be.i8c.yanglin.loRa_RestService.services;
 import be.i8c.yanglin.loRa_RestService.models.Record;
 import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import be.i8c.yanglin.loRa_RestService.utils.JSONConvertor;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
@@ -67,11 +63,17 @@ public class LoRaRestService
     public void post(Object o) 
     {
         // TODO: Implementation for HTTP POST request
-        JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
-        logger.info("post invoked. data: " + obj);
+        //JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
+        Record r = JSONConvertor.getInstance().convert(o.toString());
+        logger.info("post invoked. data: " + r);
+        repo.save(r);
+        
+        /*
         Record r = new Record("xxxx", "yang", "xxxxx", "dB", Calendar.getInstance().getTime(), SensorType.Loudness);
         r.setValue("5");
         repo.save(r);
+        */
+        
     }
 
     @PUT

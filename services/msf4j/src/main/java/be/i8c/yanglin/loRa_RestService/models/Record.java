@@ -18,8 +18,8 @@ public class Record
     private String owner;
     private String stream_id;
     private String streamUnit;
-    private Date streamValueTime;
-    private String value;
+    private Long streamValueTime;
+    private String sensorValue;
     @Enumerated(EnumType.STRING)
     private SensorType type;
     
@@ -28,7 +28,7 @@ public class Record
         
     }
 
-    public Record(String deviceId, String owner, String stream_id, String streamUnit, Date streamValueTime, SensorType type) {
+    public Record(String deviceId, String owner, String stream_id, String streamUnit, Long streamValueTime, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
         this.stream_id = stream_id;
@@ -77,20 +77,20 @@ public class Record
         this.streamUnit = streamUnit;
     }
 
-    public Date getStreamValueTime() {
+    public Long getStreamValueTime() {
         return streamValueTime;
     }
 
-    public void setStreamValueTime(Date streamValueTime) {
+    public void setStreamValueTime(Long streamValueTime) {
         this.streamValueTime = streamValueTime;
     }
 
     public String getValue() {
-        return value;
+        return sensorValue;
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.sensorValue = value;
     }
 
     public SensorType getType() {
@@ -100,16 +100,12 @@ public class Record
     public void setType(SensorType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Record{" + "id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+    }
     
     
     
-    
-        
-        
-        
-        
-	
-	
-	
-	
 }
