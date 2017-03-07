@@ -5,3 +5,5 @@
 /services/msf4j/.settings/*
 /services/msf4j/dependency-reduced-pom.xml
 /services/msf4j/bin/*
+/Doc/realExample.json
+services/msf4j/nbactions.xml

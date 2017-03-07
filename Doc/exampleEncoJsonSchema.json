@@ -1,3 +1,4 @@
+//Standard json schema
 {
 	"device_last_x_location":null,
 	"device_last_y_location":null,
@@ -18,3 +19,87 @@
 	"streamValueTime":1488457818477,
 	"uuid":"<<uuid>>"
 }
+
+//GPS json schema
+{
+	"altitude":19.300001,
+	"device_last_x_location":4.4436793,
+	"device_last_y_location":51.142277,
+	"deviceDescription":null,
+	"deviceId":"1C8779C0000001FE",
+	"deviceName":"Yang Lin",
+	"isPublic":false,
+	"latitude":51.142277,
+	"longitude":4.4436793,
+	"owner":"<<email of owner>>",
+	"stream_id":"9",
+	"stream_value_last_x_location":4.4436793,
+	"stream_value_last_y_location":51.142277,
+	"stream_value_time":1488545998414,
+	"streamDescription":"GPS",
+	"streamId":"9","streamName":"9",
+	"streamUnit":"{latitude: number, longitude: number, altidude: number, time: number }",
+	"streamValueTime":1488545999214,
+	"time":125806000,
+	"uuid":"<<uuid>>"
+}
+
+//floatSensor schema
+{
+	"device_last_x_location":null,
+	"device_last_y_location":null,
+	"deviceDescription":null,
+	"deviceId":"1C8779C0000001FE",
+	"deviceName":"Yang Lin",
+	"float_value":103.0,
+	"isPublic":false,
+	"owner":"kristof.lievens@i8c.be",
+	"stream_id":"16",
+	"stream_value_last_x_location":null,
+	"stream_value_last_y_location":null,
+	"stream_value_time":1488539555282,
+	"streamDescription":"Float sensor",
+	"streamId":"16",
+	"streamName":"16",
+	"streamUnit":"GENERIC",
+	"streamValueTime":1488539556632,
+	"uuid":"32d8df7d-034d-41ba-906a-a80f28960467"
+}
+
+//Accelerometer sensor schema
+{
+	"device_last_x_location":48.0,
+	"device_last_y_location":106.0,
+	"deviceDescription":null,
+	"deviceId":"1C8779C0000001FE",
+	"deviceName":"Yang Lin",
+	"isPublic":false,
+	"owner":"<<email of owner>>",
+	"stream_id":"8",
+	"stream_value_last_x_location":48.0,
+	"stream_value_last_y_location":106.0,
+	"stream_value_time":1488807293703,
+	"streamDescription":"Accelerometer",
+	"streamId":"8",
+	"streamName":"8",
+	"streamUnit":"
+		{
+			\"X\": double, 
+			\"Y\": double, 
+			\"Z\": double
+		}",
+	"streamValueTime":1488807294643,
+	"uuid":"<<uuid>>",
+	"x_motion":7.0,
+	"y_motion":115.0,
+	"z_motion":99.99999
+}
+
+
+
+
+
+
+
+
+

@@ -17,16 +17,17 @@
 package be.i8c.yanglin.loRa_RestService.services;
 
 
+import be.i8c.yanglin.loRa_RestService.models.Record;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.Map;
 import org.springframework.stereotype.Component;
-import java.io.InputStream;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.Consumes;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,10 +56,11 @@ public class LoRaRestService
 
     @POST
     @Path("/")
-    public void post(Object s) 
+    public void post(Object o) 
     {
         // TODO: Implementation for HTTP POST request
-        logger.debug("post invoked. data: " + s);
+        JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
+        logger.info("post invoked. data: " + obj);
     }
 
     @PUT
