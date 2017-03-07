@@ -18,8 +18,12 @@ package be.i8c.yanglin.loRa_RestService.services;
 
 
 import be.i8c.yanglin.loRa_RestService.models.Record;
+import be.i8c.yanglin.loRa_RestService.models.SensorType;
+import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +35,7 @@ import javax.ws.rs.Path;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This is the Microservice resource class.
@@ -45,6 +50,9 @@ public class LoRaRestService
 {
 
     private static final Logger logger = LoggerFactory.getLogger(LoRaRestService.class);
+    
+    @Autowired
+    private LoRaRepository repo;
 
     @GET
     @Path("/")
@@ -61,6 +69,9 @@ public class LoRaRestService
         // TODO: Implementation for HTTP POST request
         JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
         logger.info("post invoked. data: " + obj);
+        Record r = new Record("xxxx", "yang", "xxxxx", "dB", Calendar.getInstance().getTime(), SensorType.Loudness);
+        r.setValue("5");
+        repo.save(r);
     }
 
     @PUT
