@@ -19,20 +19,20 @@ The purpose of this application is to build a RESTApi server which stores the da
 
 ## Technical Specs
 ### Architecture
-This solution contains the following components:
-* a REST micro service, based on WSO2 MSF4J and Spring, storing its data in a Postgresql database.
+This solution contains the following components:  
+* a REST micro service, based on WSO2 MSF4J and Spring, storing its data in a Postgresql database.  
 * a sketch application which allows loRa device to send data.
 
 ### Dependencies
 #### RestApi server
-Git
-JDK
-Maven
-WSO2 MSF4J
+Git  
+JDK  
+Maven  
+WSO2  
+MSF4J  
 Postgresql
 
 #### sketch application
 Arduino Sodaq Mbili Library
-
 
 
