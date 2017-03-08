@@ -1,4 +1,4 @@
-#LoRa RestApi with MSF4J and postgresql
+# LoRa RestApi
 
 ## Introduction
 
@@ -24,15 +24,54 @@ This solution contains the following components:
 * a sketch application which allows loRa device to send data.
 
 ### Dependencies
-#### RestApi server
-Git  
-JDK  
-Maven  
-WSO2  
-MSF4J  
-Postgresql
+1. ##### RestApi server
+	* Git  
+	* JDK  
+	* Maven  
+	* WSO2  
+	* MSF4J
+	* Postgresql   
 
-#### sketch application
-Arduino Sodaq Mbili Library
+2. ##### sketch application
+	* Arduino Sodaq Mbili Library
 
+## Installation on Ubuntu Server 16.04 LTS
+
+The following dependencies need to be installed:
+* JDK: sudo apt install openjdk-8-jdk-headless
+* Maven: sudo apt install maven
+* Postgresql: sudo apt-get install postgresql postgresql-contrib
+
+
+### Installation for RestApi:
+Step 1. Create postgresql database 'loRaDb'
+```shell
+sudo -u postgres createdb loRaDb
+```
+Step 2. Create postgresql user 'loRa' with password 'loRa'
+```shell
+sudo -u postgres psql template1
+```
+```sql
+CREATE USER loRa WITH PASSWORD 'loRa';
+GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
+```
+Step 3. Build project from source code
+```shell
+cd ~
+madir loRa
+cd loRa
+git init
+git pull https://i8c.githost.io/wso2/loRa/tree/loRa-RestService-yanglin
+cd services/msf4j
+mvn package
+```
+Step 4. Start RestApi
+```shell
+cd target/
+java -jar msf4j-0.1-SNAPSHOT
+```
+
+
+    
 
