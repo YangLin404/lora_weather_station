@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package be.i8c.yanglin.loRa_RestService.services;
+package be.i8c.yanglin.loRa_RestService.Services;
 
 
 import be.i8c.yanglin.loRa_RestService.models.Record;
@@ -65,7 +65,7 @@ public class LoRaRestService
         //JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
         Record r = JSONConvertor.getInstance().convert(o.toString());
         logger.info("post invoked. data: " + r);
-        repo.save(r);
+        //repo.save(r);
         
         /*
         Record r = new Record("xxxx", "yang", "xxxxx", "dB", Calendar.getInstance().getTime(), SensorType.Loudness);

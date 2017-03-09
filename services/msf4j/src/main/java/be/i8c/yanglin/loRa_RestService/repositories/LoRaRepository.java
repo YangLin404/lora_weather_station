@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 package be.i8c.yanglin.loRa_RestService.repositories;
-
-import be.i8c.yanglin.loRa_RestService.models.Record;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author yanglin
  */
-public interface LoRaRepository extends CrudRepository<Record, String>
+@Repository
+public class LoRaRepository
 {
-    
+    public LoRaRepository()
+    {
+        
+    }
 }
