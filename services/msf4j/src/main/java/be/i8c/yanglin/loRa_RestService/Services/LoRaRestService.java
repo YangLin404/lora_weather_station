@@ -18,7 +18,6 @@ package be.i8c.yanglin.loRa_RestService.services;
 
 
 import be.i8c.yanglin.loRa_RestService.models.Record;
-import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
 import be.i8c.yanglin.loRa_RestService.utils.JSONConvertor;
 import org.springframework.stereotype.Component;
