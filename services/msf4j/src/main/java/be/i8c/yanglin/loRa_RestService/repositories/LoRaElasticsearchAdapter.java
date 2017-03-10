@@ -14,38 +14,17 @@
  * limitations under the License.
  */
 package be.i8c.yanglin.loRa_RestService.repositories;
+
 import be.i8c.yanglin.loRa_RestService.models.Record;
-import javax.annotation.PostConstruct;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author yanglin
  */
-@Repository
-public class LoRaRepository 
+
+@Component
+public class LoRaElasticsearchAdapter extends ElasticsearchAdapter<Record>
 {
-    private static final Logger LOGGER = LogManager.getLogger(LoRaRepository.class);
     
-    @Autowired
-    private LoRaElasticsearchAdapter esa;
-    
-    public LoRaRepository()
-    {
-        
-    }
-    
-    @PostConstruct
-    private void init()
-    {
-        
-    }
-    
-    public boolean insert(Record r)
-    {
-        return esa.index(r);
-    }
 }

@@ -20,24 +20,29 @@ import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.Date;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author yanglin
  */
-public class JSONConvertor 
+public class LoRaJsonConvertor 
 {
-    private static JSONConvertor instance = new JSONConvertor();
+    private static LoRaJsonConvertor instance = new LoRaJsonConvertor();
+    
+    private static final Logger logger = LogManager.getLogger(LoRaJsonConvertor.class);
     private Gson gson;
     
-    private JSONConvertor()
+    private LoRaJsonConvertor()
     {
         gson = new Gson();
         
     }
     
-    public static JSONConvertor getInstance()
+    public static LoRaJsonConvertor getInstance()
     {
         return instance;
     }
@@ -50,12 +55,18 @@ public class JSONConvertor
         SensorType sensorType = getTypeFromJSON(jo);
         r.setType(sensorType);
         r.setValue(getValueFromJSON(jo, sensorType));
+                
         return r;
     }
     
-    public String getValueFromJSON(JsonObject j, SensorType s)
+    public<T> String convertToJsonString(T t)
     {
-        return j.get(s.getValueString()).getAsString();
+        return this.gson.toJson(t, t.getClass());
+    }
+    
+    public Double getValueFromJSON(JsonObject j, SensorType s)
+    {
+        return Double.parseDouble(j.get(s.getValueString()).getAsString());
     }
     
     private SensorType getTypeFromJSON(JsonObject j)
@@ -66,7 +77,7 @@ public class JSONConvertor
         return Stream.of(SensorType.values())
                 .filter(s -> s.compDesc(desc))
                 .findFirst()
-                .get();
-        
+                .get();        
     }
+   
 }

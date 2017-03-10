@@ -19,7 +19,7 @@ package be.i8c.yanglin.loRa_RestService.Services;
 
 import be.i8c.yanglin.loRa_RestService.models.Record;
 import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
-import be.i8c.yanglin.loRa_RestService.utils.JSONConvertor;
+import be.i8c.yanglin.loRa_RestService.utils.LoRaJsonConvertor;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
@@ -27,9 +27,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -44,7 +46,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoRaRestService 
 {
 
-    private static final Logger logger = LoggerFactory.getLogger(LoRaRestService.class);
+    private static final Logger logger = LogManager.getLogger(LoRaRestService.class);
     
     @Autowired
     private LoRaRepository repo;
@@ -59,22 +61,17 @@ public class LoRaRestService
 
     @POST
     @Path("/")
-    public void post(Object o) 
+    public Response post(Object o) 
     {
         // TODO: Implementation for HTTP POST request
-        //JsonObject obj = new JsonParser().parse(o.toString()).getAsJsonObject();
-        Record r = JSONConvertor.getInstance().convert(o.toString());
+        Record r = LoRaJsonConvertor.getInstance().convert(o.toString());
         logger.info("post invoked. data: " + r);
-        //repo.save(r);
-        
-        /*
-        Record r = new Record("xxxx", "yang", "xxxxx", "dB", Calendar.getInstance().getTime(), SensorType.Loudness);
-        r.setValue("5");
-        repo.save(r);
-        */
-        
+        boolean result = repo.insert(r);
+        if (result) 
+            return Response.ok().build();
+        else
+            return Response.serverError().build();
     }
-
     @PUT
     @Path("/")
     public void put() {

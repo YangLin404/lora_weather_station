@@ -1,26 +1,15 @@
 package be.i8c.yanglin.loRa_RestService.models;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-@Entity
 public class Record
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String deviceId;
     private String owner;
     private String stream_id;
     private String streamUnit;
-    private Long streamValueTime;
-    private String sensorValue;
-    @Enumerated(EnumType.STRING)
+    private long streamValueTime;
+    private double sensorValue;
     private SensorType type;
     
     protected Record()
@@ -35,14 +24,6 @@ public class Record
         this.streamUnit = streamUnit;
         this.streamValueTime = streamValueTime;
         this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getDeviceId() {
@@ -85,11 +66,11 @@ public class Record
         this.streamValueTime = streamValueTime;
     }
 
-    public String getValue() {
+    public double getValue() {
         return sensorValue;
     }
 
-    public void setValue(String value) {
+    public void setValue(double value) {
         this.sensorValue = value;
     }
 
@@ -103,7 +84,7 @@ public class Record
 
     @Override
     public String toString() {
-        return "Record{" + "id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+        return "Record{" + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
     
     
