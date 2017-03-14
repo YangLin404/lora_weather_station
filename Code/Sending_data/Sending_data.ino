@@ -1,4 +1,3 @@
-
 /*
  * Dit programma verstuurd data over lora naar de EnCo cloud.
  * de data van de demo's zijn niet consequent en komen niet altijd aan en zijn niet voorzien van commentaar.
@@ -38,9 +37,10 @@ void setup()
 
 float value = 0;
 int aantal = 0;
+bool ack = true; 
 
 void loop()
-{
+{  
   debug.print("\n");
   debug.print("\n");
   
@@ -48,10 +48,12 @@ void loop()
   float Rsensor = SensorValue * 3.3 / 1023;
   value = pow(10, Rsensor);
   SendValue();
-  delay(60000);
+  delay(50000);
 
+
+  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
   //Modem.PrintModemStatus();
-  Modem.PrintModemConfig();
+//  Modem.PrintModemConfig();
 }
 
 void SendValue()
@@ -63,6 +65,7 @@ void SendValue()
   debug.print(aantal);
   debug.print("\n");
   aantal = aantal +1;
-  Device.Send(value, NUMBER_SENSOR, true);
+  Device.Send(value, NUMBER_SENSOR, ack);
+  //ack = !ack;
 }
 
