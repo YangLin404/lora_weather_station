@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.elasticsearch.ResourceAlreadyExistsException;
+import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -52,7 +54,7 @@ public class ElasticsearchAdapter<T>
      private String esTimestampName;
      private TransportClient client;
      
-     private boolean created;
+     private boolean indexExist;
      
      public ElasticsearchAdapter()
      {
@@ -65,12 +67,21 @@ public class ElasticsearchAdapter<T>
          
          LOGGER.info("initiating elasticsearchAdapter");
          LOGGER.info("connecting elasticsearch server at " + this.esHost + ":" + this.esPort);
-         this.created = false;
+         this.indexExist = false;
          try 
          {
             this.client = new PreBuiltTransportClient(Settings.EMPTY)
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(this.esHost), this.esPort));
             LOGGER.info("connection successful");
+            
+            LOGGER.info("checking if index: [" + this.esIndex + "] exist.");
+            IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
+            this.indexExist = this.client.admin().indices()
+                              .exists(indicesExistsRequest).actionGet().isExists();
+            if(this.indexExist)
+                LOGGER.info("index: [" + this.esIndex + "] exist.");
+            else
+                LOGGER.info("index: [" + this.esIndex + "] doesn't exist, it will be created at first input");
             
              
          } catch (UnknownHostException e) {
@@ -95,24 +106,26 @@ public class ElasticsearchAdapter<T>
      {
          //create and map the given TimestampName into index as type date,
          //otherwise elasticseach can't recognise timestamps
-         if (!created) 
+         if (!indexExist) 
          {
             createAndMapIndex(t);
-            created = true;
+            indexExist = true;
          }
-         LOGGER.info("trying to index into: " + this.esIndex + ". object: " + t.toString());
+         LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.toString());
          String docString = loRaJsonConvertor.convertToJsonString(t);
          IndexResponse u = 
                  client.prepareIndex(esIndex, t.getClass().getSimpleName())
                         .setSource(docString)
                         .get();
-         LOGGER.info("successful indexed object into " + this.esIndex);
+         DocWriteResponse.Result r = u.getResult();
+         
+         LOGGER.info("successful indexed object into " + this.esIndex + ". result is: " + r);
          return true;
      }
      
      private void createAndMapIndex(T t)
      {
-        LOGGER.info("try creating index");
+        LOGGER.info("try creating index: [" + this. esIndex + "]");
          try {
              client.admin().indices().prepareCreate(this.esIndex)   
                .addMapping(t.getClass().getSimpleName(), "{\n" +                
@@ -126,9 +139,9 @@ public class ElasticsearchAdapter<T>
                "  }")
                 .get();
          } catch (ResourceAlreadyExistsException e) {
-             LOGGER.info("index: " + this.esIndex + " already exist, not created");
+             LOGGER.info("index: [" + this.esIndex + "] already exist, not created");
          }
-         LOGGER.info("index: " + this.esIndex + " created.");
+         LOGGER.info("index: [" + this.esIndex + "] created.");
         
      }
 }

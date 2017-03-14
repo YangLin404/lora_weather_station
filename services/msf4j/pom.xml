@@ -28,7 +28,7 @@
 
     <groupId>be.i8c.yanglin.loRa_RestService</groupId>
     <artifactId>msf4j</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT-elastic</version>
     <name>WSO2 MSF4J Microservice</name>
 
 
