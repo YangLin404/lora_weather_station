@@ -1,17 +1,24 @@
-# Installing WSO2 DAS server
+# Installing and working with the WSO2 DAS server
 
-####Content
+### Content  
+* [Downloading the product](#download)
+* [Setting up JAVA_HOME](#settingup)
+* [Running the server](#running)
+* [Accessing the Managment Console](#accessing)
+* [Wso2 DAS Architecture](#architecture)
+* [Creating a flow](#flow)
 
-[Running the server](#Runningtheserver)  
 
-##Downloading product
+<a name="download"/>
+## Downloading product
 1. [WSO2 Data Analytics Server Download page](http://wso2.com/smart-analytics#iBottom).
-
 2. Unzip the file in the directory of your choise.
 
+<a name="settingup"/>
 ## Setting up JAVA_HOME
 
-* Before you can use the server you need to add the JAVA_HOME varible to the envirment variables.
+Before you can use the server you need to add the JAVA_HOME varible to the envirment variables. If you already have java 1.7 or 1.8 installed you can skip this part.
+
  * first you need to install java. the WSO2 DAS server only supports java 1.7 & 1.8
  * you can install the default java jusing the following line:  
 
@@ -36,7 +43,8 @@
  		
  		```echo $JAVA_HOME```
 
-##Running the server 
+<a name="running"/>
+## Running the server 
 
 * To start the server you need to run the wso2server.sh document in the bin directory. ```<wso2_das_folder>/bin/```. you can run the server with this command once you are in the bin directory.
 
@@ -52,6 +60,7 @@
 	sh wso2server.sh stop
 	```
 
+<a name="accessing"/>
 ## Accessing the Managment Console
 
 * Once the server is started, u can acces the managment console by openening the URL that is given in the console. The URL will look like this:
@@ -59,8 +68,8 @@
 	```https://<server host>:9443/carbon/```
 * U can sing-in in the server using admin as both the username and password.
 
-<a name="Runningtheserver"/>
-##Wso2 DAS Architecture
+<a name="architecture"/>
+## Wso2 DAS Architecture
 
 the Wso2 DAS architecture is shown in the illustration below.  
 ![Wso2 DAS architecture](img/WSO2_DAS_Architecture.png)
