@@ -1,5 +1,10 @@
 # Installing WSO2 DAS server
-## Downloading product
+
+####Content
+
+[Running the server](#Runningtheserver)  
+
+##Downloading product
 1. [WSO2 Data Analytics Server Download page](http://wso2.com/smart-analytics#iBottom).
 
 2. Unzip the file in the directory of your choise.
@@ -54,7 +59,8 @@
 	```https://<server host>:9443/carbon/```
 * U can sing-in in the server using admin as both the username and password.
 
+<a name="Runningtheserver"/>
 ##Wso2 DAS Architecture
 
-the Wso2 DAS architecture is shown in the illustration below.
-![Wso2 DAS architecture](img/WSO2_DAS_Architecture)
+the Wso2 DAS architecture is shown in the illustration below.  
+![Wso2 DAS architecture](img/WSO2_DAS_Architecture.png)
