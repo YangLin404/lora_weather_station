@@ -84,7 +84,7 @@ The WSO2 DAS receives the data that is published by the data agents through Even
 ### Data Storage
 The WSO2 DAS supports different Data stores.
 >  
-__Note:__Before you u can use a data storage, you need to make an Data source in the Management Console under Configure → Data sources.
+__Note:__ Before you u can use a data storage, you need to make an Data source in the Management Console under Configure → Data sources.
 >
 
 ### Event Publishers
@@ -116,12 +116,10 @@ The Analytics Dashboard is used for visualising the data either from live data s
 After entering the attribute data you can click the __Add__ button to add the attribute to the stream.  
 >
 
-2. The next step is to add an Event receiver so the WSO2 DAS can receive data to process. You can create an Event Receiver by going to the Main tab → Manage → Event → Receiver.
-
 <a name="steptwo"/>
-You well get to see the next screen:  
-![Adding a receiver to the stream](img/EventReceiver.png)  
-
+2. The next step is to add an Event receiver so the WSO2 DAS can receive data to process. You can create an Event Receiver by going to the Main tab → Manage → Event → Receiver.  
+	You well get to see the next screen:  
+	![Adding a receiver to the stream](img/EventReceiver.png)  
 	Here you can give the event receiver a name and what the input type is. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We can receive data from the WSO2 Message Broker on port 1883 (if there is no offset on the Message Broker). The topic is important for the message broker as it needs to know to whom which topics need to be send.  
   
 >  
@@ -162,10 +160,17 @@ In this case our data is going to look something like this:
 ```  
 The order of the variables is not important, the fact that not every variable in the data packet is used is also not important. The structure above can be mapped like in the picture in [step 2](#steptwo).
 
-3. the last step is to complete our flow by adding an publisher that stores, sends or logs the data. You can add an event publisher under the Main tab → Manage → Event → Publishers.  
-![AddingPublishers](img/EventPublisher.png)  
+3.The last step is to complete our flow by adding an publisher that stores, sends or logs the data.
+>  
+__Note:__ Before you u can use a data storage, you need to make an Data source in the Management Console under Configure → Data sources.
+>
+![Datasource](img/Datasource.png)  
 
-	There are many different publisher types, in this example we will make a logger Event Publisher.  
+You can add an event publisher under the Main tab → Manage → Event → Publishers.  
+![AddingPublishers](img/EventPublisherDatabase.png)  
+
+There are many different publisher types, in this example we will make a rdbms Event Publisher.
+
 
 After creating the Event Publisher you can view the flow that we just completed under the Main tab → Manage → Event → Flow.
 
