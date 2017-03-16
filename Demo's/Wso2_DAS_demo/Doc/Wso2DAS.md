@@ -94,7 +94,7 @@ Event publishers push the data to external sources. The event publishers support
 The Analytics Dashboard is used for visulasing the data either from live data sources or from a data storage. Here you can create custom gadgets to make a custom dashboard.
 
 <a name="flow"/>
-## Creating a flow
+## Creating a flow  
 1. The first step is to create an event stream. To create an event stream, you need to go to the management console. In the Main tab go to Manage → Event → Streams. On this page you can see the existing event streams.Click on the Add Event Stream button. You will be redirected to the following page. Where you can define the Event Stream and add the Stream Attributes.
 
 	![Adding Data to the event stream](img/AddEventReceiverData.png)  
@@ -120,12 +120,13 @@ After entering the attribute data you can click the __Add__ button to add the at
 You wel get to see the next screen:  
 ![Adding a receiver to the stream](img/EventReceiver.png)  
 
-	Here you can give the event receiver a name and what the input type is. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We kan receive data from the WSO2 Message Broker on port 1883 (if there is no ofset on the Message Broker). The topic is importent for the message broker as it needs to know to whome wich topics need to be send.  
+	Here you can give the event receiver a name and what the input type is. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We can receive data from the WSO2 Message Broker on port 1883 (if there is no ofset on the Message Broker). The topic is importent for the message broker as it needs to know to whome wich topics need to be send.  
   
 >  
 __Note:__After configuring the receiver it is important to define how data is mapped.
 >  
 
+Standard the receiver expect data to be mapped like the structure below:
 
 ```
 {
@@ -148,6 +149,18 @@ __Note:__After configuring the receiver it is important to define how data is ma
 	}
 }
 ```  
+In this case our data is gonna look something like this:  
+```
+{
+	"sensorname" : "FloatSenor",
+	"timestamp" : 1234657891234,
+	"color" : "yellow",
+	"sensorvalue" : 180.456465
+}
+```  
+The order for the variables is not important, the fact that not every variable in the data paket is used is also not important. The structure above can be mapped like in the picture in step 2.
+
+3. the last step, is to complete our flow by adding an publisher that stores, sends or logs the data.
 
 <a name="references"/>
 ### References
