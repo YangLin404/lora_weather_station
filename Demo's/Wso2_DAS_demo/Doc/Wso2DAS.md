@@ -12,7 +12,7 @@
 
 <a name="download"/>
 ## Downloading product
-1. [WSO2 Data Analytics Server Download page](http://wso2.com/smart-analytics#iBottom).
+1. [WSO2 Data Analytics Server Download page](http://wso2.com/smart-analytics).
 2. Unzip the file in the directory of your choice.
 
 <a name="settingup"/>
@@ -50,7 +50,7 @@ Before you can use the server you need to add the JAVA_HOME variable to the envi
 * To start the server you need to run the wso2server.sh document in the bin directory. ```<wso2_das_folder>/bin/```. you can run the server with this command once you are in the bin directory.
 
 	```
-	sh wso2ser.sh
+	sh wso2server.sh
 	```
 
 * To stop the server, press Ctrl+C in the commmandline or shut the server down in the Management Console.

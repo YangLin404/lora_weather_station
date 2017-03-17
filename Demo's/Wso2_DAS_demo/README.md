@@ -24,8 +24,13 @@ As a first step, follow these tutorial to get up and running:
 ### Step 2
 
 Once you acctivated your device you need to setup the Message Broker. When the Message Broker is up and running you can configure the cloud channels so that, when data is received, the cloudplatform will forward the data to the Message Broker.  
-You can follow [this guide](Doc/loldoesnotexistyet.md) for setting up the WSO2 Message Broker.
+You can follow [this guide](Doc/Wso2MB.md) for setting up the WSO2 Message Broker.
 
 ### Step 3  
 
-The next step is to set up the WSO2 Data Analytic Server. For setting up the WSO2 DAS you can follow [this guide](Doc/Wso2DAS.md). 
+The next step is to set up the WSO2 Data Analytic Server.  
+For setting up the WSO2 DAS you can follow [this guide](Doc/Wso2DAS.md).  
+
+### Step 4
+
+The final step is to create an dashboard so you can vieuw the stored, analysed and stored data. You can learn how to create an dashboard in [this guide](Doc/loldoesnotexistyet.md).
