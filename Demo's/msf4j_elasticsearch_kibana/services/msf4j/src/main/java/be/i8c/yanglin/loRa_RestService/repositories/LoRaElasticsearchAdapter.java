@@ -15,7 +15,7 @@
  */
 package be.i8c.yanglin.loRa_RestService.repositories;
 
-import be.i8c.yanglin.loRa_RestService.models.Record;
+import be.i8c.yanglin.loRa_RestService.models.SensorRecord;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class LoRaElasticsearchAdapter extends ElasticsearchAdapter<Record>
+public class LoRaElasticsearchAdapter extends ElasticsearchAdapter
 {
     
 }

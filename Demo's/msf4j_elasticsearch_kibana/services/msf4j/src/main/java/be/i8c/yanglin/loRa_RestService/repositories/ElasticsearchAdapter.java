@@ -15,6 +15,7 @@
  */
 package be.i8c.yanglin.loRa_RestService.repositories;
 
+import be.i8c.yanglin.loRa_RestService.models.Record;
 import be.i8c.yanglin.loRa_RestService.utils.LoRaJsonConvertor;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -38,7 +39,7 @@ import org.springframework.beans.factory.annotation.Value;
  * @author yanglin
  */
 @Component
-public class ElasticsearchAdapter<T>
+public class ElasticsearchAdapter
 {
      private static final Logger LOGGER = LogManager.getLogger(ElasticsearchAdapter.class);
      
@@ -102,7 +103,7 @@ public class ElasticsearchAdapter<T>
          LOGGER.info("elasticsearch disconnected");
      }
      
-     public boolean index(T t)
+     public boolean index(Record t)
      {
          //create and map the given TimestampName into index as type date,
          //otherwise elasticseach can't recognise timestamps
@@ -111,7 +112,7 @@ public class ElasticsearchAdapter<T>
             createAndMapIndex(t);
             indexExist = true;
          }
-         LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.toString());
+         LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.simpleString());
          String docString = loRaJsonConvertor.convertToJsonString(t);
          IndexResponse u = 
                  client.prepareIndex(esIndex, t.getClass().getSimpleName())
@@ -123,7 +124,7 @@ public class ElasticsearchAdapter<T>
          return true;
      }
      
-     private void createAndMapIndex(T t)
+     private void createAndMapIndex(Record t)
      {
         LOGGER.info("try creating index: [" + this. esIndex + "]");
          try {

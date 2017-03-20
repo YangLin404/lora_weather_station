@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 package be.i8c.yanglin.loRa_RestService.repositories;
-import be.i8c.yanglin.loRa_RestService.models.Record;
+import be.i8c.yanglin.loRa_RestService.models.SensorRecord;
 import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +44,7 @@ public class LoRaRepository
         
     }
     
-    public boolean insert(Record r)
+    public boolean insert(SensorRecord r)
     {
         return esa.index(r);
     }

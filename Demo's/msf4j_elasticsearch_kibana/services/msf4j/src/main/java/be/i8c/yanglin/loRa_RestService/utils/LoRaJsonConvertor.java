@@ -15,7 +15,7 @@
  */
 package be.i8c.yanglin.loRa_RestService.utils;
 
-import be.i8c.yanglin.loRa_RestService.models.Record;
+import be.i8c.yanglin.loRa_RestService.models.SensorRecord;
 import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -33,7 +33,7 @@ public class LoRaJsonConvertor
 {
     private static LoRaJsonConvertor instance = new LoRaJsonConvertor();
     
-    private static final Logger logger = LogManager.getLogger(LoRaJsonConvertor.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoRaJsonConvertor.class);
     private Gson gson;
     
     private LoRaJsonConvertor()
@@ -47,15 +47,17 @@ public class LoRaJsonConvertor
         return instance;
     }
     
-    public Record convert(String s)
+    public SensorRecord convert(String s)
     {
-        gson = new Gson();
-        Record r = gson.fromJson(s, Record.class);
+        LOGGER.info("converting json object");
+        LOGGER.debug("object: " + s);
+        SensorRecord r = gson.fromJson(s, SensorRecord.class);
         JsonObject jo = new JsonParser().parse(s).getAsJsonObject();
         SensorType sensorType = getTypeFromJSON(jo);
         r.setType(sensorType);
         r.setValue(getValueFromJSON(jo, sensorType));
-                
+        LOGGER.info("json object successfully converted to " + r.simpleString());
+        LOGGER.debug("converted Record object: " + r.toString());
         return r;
     }
     
@@ -66,18 +68,29 @@ public class LoRaJsonConvertor
     
     public Double getValueFromJSON(JsonObject j, SensorType s)
     {
+        LOGGER.info("getting value from JSONobject: " + j);
+        LOGGER.debug("getting sensortype: [" + s + "] value from JSON: " + j);
         return Double.parseDouble(j.get(s.getValueString()).getAsString());
     }
     
     private SensorType getTypeFromJSON(JsonObject j)
     {
-        
+        LOGGER.info("getting sensortype from JSONobject: " + j);
         String desc = j.get("streamDescription").getAsString();
-        
-        return Stream.of(SensorType.values())
-                .filter(s -> s.compDesc(desc))
+        LOGGER.debug("streamDescription: [" + desc + "]");
+        SensorType sensorType = 
+                Stream.of(SensorType.values())
+                .filter(s -> this.compDesc(desc,s.getDesc()))
                 .findFirst()
                 .get();        
+        LOGGER.debug("found sensortype : [" + sensorType + "]");
+        return sensorType;
+    }
+    
+    private boolean compDesc(String desc, String typeDesc)
+    {
+        LOGGER.debug("comparing [" + desc + "] to [" + typeDesc + "]");
+        return desc.toLowerCase().contains(typeDesc);
     }
    
 }

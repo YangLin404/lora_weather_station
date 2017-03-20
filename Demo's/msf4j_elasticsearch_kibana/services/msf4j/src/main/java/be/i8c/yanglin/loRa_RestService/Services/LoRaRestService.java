@@ -17,9 +17,13 @@
 package be.i8c.yanglin.loRa_RestService.Services;
 
 
-import be.i8c.yanglin.loRa_RestService.models.Record;
+import be.i8c.yanglin.loRa_RestService.models.SensorRecord;
+import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
 import be.i8c.yanglin.loRa_RestService.utils.LoRaJsonConvertor;
+import java.io.StringWriter;
+import java.util.Calendar;
+import java.util.Date;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.DELETE;
@@ -27,7 +31,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -46,17 +54,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class LoRaRestService 
 {
 
-    private static final Logger logger = LogManager.getLogger(LoRaRestService.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoRaRestService.class);
     
     @Autowired
     private LoRaRepository repo;
 
     @GET
     @Path("/")
-    public String get() {
+    @Produces(MediaType.APPLICATION_XML)
+    public SensorRecord get() {
         // TODO: Implementation for HTTP GET request
-        logger.debug("get invoked");
-        return "Hello from WSO2 MSF4J";
+        LOGGER.debug("get invoked");
+        SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
+        r.setValue(20.0);
+        
+        return r;
     }
 
     @POST
@@ -64,8 +76,8 @@ public class LoRaRestService
     public Response post(Object o) 
     {
         // TODO: Implementation for HTTP POST request
-        Record r = LoRaJsonConvertor.getInstance().convert(o.toString());
-        logger.info("post invoked. data: " + r);
+        LOGGER.debug("post invoked. data: " + o);
+        SensorRecord r = LoRaJsonConvertor.getInstance().convert(o.toString());
         boolean result = repo.insert(r);
         if (result) 
             return Response.ok().build();
@@ -76,13 +88,13 @@ public class LoRaRestService
     @Path("/")
     public void put() {
         // TODO: Implementation for HTTP PUT request
-        logger.debug("put invoked.");
+        LOGGER.debug("put invoked.");
     }
 
     @DELETE
     @Path("/")
     public void delete() {
         // TODO: Implementation for HTTP DELETE request
-        logger.debug("delete invoked.");
+        LOGGER.debug("delete invoked.");
     }
 }
