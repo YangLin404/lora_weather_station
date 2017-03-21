@@ -15,4 +15,10 @@ As a first step, follow these tutorial to get up and running:
 * http://docs.enco.io/docs/getting-started-with-enco  
 
 
+Because of problems with the Proximus network to deliver ACK messages, a LoRa gateway was also bought from https://webshop.ideetron.nl/LORANK-8.
+It has been registered on thethingsnetwork.org using the account:
+username = lievekr
+email = kristof.lievens@i8c.be  
+password = L0Ra2017!
+
 
