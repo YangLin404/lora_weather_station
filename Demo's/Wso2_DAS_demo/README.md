@@ -58,6 +58,7 @@ You will see something like this:
 
 After everything is configured you will end up with something like this:  
 ![CloudChannel Definition](Doc/img/CloudchannelAanmaken.png)  
+Now you can save the CloudChannel.  
 
 ### Step 5  
 

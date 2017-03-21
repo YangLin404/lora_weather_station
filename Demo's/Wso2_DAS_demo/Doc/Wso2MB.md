@@ -27,4 +27,4 @@
 	```  
 
 ## Using the product
-When the Message Broker is running without an ofset the Message Broker will listen for data packets on port 1883. By sending data to the server on that port with an topic the server will automaticly send the data to all subscribers of that topic.
+When the Message Broker is running without an offset the Message Broker will listen for data packets on port 1883. By sending data to the server on that port with an topic the server will automatically send the data to all subscribers of that topic.
