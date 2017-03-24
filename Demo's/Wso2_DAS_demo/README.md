@@ -50,7 +50,7 @@ You will see something like this:
 	* The MQTT connection can be configured by clicking on the MQTT outbound connection.  
 	The MQTT definition will need some extra information. You can follow this example:  
 	![MQTTdefinition](Doc/img/MqttDefenition.png) 
-	Here can give the MQTT connection a Name, Scheme, Topic and a Host adres.
+	Here can give the MQTT connection a Name, Scheme, Topic and a Host address.
 	* The name can be everything, try to give it a relevant name.
 	* The scheme can be mqtt:// or mqtts://, in this demo we are going to use mqtt://.
 	* The topic is something you can choose so the WSO2 Message Broker knows from where the data comes and to who to send the data. The topic needs to start with an "/"  
