@@ -85,28 +85,20 @@ Once the sketch application is running correctly on your lora device, you should
 4. Here you can define where the data come from and where the data should go. For this demo we use LoRa as the input and HTTP as the output.
 5. After drag & drop required components to input and output, you need to configure LoRa inbound configuration, CloudChannel definition and HTTP outbound configuration.
 6. Configure LoRa: 
-
 	* Click on ![LoRa](img/loRaInbound.png)
 	* Select your device.
-
-	
 7. Configure CloudChannel definition: 
-
 	* Click on Edit definition
 	* Give CloudChannel a relevant name
 	* Select TemperatureSensor
 	* Click Ok
-
 8. Configure HTTP:
-
 	* Click on ![http](img/http.png)
 	* Give a relevant Name
 	* Endpoint: http://\<hostname or ip of your Server where REST Api is running>:8287/service
 	* HTTP method: POST
 	* Click on Ok
-
 9. Click Save Changes.
-
 10. Redo above steps to create second CloudChannel with AirQualitySensor.
 
 #### Step 6
