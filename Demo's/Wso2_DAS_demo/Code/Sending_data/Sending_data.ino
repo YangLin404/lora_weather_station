@@ -8,7 +8,7 @@
 #include <Wire.h>               //header van arduino
 //#include <Sodaq_TPH.h>          //header voor de temperatuur, druk en vochtigheids sensor
 #include <ATT_LoRa_IOT.h>       //header die gebruikt wordt om de sensors te nummeren en te connecteren van de modem en het sturen van data
-#include "keys.h"               //header met de keys in voor het gebruiken van het lora netwerk
+#include "TheThingsNetworkKeytest.h"               //header met de keys in voor het gebruiken van het lora netwerk
 #include <MicrochipLoRaModem.h> // header die gebruikt word om de modem te initializeren en om commando's van de modem uit te voeren
 
 #define SERIAL_BAUD 57600

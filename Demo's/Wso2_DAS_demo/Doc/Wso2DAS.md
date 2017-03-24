@@ -164,6 +164,13 @@ The order of the variables is not important, the fact that not every variable in
 >  
 __Note:__ Before you u can use a data storage, you need to make an Data source in the Management Console under Configure → Data sources.
 >
+
+>  
+__Note__: You will need to add a specific driver for the database type  you want to use.  
+U need to place the driver file in this directory: WSO2__DAS_HOME_DIR/repository/components/lib  
+U can find the driver that we are going to use [here](https://jdbc.postgresql.org/download.html), Download the driver recomended for the java setup you are using.
+>  
+
 ![Datasource](img/Datasource.png)  
 
 You can add an event publisher under the Main tab → Manage → Event → Publishers.  
