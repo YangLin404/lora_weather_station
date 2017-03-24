@@ -36,7 +36,7 @@ Once you are logged in you can create a dashboard. But first you need to make a 
 You can create a gadget by opening the menu → Gadgets → Generate Gadgets. As shown below:  
 
 
-[Creating a gadget](img/creatinggadget.gif)  
+![Creating a gadget](img/creatinggadget.gif)  
 
 Once you are on the Generate a gadget screen choose the type of data you want to use in this example we will use a Relational Database Source.  
 Select "Relational Database Source" and go to the next slide.  
