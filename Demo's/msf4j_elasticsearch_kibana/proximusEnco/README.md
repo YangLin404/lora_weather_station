@@ -12,7 +12,7 @@ username = kristof.lievens@i8c.be
 password = L0Ra2017!   
 
 
-## Architect
+## High-level architecture
 ![architect](img/LoraProximusEnco.jpg)
 ## Functional Specs
 The purpose of this application is to build a RESTApi micro service which receives the data's from LoRa device through Proximus Lora network, then stores it into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrived for analyzing and visualizing by using [Kibana](https://www.elastic.co/products/kibana).
