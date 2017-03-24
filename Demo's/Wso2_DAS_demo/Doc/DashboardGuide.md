@@ -8,8 +8,6 @@ Follow this steps:
 go to line (line numbers can change in every version, look good at the pictures to add the changes):  
 48 → add an data type specific for postgresql.  
 ![change1](img/change1.png)  
->
->  
 The following changes are in one specific function that starts on line 90.
 ![change2](img/change2.png)  
 99 → Change the 'column_type' to 'data_type'.  
@@ -17,11 +15,9 @@ The following changes are in one specific function that starts on line 90.
 On the same line you need to delete a part from the query →   databaseName + "' and table_name='" +  
 On the next line:
 108 → you need to add this " ,{driverClassName : providerConfig['driver_class_name']} " after "  providerConfig['password'] ".  
-__Now you can save this file__
->  
+__Now you can save this file__  
 
->  
-The last changes need to made in another file in the same directory. 
+3. The last changes need to made in another file in the same directory. 
 Open the config.json file and add the following lines.
 ![change3](img/change3.png)  
 __Now safe the file and restart thes WSO2 DAS server if this was running__
@@ -40,6 +36,19 @@ Once you are logged in you can create a dashboard. But first you need to make a 
 You can create a gadget by opening the menu → Gadgets → Generate Gadgets. As shown below:  
 
 
-[Creating a gadget](img/creatinggadget.gif)  
+![Creating a gadget](img/creatinggadget.gif)  
 
-Once you are on the Generate a gadget screen you 
+Once you are on the Generate a gadget screen choose the type of data you want to use in this example we will use a Relational Database Source.  
+Select "Reational Database Source" and go to the next slide.  
+
+![gadget1](img/gadget1.png)  
+
+Fill in the data of your database adress, Table name, Username, Password ,The driver of the database you use and the query you want to use. Once you filled in all the data you can test wheiter or not the connection is vallid. If your connection is vallid you can go to the next slide.  
+
+![gadget2](img/gadget2.png)  
+
+On this slide you can configure the type of chart you want and witch data needs to be used. Color domain defines by what data needs to be grouped. Once everything is filled in you can add the gadget to the store.
+
+![gadget2](img/gadget3.png)  
+
+Once the gadget is added to the store you can start to make a dashboard by navigating to the portal and clicking on the "CREATE DASHBOARD" button.
