@@ -95,7 +95,7 @@ Once the sketch application is running correctly on your lora device, you should
 8. Configure HTTP:
 	* Click on ![http](img/http.png)
 	* Give a relevant Name
-	* Endpoint: http://\<hostname or ip of your Server where REST Api is running>:8287/service
+	* Endpoint: http://{hostname or ip of your Server where REST Api is running}:8287/service
 	* HTTP method: POST
 	* Click on Ok
 9. Click Save Changes.
