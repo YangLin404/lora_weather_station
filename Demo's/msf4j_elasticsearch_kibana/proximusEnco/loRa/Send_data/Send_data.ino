@@ -1,15 +1,13 @@
-/*
- * Dit programma verstuurd data over lora naar de EnCo cloud.
- * de data van de demo's zijn niet consequent en komen niet altijd aan en zijn niet voorzien van commentaar.
- * Tip: wanneer je in MicrochipLoRaModem.cpp FULLDEBUG definieerd wordt er vanuit de header extra info afgedrukt
- * tijdens het het gebruiken van de lora modulle
- */
 
-#include <Wire.h>                
-#include <ATT_LoRa_IOT.h>
-#include "AirQuality2.h" 
+
+#include <Wire.h>
+//#include <Sodaq_TPH.h>
+#include "Libs/Adafruit_Unified_Sensor/Adafruit_Sensor.h"
+#include "Libs/Adafruit_BME280_Library/Adafruit_BME280.cpp"                
+#include "Libs/ATT_Lora_IOT/ATT_LoRa_IOT.cpp"
+#include "Libs/AirQuality2/AirQuality2.cpp" 
 #include "keys.h"               
-#include <MicrochipLoRaModem.h>
+#include "Libs/ATT_Lora_IOT/MicrochipLoRaModem.cpp"
 
 #define SERIAL_BAUD 57600
 #define LoudnessSensorPin A4
@@ -21,16 +19,22 @@
 #define DigitalPin 20
 #define buttonDigiPin 4
 
+Adafruit_BME280 bme;
+
 MicrochipLoRaModem Modem(&Serial1, &debug);
 ATTDevice Device(&Modem, &debug);
 AirQuality2 airqualitySensor;
 
 //init global variables
 int aantal=0;
+int whichData=0;
 
 float loudness;
 float airQuality;
 float light;
+float temp;
+float hum;
+float pres;
 
 
 void setup()
@@ -40,6 +44,8 @@ void setup()
   pinMode(GROVEPWR, OUTPUT);                  //define the pin which switches on and off the 3.3v power line to the switched Grove column.
   digitalWrite(GROVEPWR, HIGH);              // turn on the powersupply
   airqualitySensor.init(AirqualitySensorPin); //init airqualitysensor on A0
+
+  bme.begin();
   while((!Serial) && (millis()) < 2000){}   //wait until serial bus is available, so we get the correct logging on screen. If no serial, then blocks for 2 seconds before run
   debug.begin(SERIAL_BAUD);                   
   Serial1.begin(Modem.getDefaultBaudRate()); 
@@ -52,38 +58,47 @@ void setup()
 void loop()
 {
     debug.println("---------------------------------------------");
+    /*
     loudness = analogRead(LoudnessSensorPin);
+    debug.print("sending loudness: ");
+    debug.println(loudness);
+    Device.Send(loudness,LOUDNESS_SENSOR, true);
+    resetModem();
+    */
     airQuality = airqualitySensor.getRawData();
+    debug.print("sending airquality: ");
+    debug.println(airQuality);
+    Device.Send(airQuality, AIR_QUALITY_SENSOR, true);
+    resetModem();
+    /*
     light = readLight();
-    SendValue();
-    delay(60000);
-  
+    debug.print("sending light: ");
+    debug.println(light);
+    Device.Send(light, LIGHT_SENSOR, true);
+    resetModem();
+    */
+    temp = bme.readTemperature();
+    debug.print("sending temperature: ");
+    debug.println(temp);
+    Device.Send(temp, TEMPERATURE_SENSOR, true);
+    resetModem();
+    /*
+    hum = bme.readHumidity();
+    debug.print("sending humidity: ");
+    debug.println(hum);
+    Device.Send(hum, HUMIDITY_SENSOR, true);
+    resetModem();
+    
+    pres = bme.readPressure()/100.0;
+    debug.print("sending pressure: ");
+    debug.println(pres);
+    Device.Send(pres, PRESSURE_SENSOR, true);
+    resetModem();
+    */
   
 
   //Modem.PrintModemStatus();
 
-}
-
-void SendValue()
-{
-  debug.println("data to send: ");
-  debug.print("loudness: ");
-  debug.println(loudness);
-  debug.print("airQuality: ");
-  debug.println(airQuality);
-  debug.print("light: ");
-  debug.println(light);
-  debug.print("total attempts: ");
-  debug.print(aantal);
-  debug.print("\n");
-  aantal = aantal +1;
-  Device.Queue(loudness);
-  Device.Queue(airQuality);
-  Device.Queue(light);
-  
-  
-  Device.Send(ACCELEROMETER, true);
-  //Modem.PrintModemConfig();
 }
 
 float readLight()
@@ -92,5 +107,14 @@ float readLight()
   float Rsensor= sensorValue * 3.3 / 1023;
   Rsensor = pow(10, Rsensor);
   return Rsensor; 
+}
+
+void resetModem()
+{
+  delay(20000);
+  while(!Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY)); //try to connect
+      Serial.println("retrying to connect");
+  Serial.println("Ready to send data");
+    
 }
 
