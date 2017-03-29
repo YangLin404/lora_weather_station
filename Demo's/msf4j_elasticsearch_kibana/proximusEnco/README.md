@@ -16,16 +16,16 @@ password = L0Ra2017!
 ![architect](sources/img/LoraProximusEnco.jpg)
 ## Functional Specs
 
-The purpose of this project is to analyze environmental quality of I8C office. The data will be measured by Lora device, sent over Proximus Lora Network toward Proximus Enco Cloud platform. It will then forward the data over HTTP protocol to LoRa REST API which stores the data into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrieved by [Kibana](https://www.elastic.co/products/kibana) for analyzing and visualizing.
+The purpose of this project is to build a system which analyzes the environmental quality of I8C office. The temperature, air quality, loudness level and humidity inside I8c office will be measured, stored, analyzed and visualized.
 
 ## Technical Specs
 ### Architecture
 This solution contains the following components:  
 
-* a REST micro service, based on WSO2 MSF4J and Spring, storing its data into a stand-alone Elasticsearch database.
-* a stand-alone Elasticsearch server for storing data's.
-* a stand-alone Kibana server for analyzing and visualizing data's.
 * a sketch application which allows loRa device to send data over Proximus Lora network.
+* a REST micro service, based on WSO2 MSF4J and Spring for receiving and progressing data's.
+* a stand-alone [Elasticsearch](https://www.elastic.co) server for storing data's.
+* a stand-alone [Kibana](https://www.elastic.co/products/kibana) server for analyzing and visualizing data's.
 
 ### <a name="prerequirements"></a> Prerequirements
 * Git
