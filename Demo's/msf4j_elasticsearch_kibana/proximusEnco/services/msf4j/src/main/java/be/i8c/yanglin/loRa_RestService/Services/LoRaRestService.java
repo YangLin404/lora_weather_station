@@ -22,16 +22,12 @@ import be.i8c.yanglin.loRa_RestService.models.SensorType;
 import be.i8c.yanglin.loRa_RestService.repositories.LoRaRepository;
 import be.i8c.yanglin.loRa_RestService.utils.LoRaJsonConvertor;
 import java.io.StringWriter;
+import java.lang.annotation.Repeatable;
 import java.util.Calendar;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBContext;
@@ -62,12 +58,24 @@ public class LoRaRestService
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    public SensorRecord get() {
+    public SensorRecord getXml() {
         // TODO: Implementation for HTTP GET request
         LOGGER.debug("get invoked");
         SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
         r.setValue(20.0);
         
+        return r;
+    }
+
+    @GET
+    @Path("/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public SensorRecord getJson() {
+        // TODO: Implementation for HTTP GET request
+        LOGGER.debug("get invoked");
+        SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
+        r.setValue(20.0);
+
         return r;
     }
 
@@ -84,6 +92,29 @@ public class LoRaRestService
         else
             return Response.serverError().build();
     }
+
+    @POST
+    @Path("/testing")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response post(SensorRecord sensorRecord)
+    {
+        LOGGER.info("testing post invoked. data: " + sensorRecord.toString());
+        if (sensorRecord.getType() == null)
+        {
+            LOGGER.warn("data is empty: " + sensorRecord.toString());
+            return Response.serverError().build();
+        }
+        else
+        {
+            boolean result = repo.insert(sensorRecord);
+            if (result)
+                return Response.ok().build();
+            else
+                return Response.serverError().build();
+        }
+    }
+
+
     @PUT
     @Path("/")
     public void put() {

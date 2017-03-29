@@ -13,9 +13,10 @@ password = L0Ra2017!
 
 
 ## High-level architecture
-![architect](img/LoraProximusEnco.jpg)
+![architect](sources/img/LoraProximusEnco.jpg)
 ## Functional Specs
-The purpose of this application is to build a RESTApi micro service which receives the data's from LoRa device through Proximus Lora network, then stores it into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrived for analyzing and visualizing by using [Kibana](https://www.elastic.co/products/kibana).
+
+The purpose of this project is to analyse environmental quality of I8C office. The data will be measured by Lora device, sent over Proximus Lora Network toward Proximus Enco Cloud platform. It will then forward the data over HTTP protocol to LoRa REST API which stores the data into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrived by [Kibana](https://www.elastic.co/products/kibana) for analyzing and visualizing.
 
 ## Technical Specs
 ### Architecture
@@ -34,15 +35,17 @@ This solution contains the following components:
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 
 ### Dependencies
-All required dependecies are included in source code.
+All required dependecies are included in source code or will be downloaded during the installation proces.
 
-1. ##### RestApi server
-	* MSF4J
-	* Elasticsearch Java Api
+1. ##### REST API micro service
+	* MSF4J(will be downloaded)
+	* Elasticsearch Java Api(will be downloaded)
 
 2. ##### sketch application
-	* Arduino Sodaq Mbili Library
-
+	* Arduino Sodaq Mbili Library(included)
+	* [Adafruit Unified Sensor Driver](https://github.com/adafruit/Adafruit_Sensor)(included)
+	* [Arduino Library for BME280 sensors](https://github.com/adafruit/Adafruit_BME280_Library)(included)
+	
 ## Installation
 
 Make sure you have installed all [prerequirements](#prerequirements) listed above.
@@ -71,7 +74,7 @@ Now open the sketch application [Send_data](loRa/Send_data/Send_data.ino) onder 
 
 #### Step 4
 
-Upload the sketch application by click ![upload logo](img/arduinoUpload.png) at top left corner of arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
+Upload the sketch application by click ![upload logo](sources/img/arduinoUpload.png) at top left corner of arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
 
 #### Step 5
 
@@ -79,28 +82,41 @@ Once the sketch application is running correctly on your lora device, you should
 
 1. Go to [EnCo DevPortal](http://devs.enco.io/dashboard/) and log in with your Enco account.
 2. Navigate to CloudChannels API. You should get a overview of your CloudChannels API's.
-3. Click ![New CloudChannel](img/NewCloudChannel.png) to create a new CloudChannel. You should see something like below:
-	![Create CloudChannel](img/CreateCloudChannel.png)
+3. Click ![New CloudChannel](sources/img/NewCloudChannel.png) to create a new CloudChannel. You should see something like below:
+	![Create CloudChannel](sources/img/CreateCloudChannel.png)
 
 4. Here you can define where the data come from and where the data should go. For this demo we use LoRa as the input and HTTP as the output.
 5. After drag & drop required components to input and output, you need to configure LoRa inbound configuration, CloudChannel definition and HTTP outbound configuration.
-6. Configure LoRa: 
-	* Click on ![LoRa](img/loRaInbound.png)
+6. Configure the input: 
+	* Click on ![LoRa](sources/img/loRaInbound.png)
 	* Select your device.
 7. Configure CloudChannel definition: 
 	* Click on Edit definition
 	* Give CloudChannel a relevant name
 	* Select TemperatureSensor
 	* Click Ok
-8. Configure HTTP:
-	* Click on ![http](img/http.png)
+8. Configure the output:
+	* Click on ![http](sources/img/http.png)
 	* Give a relevant Name
-	* Endpoint: http://{hostname or ip of your Server where REST Api is running}:8287/service
+	* Endpoint: http://localhost:8287/service
 	* HTTP method: POST
 	* Click on Ok
 9. Click Save Changes.
-10. Redo above steps to create second CloudChannel with AirQualitySensor.
+10. Redo above steps to create CloudChannels for AirQualitySensor, LoudnessSensor and HumiditySensor.
 
 #### Step 6
 
 The next step is to setup the backend on your Server, the instruction can be found [here](services/msf4j/README.md).
+
+#### Step 7
+
+Now it is time to configure the Kibana dashboard.
+
+1. Access Kibana server at http://localhost:5601
+2. Go to Management > Saved Objects.
+3. Click Import and choose [kibanaExport.json](sources/kibanaExport.json) onder directory sources.
+4. To view the imported dashboard, go to Dashboard > open > MyDashboard
+
+#### Step 8
+
+##### All done! Now just wait for your loRa device to collect enough data.

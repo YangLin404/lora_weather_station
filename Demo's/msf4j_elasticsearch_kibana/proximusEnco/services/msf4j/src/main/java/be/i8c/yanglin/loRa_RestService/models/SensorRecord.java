@@ -40,6 +40,16 @@ public class SensorRecord implements Record
         this.type = type;
     }
 
+    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, double sensorValue, SensorType type) {
+        this.deviceId = deviceId;
+        this.owner = owner;
+        this.stream_id = stream_id;
+        this.streamUnit = streamUnit;
+        this.streamValueTime = streamValueTime;
+        this.sensorValue = sensorValue;
+        this.type = type;
+    }
+
     public String getDeviceId() {
         return deviceId;
     }

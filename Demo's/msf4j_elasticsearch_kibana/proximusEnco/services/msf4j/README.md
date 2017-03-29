@@ -62,4 +62,4 @@
 	./restApi.sh --start
 	```
 
-##### 3. Now you can access Kibana dashboard at \<hostname or ip of your server>:6501
+##### 3. Now you can access Kibana dashboard at http://localhost:6501

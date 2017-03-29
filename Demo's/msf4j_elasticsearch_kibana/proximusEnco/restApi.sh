@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 function installMaven()
 {
@@ -101,12 +101,15 @@ function checkConfig()
 }
 
 if [[ "$1" == "--install" ]]; then
+{
 	checkRequirements;
 	checkConfig;
 	build;
 	echo "-------------------------------------------------------------------------------"
 	echo "installation is completed, run this script with --start to start the restApi";
+}
 elif [[ "$1" == "--start" ]]; then
+{	
 	checkConfig;
 	echo "starting elasticsearch";
 	./elasticsearch-5.2.2/bin/elasticsearch -d;
@@ -117,4 +120,37 @@ elif [[ "$1" == "--start" ]]; then
 	disown;
 	echo "starting restApi";
 	java -jar services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;
+}
+elif [[ "$1" == "--stop" ]]; then
+{
+	echo "Finding pids of elasticsearch and kibana server..."
+	pidElastic=`ps aux|grep elasticsearc\[h\] | awk {'print $2'}`;
+	if [[ -z "$pidElastic" ]]; then
+		echo "elasticsearch is not running."
+	else
+	{
+		echo "pid of elasticsearch: $pidElastic";
+		kill "$pidElastic";
+		if [[ $?==0 ]]; then
+			echo "elasticsearch server stopped."
+		else
+			echo "stopping elasticsearch server fails."
+		fi
+	}
+	fi
+	pidKibana=`ps aux|grep kiban\[a\] | awk {'print $2'}`
+	if [[ -z "$pidKibana" ]]; then
+		echo "kibana is not running."
+	else
+	{
+		echo "pid of kibana: $pidKibana";
+		kill "$pidKibana";
+		if [[ $?==0 ]]; then
+			echo "kibana server stopped."
+		else
+			echo "stopping kibana server fails."
+		fi
+	}
+	fi
+}	
 fi
