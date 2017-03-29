@@ -1,4 +1,4 @@
-# LoRa RestApi with Proximus Enco
+# LoRa REST API server with Proximus Enco
 
 ## Introduction
 
@@ -16,15 +16,15 @@ password = L0Ra2017!
 ![architect](sources/img/LoraProximusEnco.jpg)
 ## Functional Specs
 
-The purpose of this project is to analyse environmental quality of I8C office. The data will be measured by Lora device, sent over Proximus Lora Network toward Proximus Enco Cloud platform. It will then forward the data over HTTP protocol to LoRa REST API which stores the data into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrived by [Kibana](https://www.elastic.co/products/kibana) for analyzing and visualizing.
+The purpose of this project is to analyze environmental quality of I8C office. The data will be measured by Lora device, sent over Proximus Lora Network toward Proximus Enco Cloud platform. It will then forward the data over HTTP protocol to LoRa REST API which stores the data into a stand-alone [Elasticsearch](https://www.elastic.co) database. Stored data's will be retrieved by [Kibana](https://www.elastic.co/products/kibana) for analyzing and visualizing.
 
 ## Technical Specs
 ### Architecture
 This solution contains the following components:  
 
-* a REST micro service, based on WSO2 MSF4J and Spring, storing its data into a stand-alone elasticsearch database.
-* a stand-alone elasticsearch server for storing data's.
-* a stand-alone kibana server for analyzing and visualizing data's.
+* a REST micro service, based on WSO2 MSF4J and Spring, storing its data into a stand-alone Elasticsearch database.
+* a stand-alone Elasticsearch server for storing data's.
+* a stand-alone Kibana server for analyzing and visualizing data's.
 * a sketch application which allows loRa device to send data over Proximus Lora network.
 
 ### <a name="prerequirements"></a> Prerequirements
@@ -35,11 +35,11 @@ This solution contains the following components:
 * [Arduino IDE](https://www.arduino.cc/en/main/software)
 
 ### Dependencies
-All required dependecies are included in source code or will be downloaded during the installation proces.
+All required dependencies are included in source code or will be downloaded during the installation process.
 
 1. ##### REST API micro service
 	* MSF4J(will be downloaded)
-	* Elasticsearch Java Api(will be downloaded)
+	* Elasticsearch Java API(will be downloaded)
 
 2. ##### sketch application
 	* Arduino Sodaq Mbili Library(included)
@@ -70,15 +70,15 @@ git clone -b loRa-RestService-Elastic-Kibana --single-branch https://i8c.githost
 
 #### Step 3
 
-Now open the sketch application [Send_data](loRa/Send_data/Send_data.ino) onder loRa/Send_data with Arduino IDE.
+Now open the sketch application [Send_data](loRa/Send_data/Send_data.ino) under loRa/Send_data with Arduino IDE.
 
 #### Step 4
 
-Upload the sketch application by click ![upload logo](sources/img/arduinoUpload.png) at top left corner of arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
+Upload the sketch application by click ![upload logo](sources/img/arduinoUpload.png) at top left corner of Arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
 
 #### Step 5
 
-Once the sketch application is running correctly on your lora device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST Api.
+Once the sketch application is running correctly on your LoRa device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST API.
 
 1. Go to [EnCo DevPortal](http://devs.enco.io/dashboard/) and log in with your Enco account.
 2. Navigate to CloudChannels API. You should get a overview of your CloudChannels API's.
@@ -106,7 +106,7 @@ Once the sketch application is running correctly on your lora device, you should
 
 #### Step 6
 
-The next step is to setup the backend on your Server, the instruction can be found [here](services/msf4j/README.md).
+The next step is to setup the back-end on your Server, the instruction can be found [here](services/msf4j/README.md).
 
 #### Step 7
 
@@ -114,7 +114,7 @@ Now it is time to configure the Kibana dashboard.
 
 1. Access Kibana server at http://localhost:5601
 2. Go to Management > Saved Objects.
-3. Click Import and choose [kibanaExport.json](sources/kibanaExport.json) onder directory sources.
+3. Click Import and choose [kibanaExport.json](sources/kibanaExport.json) under directory sources.
 4. To view the imported dashboard, go to Dashboard > open > MyDashboard
 
 #### Step 8

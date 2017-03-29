@@ -1,4 +1,4 @@
-# LoRa RestApi with Elasticsearch and Kibana
+# LoRa REST API server with Elasticsearch and Kibana
 
 ## Installation on Ubuntu Server 16.04 LTS
 ### You can either follow the step-by-step tutorial or run the [startscript](#startscript) to setup and run the RestApi.
@@ -32,7 +32,7 @@
 	disown
 	```
 	
-* Build sourcecode
+* Build source code
 
 	```shell
 	cd loRa/Demo\'s/msf4j_elasticsearch_kibana/services/msf4j/
@@ -63,3 +63,9 @@
 	```
 
 ##### 3. Now you can access Kibana dashboard at http://localhost:6501
+
+##### To stop the servers
+
+```shell
+./restApi.sh --stop
+```
