@@ -27,7 +27,7 @@ This solution contains the following components:
 * a stand-alone [Elasticsearch](https://www.elastic.co) server for storing data's.
 * a stand-alone [Kibana](https://www.elastic.co/products/kibana) server for analyzing and visualizing data's.
 
-### <a name="prerequirements"></a> Prerequirements
+### <a name="Prerequirements"></a> Prerequirements
 * Git
 * JDK
 * Maven
@@ -48,7 +48,7 @@ All required dependencies are included in source code or will be downloaded duri
 	
 ## Installation
 
-Make sure you have installed all [prerequirements](#prerequirements) listed above.
+Make sure you have installed all [prerequirements](#Prerequirements) listed above.
 
 #### Step 1
 
@@ -78,11 +78,11 @@ Upload the sketch application by click ![upload logo](sources/img/arduinoUpload.
 
 #### Step 5
 
-Once the sketch application is running correctly on your LoRa device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST API.
+Once the sketch application is running correctly on your LoRa device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST API:
 
 1. Go to [EnCo DevPortal](http://devs.enco.io/dashboard/) and log in with your Enco account.
 2. Navigate to CloudChannels API. You should get a overview of your CloudChannels API's.
-3. Click ![New CloudChannel](sources/img/NewCloudChannel.png) to create a new CloudChannel. You should see something like below:
+3. Click on the button ![New CloudChannel](sources/img/NewCloudChannel.png) to create a new CloudChannel. You should see something like below:
 	![Create CloudChannel](sources/img/CreateCloudChannel.png)
 
 4. Here you can define where the data come from and where the data should go. For this demo we use LoRa as the input and HTTP as the output.
