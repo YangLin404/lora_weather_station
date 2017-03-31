@@ -1,9 +1,9 @@
 # LoRa REST API server with Elasticsearch and Kibana
 
 ## Installation on Ubuntu Server 16.04 LTS
-### You can either follow the step-by-step tutorial or run the [startscript](#startscript) to setup and run the REST API.
+ You can either follow the step-by-step tutorial or run the [startscript](#startscript) to setup and run the REST API.
 
-##### 1. Step-by-step installation
+### 1. Step-by-step installation
 
 * Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
 
@@ -45,7 +45,7 @@
 	java -jar -Dspring.profiles.active=elasticsearch ./target/msf4j-0.1-SNAPSHOT.jar
 	```
 	
-##### <a name="startscript"></a> 2. Installation using startscirpt
+### <a name="startscript"></a> 2. Installation using startscirpt
 
 * Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
 
@@ -62,7 +62,7 @@
 	./rest-api-elastic.sh --start
 	```
 
-##### 3. Configure Kibana dashboard
+### 3. Configure Kibana dashboard
 
 * Access Kibana server at http://localhost:5601
 * Go to Management > Saved Objects.

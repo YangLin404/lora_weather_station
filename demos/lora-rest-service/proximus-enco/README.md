@@ -24,8 +24,11 @@ This solution contains the following components:
 
 * a sketch application which allows loRa device to send data over Proximus Lora network.
 * a REST micro service, based on WSO2 MSF4J and Spring for receiving and progressing data's.
-* a stand-alone [Elasticsearch](https://www.elastic.co) server for storing data's.
-* a stand-alone [Kibana](https://www.elastic.co/products/kibana) server for analyzing and visualizing data's.
+* for implementation with Elasticsearch
+	* a stand-alone [Elasticsearch](https://www.elastic.co) server for storing data's.
+	* a stand-alone [Kibana](https://www.elastic.co/products/kibana) server for analyzing and visualizing data's.
+* for implementation with Postgresql
+	* Postgresql database
 
 ### Dependencies
 All required dependencies are included in source code or will be downloaded during the installation process.
