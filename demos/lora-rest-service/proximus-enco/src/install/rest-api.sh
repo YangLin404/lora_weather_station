@@ -1,5 +1,7 @@
 #!/bin/bash
-
+JARPATH="../msf4j/target/msf4j-0.1-SNAPSHOT.jar";
+ELASTICPROFILE="-Dspring.profiles.active=elasticsearch";
+POSTGRESQLPROFILE="-Dspring.profiles.active=postgresql";
 
 
 function installMaven()
@@ -55,13 +57,13 @@ function installKibana()
 function build()
 {
 	echo "start building project"
-	cd services/msf4j/;
+	cd ../msf4j/;
 	mvn package;
 	if [[ $? != 0 ]]; then
 		echo "build project fails."
 		exit 1;
 	fi
-	cd ../../;
+	cd ../install;
 }
 
 function checkRequirements()
@@ -103,49 +105,37 @@ function checkConfig()
 }
 
 if [[ "$1" == "--install" ]]; then
-{
 	checkRequirements;
 	checkConfig;
 	build;
-	echo "-------------------------------------------------------------------------------"
-	echo "installation is completed, run this script with --start to start the restApi";
-}
-elif [[ "$1" == "--start"]]; then
-{	
+	echo "-------------------------------------------------------------------------------";
+	echo "installation is completed, run this script with --start to start the REST API server";
+elif [[ "$1" == "--start" ]]; then
 	if [[ -z "$2" ]]; then
-	{
-		echo "Give the name of database you want to use. for example: ./restApi.sh --start --elastic"
+		echo "Give the name of database you want to use. for example: ./rest-api.sh --start --elastic";
 		exit 1;
-	}
 	elif [[ "$2" == "--elastic" ]]; then
-	{
 		checkConfig;
 		echo "starting elasticsearch";
 		./elasticsearch-5.2.2/bin/elasticsearch -d;
 		echo "waiting elasticsearch to start.....";
 		sleep 5;
 		echo "starting kibana";
-		./kibana-5.2.2-linux-x86_64/bin/kibana &
+		./kibana-5.2.2-linux-x86_64/bin/kibana 1>/dev/null  &
 		disown;
-		echo "starting restApi";
-		java -jar -Dspring.profiles.active=elasticsearch services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;	
-	}
+		echo "starting REST API server";
+		java -jar "$ELASTICPROFILE" "$JARPATH";	
 	elif [[ "$2" == "--postgresql" ]]; then
-	{
 		checkConfig;
 		echo "starting restApi";
-		java -jar -Dspring.profiles.active=postgresql services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;
-	}
+		java -jar "POSTGRESQLPROFILE" "$JARPATH";
 	fi
-}
 elif [[ "$1" == "--stop" ]]; then
-{
 	echo "Finding pids of elasticsearch and kibana server..."
 	pidElastic=`ps aux|grep elasticsearc\[h\] | awk {'print $2'}`;
 	if [[ -z "$pidElastic" ]]; then
 		echo "elasticsearch is not running."
 	else
-	{
 		echo "pid of elasticsearch: $pidElastic";
 		kill "$pidElastic";
 		if [[ $?==0 ]]; then
@@ -153,13 +143,11 @@ elif [[ "$1" == "--stop" ]]; then
 		else
 			echo "stopping elasticsearch server fails."
 		fi
-	}
 	fi
 	pidKibana=`ps aux|grep kiban\[a\] | awk {'print $2'}`
 	if [[ -z "$pidKibana" ]]; then
 		echo "kibana is not running."
 	else
-	{
 		echo "pid of kibana: $pidKibana";
 		kill "$pidKibana";
 		if [[ $?==0 ]]; then
@@ -167,7 +155,5 @@ elif [[ "$1" == "--stop" ]]; then
 		else
 			echo "stopping kibana server fails."
 		fi
-	}
 	fi
-}	
 fi

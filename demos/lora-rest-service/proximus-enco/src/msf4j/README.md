@@ -52,9 +52,9 @@
 * Install
 
 	```shell
-	cd demos/msf4j-elasticsearch-kibana/proximus-enco/src/install
+	cd loRa/demos/lora-rest-service/proximus-enco/src/install
 	chmod +x rest-api.sh
-	sudo ./rest-api.sh --install
+	./rest-api.sh --install
 	```
 * Run REST API and its necessary components
 

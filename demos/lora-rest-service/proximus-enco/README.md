@@ -65,7 +65,7 @@ Once you have activated en setup your loRa device, you can clone the source code
 cd ~
 mkdir lora-proximus
 cd lora-proximus
-git clone -b loRa-RestService-Elastic-Kibana --single-branch https://i8c.githost.io/wso2/loRa
+git clone -b loRa-rest-service --single-branch https://i8c.githost.io/wso2/loRa
 ```
 
 #### Step 3: Open sketch application

@@ -29,7 +29,7 @@
 
     <groupId>be.i8c.wso2.msf4j.lora</groupId>
     <artifactId>msf4j</artifactId>
-    <version>0.1-SNAPSHOT-elastic</version>
+    <version>0.1-SNAPSHOT</version>
     <name>WSO2 MSF4J Microservice</name>
 
 
