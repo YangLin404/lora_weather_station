@@ -1,5 +1,7 @@
 #!/bin/bash
 
+
+
 function installMaven()
 {
 	echo "installing maven"
@@ -15,7 +17,7 @@ function installJdk()
 	echo "installing jdk"
 	sudo sudo apt-get install openjdk-8-jdk;
 	if [[ $? != 0 ]]; then
-		echo "install jdk fails, make sure you run this script with root premission";
+		echo "install jdk fails, make sure you run this script with root permission";
 		exit 1;
 	fi
 }
@@ -108,18 +110,33 @@ if [[ "$1" == "--install" ]]; then
 	echo "-------------------------------------------------------------------------------"
 	echo "installation is completed, run this script with --start to start the restApi";
 }
-elif [[ "$1" == "--start" ]]; then
+elif [[ "$1" == "--start"]]; then
 {	
-	checkConfig;
-	echo "starting elasticsearch";
-	./elasticsearch-5.2.2/bin/elasticsearch -d;
-	echo "waiting elasticsearch to start.....";
-	sleep 5;
-	echo "starting kibana";
-	./kibana-5.2.2-linux-x86_64/bin/kibana &
-	disown;
-	echo "starting restApi";
-	java -jar services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;
+	if [[ -z "$2" ]]; then
+	{
+		echo "Give the name of database you want to use. for example: ./restApi.sh --start --elastic"
+		exit 1;
+	}
+	elif [[ "$2" == "--elastic" ]]; then
+	{
+		checkConfig;
+		echo "starting elasticsearch";
+		./elasticsearch-5.2.2/bin/elasticsearch -d;
+		echo "waiting elasticsearch to start.....";
+		sleep 5;
+		echo "starting kibana";
+		./kibana-5.2.2-linux-x86_64/bin/kibana &
+		disown;
+		echo "starting restApi";
+		java -jar -Dspring.profiles.active=elasticsearch services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;	
+	}
+	elif [[ "$2" == "--postgresql" ]]; then
+	{
+		checkConfig;
+		echo "starting restApi";
+		java -jar -Dspring.profiles.active=postgresql services/msf4j/target/msf4j-0.1-SNAPSHOT-elastic.jar;
+	}
+	fi
 }
 elif [[ "$1" == "--stop" ]]; then
 {
