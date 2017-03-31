@@ -33,21 +33,39 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 public class SensorRecord
 {
+    /**
+     * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    /**
+     * id of lora device
+     */
     @XmlTransient
     private String deviceId;
+    /**
+     * owner of lora device
+     */
     @XmlTransient
     private String owner;
     @XmlTransient
     private String stream_id;
     @XmlTransient
     private String streamUnit;
+    /**
+     * timestamps
+     */
     @XmlElement
     private long streamValueTime;
+    /**
+     * value of sensor
+     */
     @XmlElement
     private double sensorValue;
+    /**
+     * type of sensor
+     */
     @XmlElement
     @Enumerated(EnumType.STRING)
     private SensorType type;

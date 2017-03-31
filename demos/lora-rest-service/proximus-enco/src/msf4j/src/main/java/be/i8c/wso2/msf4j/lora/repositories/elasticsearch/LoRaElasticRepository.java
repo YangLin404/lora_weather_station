@@ -36,7 +36,10 @@ import org.springframework.stereotype.Repository;
 public class LoRaElasticRepository implements LoRaRepository
 {
     private static final Logger LOGGER = LogManager.getLogger(LoRaElasticRepository.class);
-    
+
+    /**
+     * a object to communicate with elasticsearch
+     */
     @Autowired
     private LoRaElasticsearchAdapter esa;
     

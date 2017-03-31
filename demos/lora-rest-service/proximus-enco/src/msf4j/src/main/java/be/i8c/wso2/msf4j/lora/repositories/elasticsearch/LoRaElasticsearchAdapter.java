@@ -52,18 +52,39 @@ public class LoRaElasticsearchAdapter
      private static final Logger LOGGER = LogManager.getLogger(LoRaElasticsearchAdapter.class);
      
      private final LoRaJsonConvertor loRaJsonConvertor = LoRaJsonConvertor.getInstance();
-     
-     @Value("${elasticsearch.host}")
+
+    /**
+     * The hostname of server where elasticseach can be found. It will be automatically read from application.properties
+     */
+    @Value("${elasticsearch.host}")
      private String esHost;
+    /**
+     * The name of index. It will be automatically read from application.properties
+     */
      @Value("${elasticsearch.index}")
      private String esIndex;
      @Value("${elasticsearch.port}")
+     /**
+      * The port number of elasticsearch server. It will be automatically read from application.properties
+      */
      private int esPort;
-     @Value("${elasticsearch.timestampName}")
+    /**
+     * The name of field to be mapped as date. It will be automatically read from application.properties
+     */
+    @Value("${elasticsearch.timestampName}")
      private String esTimestampName;
-     private TransportClient client;
-     
-     private boolean indexExist;
+
+    /**
+     * object which communicates with elasticsearch
+     */
+    private TransportClient client;
+    /**
+     * a boolean indicate whether index is exist or not.
+     */
+    private boolean indexExist;
+    /**
+     * the id of document to be indexed
+     */
     private long idSequences;
      
      public LoRaElasticsearchAdapter()
