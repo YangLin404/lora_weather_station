@@ -50,14 +50,14 @@ All required dependencies are included in source code or will be downloaded duri
 
 Make sure you have installed all [prerequirements](#Prerequirements) listed above.
 
-#### Step 1
+#### Step 1: Setup loRa device
 
 As first step, follow these tutorials to getting started with loRa device.
 
 * [Setup loRa device](http://support.sodaq.com/mbili/)
 * [Getting started with Enco](http://docs.enco.io/docs/getting-started-with-enco)
 
-#### <a name="step2"></a> Step 2
+#### <a name="step2"></a> Step 2: Clone the source code
 
 Once you have activated en setup your loRa device, you can clone the source code by using following commands:
 
@@ -68,15 +68,15 @@ cd lora-proximus
 git clone -b loRa-RestService-Elastic-Kibana --single-branch https://i8c.githost.io/wso2/loRa
 ```
 
-#### Step 3
+#### Step 3: Open sketch application
 
 Now open the sketch application [send-data](src/arduino/send-data/send-data.ino) under src/arduino/send-data with Arduino IDE.
 
-#### Step 4
+#### Step 4: Upload and run sketch application
 
 Upload the sketch application by click ![upload logo](doc/img/arduino-upload.png) at top left corner of Arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
 
-#### Step 5
+#### Step 5: Create CloudChannel
 
 Once the sketch application is running correctly on your LoRa device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST API:
 
@@ -104,11 +104,11 @@ Once the sketch application is running correctly on your LoRa device, you should
 9. Click Save Changes.
 10. Redo above steps to create CloudChannels for AirQualitySensor, LoudnessSensor and HumiditySensor.
 
-#### Step 6
+#### Step 6: Setup back-end
 
 The next step is to setup the back-end on your Server, the instruction can be found [here](src/msf4j/README.md).
 
-#### Step 7
+#### Step 7: Configure Kibana dashboard
 
 Now it is time to configure the Kibana dashboard.
 

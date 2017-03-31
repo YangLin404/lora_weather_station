@@ -60,7 +60,7 @@ public class LoRaRestService
         // TODO: Implementation for HTTP GET request
         LOGGER.debug("get invoked");
         SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
-        r.setValue(20.0);
+        r.setSensorValue(20.0);
         
         return r;
     }
@@ -72,7 +72,7 @@ public class LoRaRestService
         // TODO: Implementation for HTTP GET request
         LOGGER.debug("get invoked");
         SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
-        r.setValue(20.0);
+        r.setSensorValue(20.0);
 
         return r;
     }
@@ -84,8 +84,8 @@ public class LoRaRestService
         // TODO: Implementation for HTTP POST request
         LOGGER.debug("post invoked. data: " + o);
         SensorRecord r = LoRaJsonConvertor.getInstance().convert(o.toString());
-        boolean result = repo.insert(r);
-        if (result) 
+        SensorRecord result = repo.save(r);
+        if (result != null)
             return Response.ok().build();
         else
             return Response.serverError().build();
@@ -104,8 +104,8 @@ public class LoRaRestService
         }
         else
         {
-            boolean result = repo.insert(sensorRecord);
-            if (result)
+            SensorRecord result = repo.save(sensorRecord);
+            if (result != null)
                 return Response.ok().build();
             else
                 return Response.serverError().build();

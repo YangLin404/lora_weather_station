@@ -14,17 +14,21 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package be.i8c.wso2.msf4j.lora.repositories;
+package be.i8c.wso2.msf4j.lora.repositories.postgresql;
 
-import org.springframework.stereotype.Component;
+import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 /**
- *
- * @author yanglin
+ * Created by yanglin on 30/03/17.
  */
 
-@Component
-public class LoRaElasticsearchAdapter extends ElasticsearchAdapter
+@Profile("postgresql")
+@Repository
+public interface LoRaPostgresqlRepository extends CrudRepository<SensorRecord, String>, LoRaRepository
 {
-    
+
 }

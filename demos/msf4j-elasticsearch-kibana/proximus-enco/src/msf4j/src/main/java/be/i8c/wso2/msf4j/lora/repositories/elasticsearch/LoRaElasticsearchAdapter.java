@@ -14,9 +14,10 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package be.i8c.wso2.msf4j.lora.repositories;
+package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
 
 import be.i8c.wso2.msf4j.lora.models.Record;
+import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.utils.LoRaJsonConvertor;
 
 
@@ -24,6 +25,15 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchType;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.aggregations.AggregationBuilder;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
+import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -42,9 +52,10 @@ import org.springframework.beans.factory.annotation.Value;
  * @author yanglin
  */
 @Component
-public class ElasticsearchAdapter
+@Profile("elasticsearch")
+public class LoRaElasticsearchAdapter
 {
-     private static final Logger LOGGER = LogManager.getLogger(ElasticsearchAdapter.class);
+     private static final Logger LOGGER = LogManager.getLogger(LoRaElasticsearchAdapter.class);
      
      private final LoRaJsonConvertor loRaJsonConvertor = LoRaJsonConvertor.getInstance();
      
@@ -59,8 +70,9 @@ public class ElasticsearchAdapter
      private TransportClient client;
      
      private boolean indexExist;
+    private long idSequences;
      
-     public ElasticsearchAdapter()
+     public LoRaElasticsearchAdapter()
      {
          
      }
@@ -84,9 +96,15 @@ public class ElasticsearchAdapter
             this.indexExist = this.client.admin().indices()
                               .exists(indicesExistsRequest).actionGet().isExists();
             if(this.indexExist)
+            {
                 LOGGER.info("index: [" + this.esIndex + "] exist.");
+                this.idSequences = getLastId();
+            }
             else
-                LOGGER.info("index: [" + this.esIndex + "] doesn't exist, it will be created at first input");
+            {
+                LOGGER.info("index: [" + this.esIndex + "] doesn't exist, it will be created at first input, idSequence set to 1");
+                this.idSequences = 0;
+            }
             
              
          } catch (UnknownHostException e) {
@@ -97,8 +115,8 @@ public class ElasticsearchAdapter
          
          
      }
-     
-     @PreDestroy
+
+    @PreDestroy
      private void destroy()
      {
          LOGGER.info("destroying elasticsearchAdapter");
@@ -107,28 +125,7 @@ public class ElasticsearchAdapter
          LOGGER.info("elasticsearch disconnected");
      }
      
-     public boolean index(Record t)
-     {
-         //create and map the given TimestampName into index as type date,
-         //otherwise elasticseach can't recognise timestamps
-         if (!indexExist) 
-         {
-            createAndMapIndex(t);
-            indexExist = true;
-         }
-         LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.simpleString());
-         String docString = loRaJsonConvertor.convertToJsonString(t);
-         IndexResponse u = 
-                 client.prepareIndex(esIndex, t.getClass().getSimpleName())
-                        .setSource(docString)
-                        .get();
-         DocWriteResponse.Result r = u.getResult();
-         
-         LOGGER.info("successful indexed object into " + this.esIndex + ". result is: " + r);
-         return true;
-     }
-     
-     private void createAndMapIndex(Record t)
+     private void createAndMapIndex(SensorRecord t)
      {
         LOGGER.info("try creating index: [" + this. esIndex + "]");
          try {
@@ -149,6 +146,48 @@ public class ElasticsearchAdapter
          LOGGER.info("index: [" + this.esIndex + "] created.");
         
      }
+
+    public SensorRecord save(SensorRecord t) {
+        //create and map the given TimestampName into index as type date,
+        //otherwise elasticseach can't recognise timestamps
+        if (!indexExist)
+        {
+            createAndMapIndex(t);
+            indexExist = true;
+        }
+        t.setId(++this.idSequences);
+        LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.simpleString());
+        String docString = loRaJsonConvertor.convertToJsonString(t);
+        IndexResponse u =
+                client.prepareIndex(esIndex, t.getClass().getSimpleName(),Long.toString(t.getId()))
+                        .setSource(docString)
+                        .get();
+        DocWriteResponse.Result r = u.getResult();
+        if (r == DocWriteResponse.Result.CREATED)
+        {
+            LOGGER.info("successful indexed object into " + this.esIndex + ". result is: " + r);
+            return t;
+        }
+        else
+            return null;
+
+    }
+
+    private long getLastId()
+    {
+        LOGGER.info("Trying get last id from index " + this.esIndex );
+        SearchResponse response = client.prepareSearch(this.esIndex)
+                .addAggregation(
+                        AggregationBuilders
+                                .max("maxId")
+                                .field("id")
+                )
+        .execute().actionGet();
+        Max max = response.getAggregations().get("maxId");
+        long id =  Math.round(max.getValue());
+        LOGGER.info("last id is " + id);
+        return id;
+    }
 }
 
 

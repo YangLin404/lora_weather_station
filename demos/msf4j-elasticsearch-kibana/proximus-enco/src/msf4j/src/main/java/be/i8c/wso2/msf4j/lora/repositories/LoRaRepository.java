@@ -14,41 +14,15 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
+
 package be.i8c.wso2.msf4j.lora.repositories;
 
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
-import javax.annotation.PostConstruct;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 /**
- *
- * @author yanglin
+ * Created by yanglin on 30/03/17.
  */
-@Repository
-public class LoRaRepository 
+public interface LoRaRepository
 {
-    private static final Logger LOGGER = LogManager.getLogger(LoRaRepository.class);
-    
-    @Autowired
-    private LoRaElasticsearchAdapter esa;
-    
-    public LoRaRepository()
-    {
-        
-    }
-    
-    @PostConstruct
-    private void init()
-    {
-        
-    }
-    
-    public boolean insert(SensorRecord r)
-    {
-        return esa.index(r);
-    }
+    SensorRecord save(SensorRecord t);
 }

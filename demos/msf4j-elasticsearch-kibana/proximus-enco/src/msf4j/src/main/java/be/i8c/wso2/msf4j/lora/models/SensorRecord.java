@@ -17,6 +17,7 @@
 
 package be.i8c.wso2.msf4j.lora.models;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -25,8 +26,12 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name="Record")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SensorRecord implements Record
+@Entity
+public class SensorRecord
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @XmlTransient
     private String deviceId;
     @XmlTransient
@@ -40,6 +45,7 @@ public class SensorRecord implements Record
     @XmlElement
     private double sensorValue;
     @XmlElement
+    @Enumerated(EnumType.STRING)
     private SensorType type;
     
     protected SensorRecord()
@@ -47,7 +53,7 @@ public class SensorRecord implements Record
         
     }
 
-    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, Long streamValueTime, SensorType type) {
+    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
         this.stream_id = stream_id;
@@ -64,6 +70,14 @@ public class SensorRecord implements Record
         this.streamValueTime = streamValueTime;
         this.sensorValue = sensorValue;
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getDeviceId() {
@@ -106,11 +120,11 @@ public class SensorRecord implements Record
         this.streamValueTime = streamValueTime;
     }
 
-    public double getValue() {
+    public double getSensorValue() {
         return sensorValue;
     }
     
-    public void setValue(double value) {
+    public void setSensorValue(double value) {
         this.sensorValue = value;
     }
 
@@ -121,16 +135,15 @@ public class SensorRecord implements Record
     public void setType(SensorType type) {
         this.type = type;
     }
-    
-    @Override
+
     public String simpleString()
     {
-        return "Record{Type: " + type + ", value: " + sensorValue + "}";
+        return "Record{Id: " + this.id + ", Type: " + type + ", value: " + sensorValue + "}";
     }
 
     @Override
     public String toString() {
-        return "Record{" + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
     
     

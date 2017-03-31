@@ -57,13 +57,13 @@ public class LoRaJsonConvertor
         JsonObject jo = new JsonParser().parse(s).getAsJsonObject();
         SensorType sensorType = getTypeFromJSON(jo);
         r.setType(sensorType);
-        r.setValue(getValueFromJSON(jo, sensorType));
+        r.setSensorValue(getValueFromJSON(jo, sensorType));
         LOGGER.info("json object successfully converted to " + r.simpleString());
         LOGGER.debug("converted Record object: " + r.toString());
         return r;
     }
     
-    public<T> String convertToJsonString(T t)
+    public String convertToJsonString(SensorRecord t)
     {
         return this.gson.toJson(t, t.getClass());
     }
