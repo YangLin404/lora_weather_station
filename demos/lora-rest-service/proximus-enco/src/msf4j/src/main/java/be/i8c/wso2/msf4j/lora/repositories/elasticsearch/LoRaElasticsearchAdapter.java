@@ -15,8 +15,6 @@
   * limitations under the License.
   */
 package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
-
-import be.i8c.wso2.msf4j.lora.models.Record;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.utils.LoRaJsonConvertor;
 
@@ -27,10 +25,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
 import org.springframework.context.annotation.Profile;
@@ -48,7 +42,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- *
+ * This class consists methods for communicating with elasticsearch server.
  * @author yanglin
  */
 @Component
@@ -76,8 +70,12 @@ public class LoRaElasticsearchAdapter
      {
          
      }
-     
-     @PostConstruct
+
+    /**
+     * This method is used to initialize the connection with elasticsearch server and check the existence of given index.
+     * It will be fired after the construction.
+     */
+    @PostConstruct
      private void init()
      {
          
@@ -116,6 +114,9 @@ public class LoRaElasticsearchAdapter
          
      }
 
+    /**
+     * This method is used to disconnect elasticsearch.
+     */
     @PreDestroy
      private void destroy()
      {
@@ -124,14 +125,18 @@ public class LoRaElasticsearchAdapter
          this.client.close();
          LOGGER.info("elasticsearch disconnected");
      }
-     
-     private void createAndMapIndex(SensorRecord t)
+
+    /**
+     * This method is used to create index and add date mapping to it's timestamp
+     * @param sensorRecord object which to be indexed later on.
+     */
+    private void createAndMapIndex(SensorRecord sensorRecord)
      {
         LOGGER.info("try creating index: [" + this. esIndex + "]");
          try {
              client.admin().indices().prepareCreate(this.esIndex)   
-               .addMapping(t.getClass().getSimpleName(), "{\n" +                
-               "    \"" + t.getClass().getSimpleName() + "\": {\n" +
+               .addMapping(sensorRecord.getClass().getSimpleName(), "{\n" +
+               "    \"" + sensorRecord.getClass().getSimpleName() + "\": {\n" +
                "      \"properties\": {\n" +
                "        \"" + this.esTimestampName + "\": {\n" +
                "          \"type\": \"date\"\n" +
@@ -147,32 +152,41 @@ public class LoRaElasticsearchAdapter
         
      }
 
-    public SensorRecord save(SensorRecord t) {
+    /**
+     * This method is used to index a doc into index.
+     * @param sensorRecord This is the document which will be indexed.
+     * @return  The indexed sensorRecord or null when index unsuccessfully.
+     */
+    public SensorRecord save(SensorRecord sensorRecord) {
         //create and map the given TimestampName into index as type date,
         //otherwise elasticseach can't recognise timestamps
         if (!indexExist)
         {
-            createAndMapIndex(t);
+            createAndMapIndex(sensorRecord);
             indexExist = true;
         }
-        t.setId(++this.idSequences);
-        LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + t.simpleString());
-        String docString = loRaJsonConvertor.convertToJsonString(t);
+        sensorRecord.setId(++this.idSequences);
+        LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + sensorRecord.simpleString());
+        String docString = loRaJsonConvertor.convertToJsonString(sensorRecord);
         IndexResponse u =
-                client.prepareIndex(esIndex, t.getClass().getSimpleName(),Long.toString(t.getId()))
+                client.prepareIndex(esIndex, sensorRecord.getClass().getSimpleName(),Long.toString(sensorRecord.getId()))
                         .setSource(docString)
                         .get();
         DocWriteResponse.Result r = u.getResult();
         if (r == DocWriteResponse.Result.CREATED)
         {
             LOGGER.info("successful indexed object into " + this.esIndex + ". result is: " + r);
-            return t;
+            return sensorRecord;
         }
         else
             return null;
 
     }
 
+    /**
+     * Find the id of the last indexed document within the index
+     * @return the id of the last indexed document
+     */
     private long getLastId()
     {
         LOGGER.info("Trying get last id from index " + this.esIndex );

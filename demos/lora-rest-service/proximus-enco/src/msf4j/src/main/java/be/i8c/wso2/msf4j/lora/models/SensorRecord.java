@@ -24,6 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ * This is model class
+ */
+
 @XmlRootElement(name="Record")
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity

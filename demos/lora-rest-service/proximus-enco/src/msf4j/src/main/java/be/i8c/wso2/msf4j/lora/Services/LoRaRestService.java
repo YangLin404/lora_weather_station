@@ -37,9 +37,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This is the Microservice resource class.
- * See <a href="https://github.com/wso2/msf4j#getting-started">https://github.com/wso2/msf4j#getting-started</a>
- * for the usage of annotations.
+ * This is Microservice source class
  *
  * @since 0.1-SNAPSHOT
  */
@@ -53,6 +51,10 @@ public class LoRaRestService
     @Autowired
     private LoRaRepository repo;
 
+    /**
+     * This method return a sensorRecord in xml format
+     * @return sensorRecord
+     */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
@@ -65,6 +67,10 @@ public class LoRaRestService
         return r;
     }
 
+    /**
+     * This method return a sensorRecord in json format
+     * @return sensorRecord
+     */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
@@ -77,6 +83,11 @@ public class LoRaRestService
         return r;
     }
 
+    /**
+     * This method is used to save object into database
+     * @param o object to be saved
+     * @return ok when save successful, code 500 when save fails.
+     */
     @POST
     @Path("/")
     public Response post(Object o) 

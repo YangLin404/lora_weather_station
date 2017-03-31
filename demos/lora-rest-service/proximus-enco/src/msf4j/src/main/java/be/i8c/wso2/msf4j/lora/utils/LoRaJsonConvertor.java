@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
+ * This class is used to converter json object into model object
  * @author yanglin
  */
 public class LoRaJsonConvertor 
@@ -48,7 +48,12 @@ public class LoRaJsonConvertor
     {
         return instance;
     }
-    
+
+    /**
+     * This method is used to convert a json object received from Proximus-enco into a SensorRecord object.
+     * @param s json object to be convert.
+     * @return a SensorRecord object
+     */
     public SensorRecord convert(String s)
     {
         LOGGER.info("converting json object");
@@ -62,19 +67,35 @@ public class LoRaJsonConvertor
         LOGGER.debug("converted Record object: " + r.toString());
         return r;
     }
-    
+
+    /**
+     * This method is used to convert a SensorRecord object into json object in string format.
+     * @param t SensorRecord object to be convert
+     * @return json object in string format
+     */
     public String convertToJsonString(SensorRecord t)
     {
         return this.gson.toJson(t, t.getClass());
     }
-    
+
+    /**
+     * This method is used to get sensor value from a json object received from Proximus-enco
+     * @param j json object received from Proximus-enco
+     * @param s Type of sensor
+     * @return value of sensor
+     */
     public Double getValueFromJSON(JsonObject j, SensorType s)
     {
         LOGGER.info("getting value from JSONobject: " + j);
         LOGGER.debug("getting sensortype: [" + s + "] value from JSON: " + j);
         return Double.parseDouble(j.get(s.getValueString()).getAsString());
     }
-    
+
+    /**
+     * This method is used to get sensor type from a json object received from Proximus-enco
+     * @param j json object received from Proximus-enco
+     * @return type of sensor
+     */
     private SensorType getTypeFromJSON(JsonObject j)
     {
         LOGGER.info("getting sensortype from JSONobject: " + j);
@@ -88,7 +109,13 @@ public class LoRaJsonConvertor
         LOGGER.debug("found sensortype : [" + sensorType + "]");
         return sensorType;
     }
-    
+
+    /**
+     * This mothod is used to check if first string contains second string
+     * @param desc first string
+     * @param typeDesc second string
+     * @return boolean
+     */
     private boolean compDesc(String desc, String typeDesc)
     {
         LOGGER.debug("comparing [" + desc + "] to [" + typeDesc + "]");

@@ -23,7 +23,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by yanglin on 30/03/17.
+ * This is a implementation of LoRaRepository for postgresql database
+ * @author yanglin
  */
 
 @Profile("postgresql")

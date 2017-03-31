@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * This is a implementation of LoRaRepository for elasticsearch server
  * @author yanglin
  */
 @Profile("elasticsearch")
@@ -44,16 +44,15 @@ public class LoRaElasticRepository implements LoRaRepository
     {
         
     }
-    
-    @PostConstruct
-    private void init()
-    {
-        
-    }
 
+    /**
+     * This method is used to index a document into a index.
+     * @param sensorRecord document to be indexed.
+     * @return the indexed sensorRecord or null when index operation fails.
+     */
     @Override
-    public SensorRecord save(SensorRecord t)
+    public SensorRecord save(SensorRecord sensorRecord)
     {
-        return esa.save(t);
+        return esa.save(sensorRecord);
     }
 }

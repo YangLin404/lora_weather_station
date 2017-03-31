@@ -31,6 +31,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+/**
+ * This class consists configuration for postgresql API
+ */
+
 @Profile("postgresql")
 @Configuration
 @EnableJpaRepositories(basePackages = {"be.i8c.wso2.msf4j.lora"})

@@ -17,7 +17,7 @@
 package be.i8c.wso2.msf4j.lora.models;
 
 /**
- *
+ * This is types of all sensors
  * @author yanglin
  */
 public enum SensorType {
