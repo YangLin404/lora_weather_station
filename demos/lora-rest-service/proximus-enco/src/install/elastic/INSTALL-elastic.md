@@ -5,7 +5,7 @@
 
 ##### 1. Step-by-step installation
 
-* Go to the directory where you have clone the source code in this [step](../../README.md#step2).
+* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
 
 * Download and unzip Elasticsearch  
 		
@@ -39,33 +39,39 @@
 	mvn package
 	```
 	
-* Run REST API
+* Run REST server
 
 	```shell
-	java -jar ./target/msf4j-0.1-SNAPSHOT-elastic.jar
+	java -jar -Dspring.profiles.active=elasticsearch ./target/msf4j-0.1-SNAPSHOT.jar
 	```
 	
 ##### <a name="startscript"></a> 2. Installation using startscirpt
 
-* Go to the directory where you have clone the source code in this [step](../../README.md#step2).
+* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
 
 * Install
 
 	```shell
-	cd loRa/demos/lora-rest-service/proximus-enco/src/install
-	chmod +x rest-api.sh
-	./rest-api.sh --install
+	cd loRa/demos/lora-rest-service/proximus-enco/src/install/elastic
+	chmod +x rest-api-elastic.sh
+	./rest-api-elastic.sh --install
 	```
-* Run REST API and its necessary components
+* Run REST server
 
 	```shell
-	./rest-api.sh --start
+	./rest-api-elastic.sh --start
 	```
 
-##### 3. Now you can access Kibana dashboard at http://localhost:6501
+##### 3. Configure Kibana dashboard
+
+* Access Kibana server at http://localhost:5601
+* Go to Management > Saved Objects.
+* Click Import and choose [kibanaExport.json](kibana/kibana-export.json) under directory sources.
+* To view the imported dashboard, go to Dashboard > open > MyDashboard
+
 
 ##### To stop the servers
 
 ```shell
-./rest-api.sh --stop
+./rest-api-elastic.sh --stop
 ```

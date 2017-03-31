@@ -1,7 +1,6 @@
 #!/bin/bash
-JARPATH="../msf4j/target/msf4j-0.1-SNAPSHOT.jar";
+JARPATH="../../msf4j/target/msf4j-0.1-SNAPSHOT.jar";
 ELASTICPROFILE="-Dspring.profiles.active=elasticsearch";
-POSTGRESQLPROFILE="-Dspring.profiles.active=postgresql";
 
 
 function installMaven()
@@ -10,16 +9,6 @@ function installMaven()
 	sudo apt-get install maven;
 	if [[ $? != 0 ]]; then
 		echo "install maven fails";
-		exit 1;
-	fi
-}
-
-function installJdk()
-{
-	echo "installing jdk"
-	sudo sudo apt-get install openjdk-8-jdk;
-	if [[ $? != 0 ]]; then
-		echo "install jdk fails, make sure you run this script with root permission";
 		exit 1;
 	fi
 }
@@ -57,7 +46,7 @@ function installKibana()
 function build()
 {
 	echo "start building project"
-	cd ../msf4j/;
+	cd ../../msf4j/;
 	mvn package;
 	if [[ $? != 0 ]]; then
 		echo "build project fails."
@@ -79,7 +68,8 @@ function checkRequirements()
 	#check jdk
 	if ! type javac > /dev/null; then
 		echo "jdk not installed";
-		installJdk;
+		echo "use 'sudo sudo apt-get install openjdk-8-jdk;' to install jdk and run try again"
+		exit 1;
 	else
 		echo "jdk installed";
 	fi
@@ -111,25 +101,16 @@ if [[ "$1" == "--install" ]]; then
 	echo "-------------------------------------------------------------------------------";
 	echo "installation is completed, run this script with --start to start the REST API server";
 elif [[ "$1" == "--start" ]]; then
-	if [[ -z "$2" ]]; then
-		echo "Give the name of database you want to use. for example: ./rest-api.sh --start --elastic";
-		exit 1;
-	elif [[ "$2" == "--elastic" ]]; then
-		checkConfig;
-		echo "starting elasticsearch";
-		./elasticsearch-5.2.2/bin/elasticsearch -d;
-		echo "waiting elasticsearch to start.....";
-		sleep 5;
-		echo "starting kibana";
-		./kibana-5.2.2-linux-x86_64/bin/kibana 1>/dev/null  &
-		disown;
-		echo "starting REST API server";
-		java -jar "$ELASTICPROFILE" "$JARPATH";	
-	elif [[ "$2" == "--postgresql" ]]; then
-		checkConfig;
-		echo "starting restApi";
-		java -jar "POSTGRESQLPROFILE" "$JARPATH";
-	fi
+	checkConfig;
+	echo "starting elasticsearch";
+	./elasticsearch-5.2.2/bin/elasticsearch -d;
+	echo "waiting elasticsearch to start.....";
+	sleep 5;
+	echo "starting kibana";
+	./kibana-5.2.2-linux-x86_64/bin/kibana 1>/dev/null  &
+	disown;
+	echo "starting REST API server";
+	java -jar "$ELASTICPROFILE" "$JARPATH";	
 elif [[ "$1" == "--stop" ]]; then
 	echo "Finding pids of elasticsearch and kibana server..."
 	pidElastic=`ps aux|grep elasticsearc\[h\] | awk {'print $2'}`;
