@@ -136,7 +136,7 @@ public class LoRaElasticsearchAdapter
      }
 
     /**
-     * This method is used to disconnect elasticsearch.
+     * This method is used to disconnect the elasticsearch server. It will be automatically called before destroyed.
      */
     @PreDestroy
      private void destroy()
@@ -148,8 +148,8 @@ public class LoRaElasticsearchAdapter
      }
 
     /**
-     * This method is used to create index and add date mapping to it's timestamp
-     * @param sensorRecord object which to be indexed later on.
+     * This method is used to create index and add date mapping to it's timestamp field.
+     * @param sensorRecord object which will be indexed later on.
      */
     private void createAndMapIndex(SensorRecord sensorRecord)
      {
@@ -167,14 +167,14 @@ public class LoRaElasticsearchAdapter
                "  }")
                 .get();
          } catch (ResourceAlreadyExistsException e) {
-             LOGGER.info("index: [" + this.esIndex + "] already exist, not created");
+             LOGGER.error("index: [" + this.esIndex + "] already exist, not created");
          }
          LOGGER.info("index: [" + this.esIndex + "] created.");
         
      }
 
     /**
-     * This method is used to index a doc into index.
+     * This method is used to index a document into index.
      * @param sensorRecord This is the document which will be indexed.
      * @return  The indexed sensorRecord or null when index unsuccessfully.
      */

@@ -37,7 +37,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This is Microservice source class
+ * This class contains methods for http request
  *
  * @since 0.1-SNAPSHOT
  */
@@ -47,19 +47,21 @@ public class LoRaRestService
 {
 
     private static final Logger LOGGER = LogManager.getLogger(LoRaRestService.class);
-    
+
+    /**
+     * The repository to write the object to and to get object from
+     */
     @Autowired
     private LoRaRepository repo;
 
     /**
-     * This method return a sensorRecord in xml format
+     * This method return a sensorRecord in xml format. Currently it only returns an example object.
      * @return sensorRecord
      */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
     public SensorRecord getXml() {
-        // TODO: Implementation for HTTP GET request
         LOGGER.debug("get invoked");
         SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
         r.setSensorValue(20.0);
@@ -68,14 +70,13 @@ public class LoRaRestService
     }
 
     /**
-     * This method return a sensorRecord in json format
+     * This method return a sensorRecord in json format. Currently it only returns an example object.
      * @return sensorRecord
      */
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public SensorRecord getJson() {
-        // TODO: Implementation for HTTP GET request
         LOGGER.debug("get invoked");
         SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
         r.setSensorValue(20.0);
@@ -84,15 +85,14 @@ public class LoRaRestService
     }
 
     /**
-     * This method is used to save object into database
-     * @param o object to be saved
-     * @return ok when save successful, code 500 when save fails.
+     * This method is used to insert the object received from post request of proximus-Enco into database.
+     * @param o json object to be inserted.
+     * @return code 200 when insertion succeed, code 500 when insertion fails.
      */
     @POST
     @Path("/")
     public Response post(Object o) 
     {
-        // TODO: Implementation for HTTP POST request
         LOGGER.debug("post invoked. data: " + o);
         SensorRecord r = LoRaJsonConvertor.getInstance().convert(o.toString());
         SensorRecord result = repo.save(r);
@@ -102,6 +102,11 @@ public class LoRaRestService
             return Response.serverError().build();
     }
 
+    /**
+     * This method is used to save dummy data's received from post request into database for testing purposes
+     * @param sensorRecord
+     * @return
+     */
     @POST
     @Path("/testing")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -110,7 +115,7 @@ public class LoRaRestService
         LOGGER.info("testing post invoked. data: " + sensorRecord.toString());
         if (sensorRecord.getType() == null)
         {
-            LOGGER.warn("data is empty: " + sensorRecord.toString());
+            LOGGER.warn("data is empty: ");
             return Response.serverError().build();
         }
         else
@@ -121,20 +126,5 @@ public class LoRaRestService
             else
                 return Response.serverError().build();
         }
-    }
-
-
-    @PUT
-    @Path("/")
-    public void put() {
-        // TODO: Implementation for HTTP PUT request
-        LOGGER.debug("put invoked.");
-    }
-
-    @DELETE
-    @Path("/")
-    public void delete() {
-        // TODO: Implementation for HTTP DELETE request
-        LOGGER.debug("delete invoked.");
     }
 }

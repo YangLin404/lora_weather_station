@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class is used to converter json object into model object
+ * This class is used to converter json object into SensorRecord object
  * @author yanglin
  */
 public class LoRaJsonConvertor 
