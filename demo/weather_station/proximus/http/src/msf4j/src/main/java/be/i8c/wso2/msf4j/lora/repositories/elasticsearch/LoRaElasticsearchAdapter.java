@@ -42,7 +42,8 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- * This class consists methods for communicating with elasticsearch server.
+ * An adapter class that communicates with elasticsearch server through elasticsearch JAVA API.
+ *
  * @author yanglin
  */
 @Component
@@ -75,7 +76,7 @@ public class LoRaElasticsearchAdapter
      private String esTimestampName;
 
     /**
-     * object which communicates with elasticsearch
+     * An object which communicates with elasticsearch server
      */
     private TransportClient client;
     /**
@@ -83,7 +84,7 @@ public class LoRaElasticsearchAdapter
      */
     private boolean indexExist;
     /**
-     * the id of document to be indexed
+     * The id of last indexed document, it indicates which id should be given to the next document.
      */
     private long idSequences;
      
@@ -94,7 +95,7 @@ public class LoRaElasticsearchAdapter
 
     /**
      * This method is used to initialize the connection with elasticsearch server and check the existence of given index.
-     * It will be fired after the construction.
+     * It will be automatically executed once this class is constructed.
      */
     @PostConstruct
      private void init()
@@ -136,7 +137,8 @@ public class LoRaElasticsearchAdapter
      }
 
     /**
-     * This method is used to disconnect the elasticsearch server. It will be automatically called before destroyed.
+     * This method is used to disconnect the elasticsearch server.
+     * It will be automatically called just before the destruction of this class.
      */
     @PreDestroy
      private void destroy()
@@ -149,7 +151,8 @@ public class LoRaElasticsearchAdapter
 
     /**
      * This method is used to create index and add date mapping to it's timestamp field.
-     * @param sensorRecord object which will be indexed later on.
+     * This method will be called by first insertion of lora packet if the given index doesn't exist.
+     * @param sensorRecord lora packet which will be indexed after creation of index.
      */
     private void createAndMapIndex(SensorRecord sensorRecord)
      {
@@ -174,9 +177,9 @@ public class LoRaElasticsearchAdapter
      }
 
     /**
-     * This method is used to index a document into index.
-     * @param sensorRecord This is the document which will be indexed.
-     * @return  The indexed sensorRecord or null when index unsuccessfully.
+     * This method is used to index a object into a specified index.
+     * @param sensorRecord a object of sensorRecord which will be indexed.
+     * @return  An object of sensorRecord or null when index unsuccessfully.
      */
     public SensorRecord save(SensorRecord sensorRecord) {
         //create and map the given TimestampName into index as type date,
@@ -205,8 +208,8 @@ public class LoRaElasticsearchAdapter
     }
 
     /**
-     * Find the id of the last indexed document within the index
-     * @return the id of the last indexed document
+     * Find the id of the last indexed document within the specified index.
+     * @return the id of the last indexed document.
      */
     private long getLastId()
     {

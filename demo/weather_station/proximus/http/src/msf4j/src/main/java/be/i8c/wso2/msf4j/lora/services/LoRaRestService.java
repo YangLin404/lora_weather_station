@@ -25,6 +25,7 @@ import be.i8c.wso2.msf4j.lora.utils.LoRaJsonConvertor;
 
 import java.util.Calendar;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
@@ -37,10 +38,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * This class contains methods for http request
+ * This is the micro service class based on msf4j, It's used to handle the lora packet forwarded from Proximus.
+ * Received packet will be converted to model class SensorRecord and insert into database afterward.
  *
+ * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=proximus
  * @since 0.1-SNAPSHOT
  */
+@Profile("proximus")
 @Component
 @Path("/service")
 public class LoRaRestService 
@@ -49,13 +53,13 @@ public class LoRaRestService
     private static final Logger LOGGER = LogManager.getLogger(LoRaRestService.class);
 
     /**
-     * The repository to write the object to and to get object from
+     * The repository class used to store or retrieve lora packet
      */
     @Autowired
     private LoRaRepository repo;
 
     /**
-     * This method return a sensorRecord in xml format. Currently it only returns an example object.
+     * This method return a sensorRecord in xml format. Currently it only returns an example object for testing purposes.
      * @return sensorRecord
      */
     @GET
@@ -70,7 +74,7 @@ public class LoRaRestService
     }
 
     /**
-     * This method return a sensorRecord in json format. Currently it only returns an example object.
+     * This method return a sensorRecord in json format. Currently it only returns an example object for testing purposes.
      * @return sensorRecord
      */
     @GET
@@ -85,7 +89,8 @@ public class LoRaRestService
     }
 
     /**
-     * This method is used to insert the object received from post request of proximus-Enco into database.
+     * This method is used to receive the lora packet forwarded from Proximus.
+     * Received packet will be converted to model class SensorRecord and insert into database afterward.
      * @param o json object to be inserted.
      * @return code 200 when insertion succeed, code 500 when insertion fails.
      */
@@ -94,7 +99,7 @@ public class LoRaRestService
     public Response post(Object o) 
     {
         LOGGER.debug("post invoked. data: " + o);
-        SensorRecord r = LoRaJsonConvertor.getInstance().convert(o.toString());
+        SensorRecord r = LoRaJsonConvertor.getInstance().convertFromProximus(o.toString());
         SensorRecord result = repo.save(r);
         if (result != null)
             return Response.ok().build();
@@ -103,9 +108,9 @@ public class LoRaRestService
     }
 
     /**
-     * This method is used to save dummy data's received from post request into database for testing purposes
-     * @param sensorRecord
-     * @return
+     * This method is used to receive dummy data's and insert into database afterward for testing purposes.
+     * @param sensorRecord object to be inserted.
+     * @return code 200 when insertion succeed, code 500 when insertion fails.
      */
     @POST
     @Path("/testing")

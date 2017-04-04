@@ -32,7 +32,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * This class consists configuration for postgresql API
+ * This class consists configurations for postgresql
  */
 
 @Profile("postgresql")

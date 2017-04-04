@@ -20,7 +20,7 @@ package be.i8c.wso2.msf4j.lora.repositories;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 /**
- * Created by yanglin on 30/03/17.
+ * interface used to allow injection of different implementation of repository class.
  */
 public interface LoRaRepository
 {

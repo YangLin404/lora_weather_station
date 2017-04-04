@@ -28,7 +28,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class is used to converter json object into SensorRecord object
+ * This class is used to convert json object into model class SensorRecord and vice versa.
+ *
+ * Note: It's necessary to use this class to convert the json object from Proximus,
+ * because the structure of json object from Proximus is different per SensorType.
+ *
  * @author yanglin
  */
 public class LoRaJsonConvertor 
@@ -50,11 +54,11 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This method is used to convert a json object received from Proximus-enco into a SensorRecord object.
-     * @param s json object to be convert.
+     * This method is used to convert a json object forwarded from Proximus-enco into a SensorRecord object.
+     * @param s json object to be converted.
      * @return a SensorRecord object
      */
-    public SensorRecord convert(String s)
+    public SensorRecord convertFromProximus(String s)
     {
         LOGGER.info("converting json object");
         LOGGER.debug("object: " + s);
@@ -79,7 +83,7 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This method is used to get sensor value from a json object received from Proximus-enco
+     * This method is used to found sensor value from a json object forwarded from Proximus
      * @param j json object received from Proximus-enco
      * @param s Type of sensor
      * @return value of sensor
@@ -92,8 +96,8 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This method is used to get sensor type from a json object received from Proximus-enco
-     * @param j json object received from Proximus-enco
+     * This method is used to found sensor type from a json object forwarded from Proximus
+     * @param j json object forwarded from Proximus
      * @return type of sensor
      */
     private SensorType getTypeFromJSON(JsonObject j)
@@ -111,7 +115,7 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This mothod is used to check if first string contains second string
+     * This method is used to check if first string contains second string
      * @param desc first string
      * @param typeDesc second string
      * @return boolean

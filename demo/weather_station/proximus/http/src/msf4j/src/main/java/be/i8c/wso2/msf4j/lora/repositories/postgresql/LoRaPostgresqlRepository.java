@@ -23,7 +23,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * This is a implementation of LoRaRepository for postgresql database
+ * This is a implementation of LoRaRepository which uses the postgresql as back-end database.
+ * It used insert the lora packet into postgresql database.
+ *
+ * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=postgresql
  * @author yanglin
  */
 
