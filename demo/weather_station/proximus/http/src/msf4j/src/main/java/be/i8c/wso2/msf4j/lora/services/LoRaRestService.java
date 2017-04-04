@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.Services;
+package be.i8c.wso2.msf4j.lora.services;
 
 
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
