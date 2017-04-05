@@ -97,6 +97,12 @@
             <version>2.6.0</version>
         </dependency>
 
+        <!-- for ttn -->
+        <dependency>
+            <groupId>org.thethingsnetwork</groupId>
+            <artifactId>data-mqtt</artifactId>
+            <version>2.1.1</version>
+        </dependency>
 
     </dependencies>
 
