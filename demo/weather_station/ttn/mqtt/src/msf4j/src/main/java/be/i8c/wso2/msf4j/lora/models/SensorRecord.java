@@ -49,10 +49,6 @@ public class SensorRecord
      */
     @XmlTransient
     private String owner;
-    @XmlTransient
-    private String stream_id;
-    @XmlTransient
-    private String streamUnit;
     /**
      * timestamps
      */
@@ -70,25 +66,21 @@ public class SensorRecord
     @Enumerated(EnumType.STRING)
     private SensorType type;
     
-    protected SensorRecord()
+    public SensorRecord()
     {
         
     }
-
-    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, SensorType type) {
+    /*
+    public SensorRecord(String deviceId, String owner, long streamValueTime, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
-        this.stream_id = stream_id;
-        this.streamUnit = streamUnit;
         this.streamValueTime = streamValueTime;
         this.type = type;
     }
-
-    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, double sensorValue, SensorType type) {
+    */
+    public SensorRecord(String deviceId, String owner, long streamValueTime, double sensorValue, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
-        this.stream_id = stream_id;
-        this.streamUnit = streamUnit;
         this.streamValueTime = streamValueTime;
         this.sensorValue = sensorValue;
         this.type = type;
@@ -116,22 +108,6 @@ public class SensorRecord
     
     public void setOwner(String owner) {
         this.owner = owner;
-    }
-
-    public String getStream_id() {
-        return stream_id;
-    }
-    
-    public void setStream_id(String stream_id) {
-        this.stream_id = stream_id;
-    }
-
-    public String getStreamUnit() {
-        return streamUnit;
-    }
-    
-    public void setStreamUnit(String streamUnit) {
-        this.streamUnit = streamUnit;
     }
 
     public Long getStreamValueTime() {
@@ -165,10 +141,8 @@ public class SensorRecord
 
     @Override
     public String toString() {
-        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", stream_id=" + stream_id + ", streamUnit=" + streamUnit + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner   + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
-    
-    
     
     
 }

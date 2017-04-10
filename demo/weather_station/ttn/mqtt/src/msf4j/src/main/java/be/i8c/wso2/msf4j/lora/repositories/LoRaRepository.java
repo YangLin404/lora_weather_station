@@ -19,10 +19,15 @@ package be.i8c.wso2.msf4j.lora.repositories;
 
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
+import java.util.List;
+
 /**
  * interface used to allow injection of different implementation of repository class.
  */
 public interface LoRaRepository
 {
     SensorRecord save(SensorRecord t);
+
+    List save(Iterable records);
+
 }

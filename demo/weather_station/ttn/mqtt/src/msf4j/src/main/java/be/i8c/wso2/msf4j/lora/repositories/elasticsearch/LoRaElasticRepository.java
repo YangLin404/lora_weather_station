@@ -18,14 +18,14 @@ package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
 
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
-import javax.annotation.PostConstruct;
-
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * This is a implementation of LoRaRepository which uses the elasticsearch server as back-end database.
@@ -59,6 +59,11 @@ public class LoRaElasticRepository implements LoRaRepository
     @Override
     public SensorRecord save(SensorRecord sensorRecord)
     {
-        return esa.save(sensorRecord);
+        return esa.index(sensorRecord);
+    }
+
+    @Override
+    public List<SensorRecord> save(Iterable records) {
+        return null;
     }
 }
