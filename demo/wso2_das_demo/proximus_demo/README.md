@@ -1,10 +1,10 @@
 ## This Demo
 
-This demo sends data trough the LoRa network to an WSO2 Message Broker that receives data from the Proximus Enco cloud platform through MQTT, the Message Broker will send the data to an through WSO2 Data Analytics Server that will analyse, store and display the data. As shown in the diagram bellow:  
+This demo sends data trough the LoRa network to an WSO2 Message Broker that receives data from the Proximus Enco cloud platform through MQTT, the Message Broker will send the data to an WSO2 Data Analytics Server that will analyse, store and display the data. As shown in the diagram bellow:  
 
 ![Demo scheme](doc/img/StageDiagramProximusEngels.jpg)  
 
-The goal of this demo is to process data from a LoRa device that monitors temperature, humidity an pressure. Once the data is processed the data will be presented on an WSO2 Dashboard.
+The goal of this demo is to process and store data from a LoRa device that monitors temperature, humidity an pressure. Once the data is processed the data will be presented on an WSO2 Dashboard.
 
 ### Step 1  
 
@@ -16,7 +16,7 @@ As a first step, follow these tutorials to activate your device and to get up an
 
 ### Step 2
 
-Once you activated your device you can download the code from the git folder. Once the code is downloaded you can upload it to the Sodaq Mbili board. By first connecting the board to the computer and then clicking the upload button in the upright corner.
+Once you activated your device you can download the code from the git folder under code/temp-light-humi_mesure. Once the code is downloaded you can upload it to the Sodaq Mbili board. By first connecting the board to the computer and then clicking the upload button in the upright corner.
 All the necessary libraries are included in every code folder. This way changes can be easily made in the library's. The original library file can be find in the library folder in the code folder.  
 
 ### Step 3
@@ -43,7 +43,7 @@ You will see something like this:
 	* The name can be everything, try to give it a relevant name.
 	* The scheme can be mqtt:// or mqtts://, in this demo we are going to use mqtt://.
 	* The topic is something you can choose so the WSO2 Message Broker knows from where the data comes and to who to send the data. The topic needs to start with an "/"  
-	* The host is the IPadres where your WSO2 Message Broker is running followed by the port the MB is listening to. For this demo it is listening on port 1883.  
+	* The host is the IPadres where your WSO2 Message Broker is running followed by the port the Message Broker is listening to. For this demo it is listening on port 1883.  
 
 After everything is configured you will end up with something like this:  
 ![CloudChannel Definition](doc/img/CloudchannelAanmaken.png)  

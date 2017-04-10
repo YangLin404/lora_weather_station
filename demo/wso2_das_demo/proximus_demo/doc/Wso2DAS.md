@@ -12,7 +12,7 @@
 
 <a name="download"/>
 ## Downloading product
-1. [WSO2 Data Analytics Server Download page](http://wso2.com/smart-analytics).
+1. You can download the WSO2 Data Analytics Server [here](http://wso2.com/smart-analytics).
 2. Unzip the file in the directory of your choice.
 
 <a name="settingup"/>
@@ -25,15 +25,15 @@ Before you can use the server you need to add the JAVA_HOME variable to the envi
 
  	```sudo apt-get install default-jdk```
  * once the default JDK is installed you can install the java version you want.
- I chose java 1.8  
+ In this example we will install  java 1.8  
 
  	```sudo apt-get install oracle-java8-installer```  
 
- * There can be multiple Java installations on one server. You can configure which version is the default for use in the command line by using update-alternatives, which manages which symbolic links are used for different commands.
+ * There can be multiple Java installations on one server. You can configure which version is the default by using update-alternatives commando, which manages which symbolic links are used for different commands.
  * This line will result in an table with all Java versions and there path. 
 
  	```sudo update-alternatives --config java```
- * now you need to set the JAVA_HOME variable using the following lines:
+ * now you need to set the JAVA_HOME variable by using the following lines:
 
     ```
     export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -47,16 +47,17 @@ Before you can use the server you need to add the JAVA_HOME variable to the envi
 <a name="running"/>
 ## Running the server 
 
-* To start the server you need to run the wso2server.sh document in the bin directory. ```<wso2_das_folder>/bin/```. you can run the server with this command once you are in the bin directory.
+* To start the server you need to run the wso2server.sh document in the bin directory of the WSO2 DAS server. ```<wso2_das_folder>/bin/```. you can run the server with this command once you are in the bin directory.
 
 	```
 	sh wso2server.sh
 	```
 
 * To stop the server, press Ctrl+C in the commmandline or shut the server down in the Management Console.
-* to run the server in the background, use the following code:
+* to run the server in the background, use the following code:  
+
 	```
-	sh wso2server.sh start
+	sh wso2server.sh start  
 	sh wso2server.sh stop
 	```
 
@@ -114,13 +115,16 @@ The Analytics Dashboard is used for visualising the data either from live data s
 
 >  
 After entering the attribute data you can click the __Add__ button to add the attribute to the stream.  
->
+>  
 
-<a name="steptwo"/>
+Once all attributes are added you can add the event stream by clicking on the __Add Event Stream__ button.  
+
+<a name="steptwo"/>  
+
 2. The next step is to add an Event receiver so the WSO2 DAS can receive data to process. You can create an Event Receiver by going to the Main tab → Manage → Event → Receiver.  
-	You well get to see the next screen:  
+	You will see the following screen:  
 	![Adding a receiver to the stream](img/EventReceiver.png)  
-	Here you can give the event receiver a name and what the input type is. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We can receive data from the WSO2 Message Broker on port 1883 (if there is no offset on the Message Broker). The topic is important for the message broker as it needs to know to whom which topics need to be send.  
+	Here you can give the event receiver a name and what the input type will be. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We can receive data from the WSO2 Message Broker on port 1883 (if there is no offset on the Message Broker). The topic is important for the message broker as it needs to know to whom which topics need to be send.  
   
 >  
 __Note:__After configuring the receiver it is important to define how data is mapped.
@@ -160,9 +164,9 @@ In this case our data is going to look something like this:
 ```  
 The order of the variables is not important, the fact that not every variable in the data packet is used is also not important. The structure above can be mapped like in the picture in [step 2](#steptwo).
 
-3.The last step is to complete our flow by adding an publisher that stores, sends or logs the data.
+3. The last step is to complete our flow by adding an publisher that stores, sends or logs the data.  
 >  
-__Note:__ Before you u can use a data storage, you need to make an Data source in the Management Console under Configure → Data sources.
+__Note:__ Before you u can use a data storage, you will need to make an Data source in the Management Console under Configure → Data sources.
 >
 
 >  
@@ -171,6 +175,7 @@ U need to place the driver file in this directory: WSO2__DAS_HOME_DIR/repository
 U can find the driver that we are going to use [here](https://jdbc.postgresql.org/download.html), Download the driver recommended for the java setup you are using.
 >  
 
+When storing data into a database the WSO2 DAS needs to know the specification of the database before you can make use of it. U can create a new datasource under the Configure tab go to Datasources, click on __Add Datasource__.  
 ![Datasource](img/Datasource.png)  
 
 You can add an event publisher under the Main tab → Manage → Event → Publishers.  

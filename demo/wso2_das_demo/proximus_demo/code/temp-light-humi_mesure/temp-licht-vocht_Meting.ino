@@ -40,7 +40,7 @@
 
 
 #define SERIAL_BAUD 57600
-
+#define LightSensor A4
 
 MicrochipLoRaModem Modem(&Serial1, &Serial);
 ATTDevice Device(&Modem, &Serial);
@@ -53,6 +53,8 @@ void setup()
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
   Serial.println("Ready to send data");  
 }
+
+float value = 0;
 
 void loop() 
 {
@@ -77,22 +79,22 @@ void loop()
   Serial.print(pres);
   Serial.println(" hPa");
   Serial.println();
-*/  
+*/ 
+  int SensorValue = analogRead(LightSensor);
+  float Rsensor = SensorValue * 3.3 / 1023;
+  value = pow(10, Rsensor);
+  
   float temp = tph.readTemperature();
-  float bmp_temp = tph.readTemperatureBMP();
-  float sht_temp = tph.readTemperatureSHT();
   float hum = tph.readHumidity();
-  float pres = tph.readPressure()/100.0;
-
+  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
   Device.Send(temp, TEMPERATURE_SENSOR);
+  delay(20000);
   Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  delay(15000);
+  Device.Send(value, LIGHT_SENSOR);
+  delay(20000);
+  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
   Device.Send(hum, HUMIDITY_SENSOR);
-  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  delay(15000);
-  Device.Send(pres, PRESSURE_SENSOR);
-  Device.Connect(DEV_ADDR, APPSKEY, NWKSKEY);
-  delay(15000);
+  delay(20000);
 }
 
 

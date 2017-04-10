@@ -6,7 +6,7 @@ Follow this steps:
 1. Navigate to this directory: < WSO2 DAS Home >/repository/deployment/server/jaggeryapps/portal/extensions/providers/rdbms  
 2. Open the Api.js in an editor of your choice.  
 go to line (line numbers can change in every version, look good at the pictures to add the changes):  
-48 → add an data type specific for PostgreSQL.  
+50 → add an data type specific for PostgreSQL.  
 ![change1](img/change1.png)  
 The following changes are in one specific function that starts on line 90.
 ![change2](img/change2.png)  
@@ -18,7 +18,7 @@ On the next line:
 __Now you can save this file__  
 
 3. The last changes need to made in another file in the same directory. 
-Open the config.json file and add the following lines.
+Open the __config.json__ file and add the following lines.
 ![change3](img/change3.png)  
 __Now safe the file and restart the WSO2 DAS server if this was running__
 >  
