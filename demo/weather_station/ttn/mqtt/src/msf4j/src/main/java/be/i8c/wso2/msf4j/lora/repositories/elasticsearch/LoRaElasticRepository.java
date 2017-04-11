@@ -25,13 +25,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * This is a implementation of LoRaRepository which uses the elasticsearch server as back-end database.
  * It used insert the lora packet into elasticsearch database.
  *
- * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=elastic
+ * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=elasticsearch
  * @author yanglin
  */
 @Profile("elasticsearch")
@@ -62,8 +63,9 @@ public class LoRaElasticRepository implements LoRaRepository
         return esa.index(sensorRecord);
     }
 
+
     @Override
-    public List<SensorRecord> save(Iterable records) {
-        return null;
+    public List save(Iterable records) {
+        return esa.index((List<SensorRecord>)records);
     }
 }

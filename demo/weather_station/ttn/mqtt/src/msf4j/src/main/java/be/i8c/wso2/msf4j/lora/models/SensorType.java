@@ -22,20 +22,25 @@ package be.i8c.wso2.msf4j.lora.models;
  * @author yanglin
  */
 public enum SensorType {
-    Binary("binary","binary_value"), Loudness("loudness","loudness_value"), Temperature("temperature","temperature_sensor_value"), Light("light","light_value"), 
-    Accelerometer("accelerometer","accelerometer_value"), Pressure("pressure","pressure_value"), Humidity("humidity","humidity_value"),
-    AirQuality("air quality","air_quality_value"), BatteryLevel("BatteryLevel","batterylevel_value"), Integer("integer","integer_sensor");
+    Binary("binary","binary_value",0,0), Loudness("loudness","loudness_value",0,500), Temperature("temperature","temperature_sensor_value",-50,100),
+    Light("light","light_value",0,150), Accelerometer("accelerometer","accelerometer_value",0,0), Pressure("pressure","pressure_value",900,1100),
+    Humidity("humidity","humidity_value",0,100), AirQuality("air quality","air_quality_value",0,1000), BatteryLevel("BatteryLevel","batterylevel_value",0,100),
+    Integer("integer","integer_sensor",0,0);
 
     /**
      * This is the description of specified type in json object of proximus
      */
     private String desc;
     private String valueString;
+    private double min;
+    private double max;
     
-    SensorType(String s, String v)
+    SensorType(String s, String v, double min, double max)
     {
         this.desc = s;
         this.valueString = v;
+        this.min = min;
+        this.max = max;
     }
     
     public String getDesc()
@@ -46,5 +51,13 @@ public enum SensorType {
     public String getValueString()
     {
         return this.valueString;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public double getMax() {
+        return max;
     }
 }

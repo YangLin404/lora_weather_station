@@ -20,10 +20,14 @@ import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import com.google.gson.Gson;
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
@@ -200,7 +204,7 @@ public class LoRaElasticsearchAdapter
         DocWriteResponse.Result r = u.getResult();
         if (r == DocWriteResponse.Result.CREATED)
         {
-            logger.info("successful indexed object into " + this.esIndex + " object: " + sensorRecord.simpleString());
+            logger.info("successful indexed object with id {}", sensorRecord.getId());
             return sensorRecord;
         }
         else
@@ -209,6 +213,52 @@ public class LoRaElasticsearchAdapter
             return null;
         }
 
+    }
+    /**
+     * This method is used to index a list of objects into a specified index.
+     * @param records a list of objects of sensorRecord which will be indexed.
+     * @return  a list of objects of sensorRecord or null when index unsuccessfully.
+     */
+    public List<SensorRecord> index(List<SensorRecord> records)
+    {
+        if (!indexExist)
+        {
+            createAndMapIndex(records.get(0));
+            indexExist = true;
+        }
+        logger.debug("try to index records: \n{}", records.stream().map(SensorRecord::simpleString).collect(Collectors.joining(",\n ")));
+        BulkRequestBuilder bulkRequest = client.prepareBulk();
+        logger.debug("add doc into bulk request");
+        records.forEach(r ->
+        {
+            logger.debug("adding doc {}", r.simpleString());
+            addDocToBulkRequest(bulkRequest,r);
+        });
+        logger.debug("executing bulk request");
+        BulkResponse bulkResponse = bulkRequest.get();
+        if (bulkResponse.hasFailures())
+        {
+            logger.error("bulk index fails. failure message: {}",bulkResponse.buildFailureMessage());
+            return null;
+        }
+        else
+        {
+            String indexedIds = records.stream()
+                    .map(e -> Long.toString(e.getId()))
+                    .collect(Collectors.joining(", "));
+            logger.info("successful indexed {} object with ids: [{}].",records.size(), indexedIds);
+            logger.debug("indexed objects are: ", records.toString());
+            return records;
+        }
+    }
+
+    private void addDocToBulkRequest(BulkRequestBuilder bulkRequest, SensorRecord record)
+    {
+        record.setId(++this.idSequences);
+        String docString = this.gson.toJson(record, record.getClass());
+        bulkRequest.add(
+                client.prepareIndex(esIndex, record.getClass().getSimpleName(), Long.toString(record.getId()))
+                        .setSource(docString));
     }
 
     /**

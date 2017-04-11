@@ -141,6 +141,11 @@ public class SensorRecord
 
     @Override
     public String toString() {
+        return this.simpleString();
+    }
+
+    public String getLongString()
+    {
         return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner   + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
     

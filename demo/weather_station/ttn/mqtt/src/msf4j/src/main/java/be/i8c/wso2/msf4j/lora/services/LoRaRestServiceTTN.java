@@ -20,8 +20,10 @@ package be.i8c.wso2.msf4j.lora.services;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.utils.PayloadValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,7 +33,10 @@ import org.thethingsnetwork.data.common.messages.UplinkMessage;
 import org.thethingsnetwork.data.mqtt.Client;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
@@ -45,7 +50,7 @@ import java.util.List;
  *
  */
 @Component
-@Path("api/ttn")
+@Path("/api/ttn")
 public class LoRaRestServiceTTN
 {
     private static final Logger logger = LogManager.getLogger(LoRaRestServiceTTN.class);
@@ -66,6 +71,8 @@ public class LoRaRestServiceTTN
     private LoRaRepository repo;
     @Autowired
     private PayloadDecoder decoder;
+    @Autowired
+    private PayloadValidator validator;
 
     private UplinkMessage previousData;
 
@@ -82,6 +89,7 @@ public class LoRaRestServiceTTN
             client.onError((Throwable _error) ->
             {
                 logger.error(_error.getMessage());
+                logger.debug(_error.getStackTrace());
 
             });
             client.onConnected((Connection _client) -> logger.info("successfully connected to TTN server."));
@@ -96,12 +104,18 @@ public class LoRaRestServiceTTN
                             List<SensorRecord> records = decoder.decodePayload(uplinkData);
                             logger.debug("uplinkmessage converted.");
                             records.forEach(r -> logger.debug(r.simpleString()));
-                            logger.debug("saving uplinkmessage to database");
-                            if (repo.save(records) != null)
+                            logger.debug("start validating {} records", records.size());
+                            records = validator.validate(records);
+                            if (records.size()==0)
+                                logger.warn("all records are invalid. ignore uplinkmessage counter {}", uplinkData.getCounter());
+                            else
                             {
-                                logger.info("uplinkmessage with counter {} saved.", uplinkData.getCounter());
-                                logger.debug("saved data:");
-                                records.forEach(r -> logger.debug(r.simpleString()));
+                                logger.info("saving records into database.");
+                                List savedRecords = repo.save(records);
+                                if (savedRecords != null) {
+                                    logger.info("uplinkmessage with counter {} saved.", uplinkData.getCounter());
+                                    logger.debug("saved data: \n {}", savedRecords.toString());
+                                }
                             }
 
                         }
@@ -115,13 +129,57 @@ public class LoRaRestServiceTTN
             e.printStackTrace();
         }
 
+    }
 
+    @GET
+    @Path("/test")
+    public String getTest()
+    {
+        return "it works!";
+    }
+
+    @POST
+    @Path("/manage/startClient")
+    public Response startClient()
+    {
+        logger.info("starting mqtt client");
+        try {
+            this.client.start();
+            logger.info("mqtt client started");
+            return Response.accepted().build();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.debug(e.getStackTrace());
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/manage/stopClient")
+    public Response stopClient()
+    {
+        logger.info("stopping mqtt client");
+        try {
+            this.client.end();
+            logger.info("mqtt client stopped");
+            return Response.accepted().build();
+        } catch (MqttException e) {
+            logger.error(e.getMessage());
+            logger.debug(e.getStackTrace());
+            return Response.serverError().entity(e.getMessage()).build();
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+            logger.debug(e.getStackTrace());
+            return Response.serverError().entity(e.getMessage()).build();
+        }
     }
 
     private boolean isDuplicatedData(UplinkMessage data)
     {
         if (previousData == null)
             return false;
+        else if (previousData.getCounter() == data.getCounter())
+            return true;
         else
         {
             String timePre = previousData.getMetadata().getTime();
