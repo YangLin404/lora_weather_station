@@ -1,5 +1,3 @@
-#include <Sodaq_TPH.h>
-
 /*
    Copyright 2015-2016 AllThingsTalk
 
@@ -35,9 +33,9 @@
 #include <Wire.h>
 #include "TPH_Library/Sodaq_TPH.h"
 #include "ATTLibs/ATT_LoRa_IOT.h"
-#include "keys.h"
 #include "ATTLibs/MicrochipLoRaModem.h"
-
+#include "keys.h"
+#include <Sodaq_TPH.h>
 
 #define SERIAL_BAUD 57600
 #define LightSensor A4
