@@ -24,4 +24,4 @@ You can add flows to your server by copying the content of the source folders to
 __Warning:__ Replacing the whole folder may resalt in the loss of data. Be sure to only copie the flow data files.  
 >
 
-![copy flow](img/copie flow.gif)
+![copy flow](img/copyflow.gif)  
