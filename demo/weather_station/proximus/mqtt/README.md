@@ -42,8 +42,12 @@ You will see something like this:
 	Here can give the MQTT connection a Name, Scheme, Topic and a Host address.
 	* The name can be everything, try to give it a relevant name.
 	* The scheme can be mqtt:// or mqtts://, in this demo we are going to use mqtt://.
-	* The topic is something you can choose so the WSO2 Message Broker knows from where the data comes and to who to send the data. The topic needs to start with an "/"  
+	* The topic is something you can choose so the WSO2 Message Broker knows from where the data comes and to who to send the data.
 	* The host is the IPadres where your WSO2 Message Broker is running followed by the port the Message Broker is listening to. For this demo it is listening on port 1883.  
+
+>   
+__Note:__ After an update on 11/04/16 Proximus will now ignore the first "/" in the topic.
+>  
 
 After everything is configured you will end up with something like this:  
 ![CloudChannel Definition](doc/img/CloudchannelAanmaken.png)  

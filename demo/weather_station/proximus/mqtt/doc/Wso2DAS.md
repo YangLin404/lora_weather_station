@@ -125,7 +125,11 @@ Once all attributes are added you can add the event stream by clicking on the __
 	You will see the following screen:  
 	![Adding a receiver to the stream](img/EventReceiver.png)  
 	Here you can give the event receiver a name and what the input type will be. In this case we want to receive MQTT packets from an MQTT broker that is running beside the WSO2 DAS. We can receive data from the WSO2 Message Broker on port 1883 (if there is no offset on the Message Broker). The topic is important for the message broker as it needs to know to whom which topics need to be send.  
-  
+
+>  
+__Note:__ Proximus will not send the first "/" anymore.
+>  
+
 >  
 __Note:__After configuring the receiver it is important to define how data is mapped.
 >  
