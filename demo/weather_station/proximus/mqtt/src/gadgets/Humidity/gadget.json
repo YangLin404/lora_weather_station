@@ -1,0 +1,9 @@
+{
+    "id": "Humidity",
+    "title": "Humidity",
+    "type": "gadget",
+    "thumbnail": "gadget/Humidity/thumbnail.png",
+    "data": {
+        "url": "gadget/Humidity/gadget.xml"
+    }
+}

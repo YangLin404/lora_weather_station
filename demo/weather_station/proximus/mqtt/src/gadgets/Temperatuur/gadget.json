@@ -1,0 +1,9 @@
+{
+    "id": "Temperatuur",
+    "title": "Temperatuur",
+    "type": "gadget",
+    "thumbnail": "gadget/Temperatuur/thumbnail.png",
+    "data": {
+        "url": "gadget/Temperatuur/gadget.xml"
+    }
+}
