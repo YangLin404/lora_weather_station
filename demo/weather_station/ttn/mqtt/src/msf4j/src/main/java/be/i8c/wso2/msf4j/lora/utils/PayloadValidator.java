@@ -20,6 +20,7 @@
 package be.i8c.wso2.msf4j.lora.utils;
 
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.SensorType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -40,30 +41,52 @@ public class PayloadValidator
 
     }
 
-    public List<SensorRecord> validate(List<SensorRecord> records)
+    public List<SensorRecord> validateAll(List<SensorRecord> records)
     {
-        List<SensorRecord> validRecords = records.stream()
-                .filter(this::validate)
-                .collect(Collectors.toList());
-        logger.info("validating record finished, {} record are valid.", validRecords.size());
-        logger.debug("valid records are: \n {}", validRecords.toString());
-        return validRecords;
-
-    }
-
-    private boolean validate(SensorRecord record)
-    {
-        double min = record.getType().getMin();
-        double max = record.getType().getMax();
-        logger.debug("validating record: {}", record.simpleString());
-        logger.debug("range are {} - {}", min,max);
-        if (record.getSensorValue()>max || record.getSensorValue()< min)
+        if (records == null)
         {
-            logger.warn("record: {} is invalid. It will be filter out.", record.simpleString());
-            return false;
+            logger.error("list of records to be validated is null");
+            return null;
+        }
+        else if (records.size() == 0)
+        {
+            logger.warn("list of record to be validated is empty");
+            return null;
         }
         else
-            logger.debug("record: {} is valid.", record.simpleString());
-            return true;
+        {
+            List<SensorRecord> validRecords = records.stream()
+                    .filter(r -> this.validate(r) != null)
+                    .collect(Collectors.toList());
+            logger.info("validating records finished, {} record are valid.", validRecords.size());
+            logger.debug("valid records are: \n {}", validRecords.toString());
+            if (validRecords.size()==0) {
+                logger.warn("all records are invalid.");
+                return null;
+            }
+            return validRecords;
+        }
+
     }
+
+    public SensorRecord validate(SensorRecord record)
+    {
+        if (record != null)
+        {
+            double min = record.getType().getMin();
+            double max = record.getType().getMax();
+            logger.debug("validating record: {}", record.simpleString());
+            logger.debug("range are {} - {}", min, max);
+            if (record.getSensorValue() > max || record.getSensorValue() < min) {
+                logger.warn("record: {} is invalid. It will be filter out.", record.simpleString());
+                return null;
+            } else
+                logger.debug("record: {} is valid.", record.simpleString());
+            return record;
+        }
+        else
+            return null;
+    }
+
+
 }

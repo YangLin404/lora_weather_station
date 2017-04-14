@@ -148,6 +148,32 @@ public class SensorRecord
     {
         return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner   + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SensorRecord record = (SensorRecord) o;
+
+        if (streamValueTime != record.streamValueTime)
+            return false;
+        if (Double.compare(record.sensorValue, sensorValue) != 0)
+            return false;
+        if (id != null ? !id.equals(record.id) : record.id != null)
+            return false;
+        return type == record.type;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (int) (streamValueTime ^ (streamValueTime >>> 32));
+        temp = Double.doubleToLongBits(sensorValue);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
+    }
 }

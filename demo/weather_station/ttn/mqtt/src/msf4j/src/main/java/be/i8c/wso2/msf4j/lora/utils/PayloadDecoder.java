@@ -20,13 +20,13 @@ package be.i8c.wso2.msf4j.lora.utils;
 import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
+import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.thethingsnetwork.data.common.messages.UplinkMessage;
-
-import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,46 +44,57 @@ public class PayloadDecoder
 
     private static final Logger logger = LogManager.getLogger(PayloadDecoder.class);
 
-    @Value("${decoder.format}")
+    @Autowired
+    private UplinkMessageValidator validator;
+
     private String format;
 
     private List<SensorType> payloadFormat;
 
-    public PayloadDecoder()
-    {
 
+    public PayloadDecoder(String format, UplinkMessageValidator validator)
+    {
+        this.format = format;
+        this.validator = validator;
     }
 
-    @PostConstruct
-    public void init()
+    public List<SensorRecord> decodePayload(UplinkMessage data) throws PayloadFormatException, PayloadFormatNotDefinedException
     {
-        payloadFormat = getPayloadFormat();
-    }
+        if (payloadFormat == null || payloadFormat.size() == 0)
+            payloadFormat = this.getPayloadFormat();
+        if (payloadFormat == null || payloadFormat.isEmpty())
+            throw new PayloadFormatNotDefinedException();
 
-    public List<SensorRecord> decodePayload(UplinkMessage data)
-    {
         List<SensorRecord> records = new LinkedList<>();
         logger.debug("convert raw payload to hex string: {}", Arrays.toString(data.getPayloadRaw()) );
         List<String> payloadHexString = convertPayloadToHex(data.getPayloadRaw());
         logger.debug("payloadString to be converted: {}", payloadHexString);
-        int teller=0;
-        SensorBuilder sensorBuilder = prepareBuilder(data);
-        for (SensorType type : this.payloadFormat)
-        {
-            logger.debug("building sensor type: " + type + " teller: " + teller);
-            SensorRecord recordToAdd = sensorBuilder.setType(type)
-                    .setValue(getValueFromPayload(payloadHexString,teller))
-                    .build();
-            logger.debug("record to add: " + recordToAdd.simpleString());
-            records.add(recordToAdd);
-            teller = teller+2;
+        if (validator.isRawPayloadValid(payloadHexString, this.payloadFormat)) {
+            int teller = 0;
+            SensorBuilder sensorBuilder = prepareBuilder(data);
+            for (SensorType type : this.payloadFormat) {
+                logger.debug("building sensor type: " + type + " teller: " + teller);
+                SensorRecord recordToAdd = sensorBuilder.setType(type)
+                        .setValue(getValueFromPayload(payloadHexString, teller))
+                        .build();
+                logger.debug("record to add: " + recordToAdd.simpleString());
+                records.add(recordToAdd);
+                teller = teller + 2;
+            }
+            return records;
         }
-        return records;
+        else
+        {
+            logger.error("size of payload string doesnt match wanted sensorTypes");
+            throw new PayloadFormatException();
+        }
     }
 
-    private List<SensorType> getPayloadFormat()
+    private List<SensorType> getPayloadFormat() throws PayloadFormatNotDefinedException
     {
         logger.debug("getting payloadFormat from application.properties");
+        if (this.format == null || this.format.isEmpty())
+            throw new PayloadFormatNotDefinedException();
         List<SensorType> types = new LinkedList<>();
         for (String s : this.format.split(","))
             types.add(SensorType.valueOf(s));

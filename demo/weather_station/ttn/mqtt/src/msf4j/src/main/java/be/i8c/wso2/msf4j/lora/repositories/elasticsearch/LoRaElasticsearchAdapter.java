@@ -20,17 +20,21 @@ import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import be.i8c.wso2.msf4j.lora.repositories.elasticsearch.exceptions.NoneNodeConnectedException;
 import com.google.gson.Gson;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.apache.logging.log4j.Logger;
@@ -40,9 +44,7 @@ import org.elasticsearch.action.DocWriteResponse;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -80,11 +82,12 @@ public class LoRaElasticsearchAdapter
     /**
      * An object which communicates with elasticsearch server
      */
-    private TransportClient client;
+    @Autowired
+    private TransportClient transportClient;
     /**
      * a boolean indicate whether index is exist or not.
      */
-    private boolean indexExist;
+    private Map<String, Boolean> indexExist;
     /**
      * The id of last indexed document, it indicates which id should be given to the next document.
      */
@@ -106,19 +109,22 @@ public class LoRaElasticsearchAdapter
      {
          
          logger.debug("initiating elasticsearchAdapter");
-         logger.debug("connecting elasticsearch server at " + this.esHost + ":" + this.esPort);
          this.gson = new Gson();
-         this.indexExist = false;
+         //this.transportClient = new PreBuiltTransportClient(Settings.EMPTY);
+         this.indexExist = new HashMap<>();
+         //this.indexExist = false;
+         /*
          try 
          {
-            this.client = new PreBuiltTransportClient(Settings.EMPTY)
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(this.esHost), this.esPort));
-            logger.info("the connection with elasticsearch server successfully established");
+            //this.transportClient = new PreBuiltTransportClient(Settings.EMPTY)
+                    //.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(this.esHost), this.esPort));
+            //logger.info("the connection with elasticsearch server successfully established");
             
-            logger.debug("checking if index: [" + this.esIndex + "] exist.");
-            IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
+            //logger.debug("checking if index: [" + this.esIndex + "] exist.");
+            //IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
 
-            this.indexExist = this.client.admin().indices()
+
+            this.indexExist = this.transportClient.admin().indices()
                               .exists(indicesExistsRequest).actionGet().isExists();
             if(this.indexExist)
             {
@@ -130,15 +136,50 @@ public class LoRaElasticsearchAdapter
                 logger.debug("index: [" + this.esIndex + "] doesn't exist, it will be created at first input, idSequence set to 1");
                 this.idSequences = 0;
             }
+
             
              
          } catch (UnknownHostException e) {
              logger.error("connection to " + this.esHost + ":" + this.esPort + " fails." +"\n " + e.getMessage());
          }
-         
-         
-         
-         
+         */
+     }
+
+     public void addNodeConnection(String host, int port) throws UnknownHostException
+     {
+         if (this.transportClient.transportAddresses().isEmpty()) {
+             logger.debug("add elasticsearch server at " + host + ":" + port);
+             this.transportClient.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+             logger.info("the connection with elasticsearch server is successfully established");
+         }
+
+     }
+
+     public boolean doesIndexExist(String indexToBeChecked) throws NoneNodeConnectedException
+     {
+         if (!this.transportClient.connectedNodes().isEmpty()) {
+             logger.debug("checking if index: [" + indexToBeChecked + "] exist.");
+             if (indexExist.containsKey(indexToBeChecked) && indexExist.get(indexToBeChecked))
+                 return true;
+             else {
+                 IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(indexToBeChecked);
+                 boolean exist = this.transportClient.admin().indices()
+                         .exists(indicesExistsRequest).actionGet().isExists();
+                 this.indexExist.put(indexToBeChecked, exist);
+                 if (exist) {
+                     logger.debug("index: [" + indexToBeChecked + "] exist.");
+                     this.idSequences = getLastId();
+                 } else {
+                     logger.debug("index: [" + this.esIndex + "] doesn't exist, it will be created at first index, idSequence set to 0");
+                     this.idSequences = 0;
+                 }
+                 return exist;
+             }
+         }
+         else {
+             logger.warn("None of Nodes are connected, existence of index: {} will not be checked", indexToBeChecked);
+             throw new NoneNodeConnectedException();
+         }
      }
 
     /**
@@ -150,7 +191,7 @@ public class LoRaElasticsearchAdapter
      {
          logger.info("destroying elasticsearchAdapter");
          logger.debug("disconnecting elasticsearch server at " + this.esHost + ":" + this.esPort);
-         this.client.close();
+         this.transportClient.close();
          logger.info("elasticsearch disconnected");
      }
 
@@ -163,7 +204,7 @@ public class LoRaElasticsearchAdapter
      {
         logger.info("try creating index: [" + this. esIndex + "]");
          try {
-             client.admin().indices().prepareCreate(this.esIndex)   
+             transportClient.admin().indices().prepareCreate(this.esIndex)
                .addMapping(sensorRecord.getClass().getSimpleName(), "{\n" +
                "    \"" + sensorRecord.getClass().getSimpleName() + "\": {\n" +
                "      \"properties\": {\n" +
@@ -175,7 +216,7 @@ public class LoRaElasticsearchAdapter
                "  }")
                 .get();
          } catch (ResourceAlreadyExistsException e) {
-             logger.error("index: [" + this.esIndex + "] already exist, not created");
+             logger.warn("index: [" + this.esIndex + "] already exist, not created");
          }
          logger.info("index: [" + this.esIndex + "] created.");
         
@@ -189,27 +230,31 @@ public class LoRaElasticsearchAdapter
     public SensorRecord index(SensorRecord sensorRecord) {
         //create and map the given TimestampName into index as type date,
         //otherwise elasticseach can't recognise timestamps
-        if (!indexExist)
+        try {
+
+            if (this.transportClient.transportAddresses().isEmpty())
+                addNodeConnection(this.esHost, this.esPort);
+            if (this.doesIndexExist(this.esIndex)) {
+                createAndMapIndex(sensorRecord);
+            }
+            sensorRecord.setId(++this.idSequences);
+            logger.debug("trying to index doc into: " + this.esIndex + ". object: " + sensorRecord.simpleString());
+            String docString = this.gson.toJson(sensorRecord, sensorRecord.getClass());
+            IndexResponse u =
+                    transportClient.prepareIndex(esIndex, sensorRecord.getClass().getSimpleName(), Long.toString(sensorRecord.getId()))
+                            .setSource(docString)
+                            .get();
+            DocWriteResponse.Result r = u.getResult();
+            if (r == DocWriteResponse.Result.CREATED) {
+                logger.info("successful indexed object with id {}", sensorRecord.getId());
+                return sensorRecord;
+            } else {
+                logger.error("index object into" + this.esIndex + " fails. object: " + sensorRecord.simpleString());
+                return null;
+            }
+        }catch (UnknownHostException e)
         {
-            createAndMapIndex(sensorRecord);
-            indexExist = true;
-        }
-        sensorRecord.setId(++this.idSequences);
-        logger.debug("trying to index doc into: " + this.esIndex + ". object: " + sensorRecord.simpleString());
-        String docString = this.gson.toJson(sensorRecord, sensorRecord.getClass());
-        IndexResponse u =
-                client.prepareIndex(esIndex, sensorRecord.getClass().getSimpleName(),Long.toString(sensorRecord.getId()))
-                        .setSource(docString)
-                        .get();
-        DocWriteResponse.Result r = u.getResult();
-        if (r == DocWriteResponse.Result.CREATED)
-        {
-            logger.info("successful indexed object with id {}", sensorRecord.getId());
-            return sensorRecord;
-        }
-        else
-        {
-            logger.error("index object into" + this.esIndex + " fails. object: " + sensorRecord.simpleString());
+            logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
             return null;
         }
 
@@ -221,34 +266,38 @@ public class LoRaElasticsearchAdapter
      */
     public List<SensorRecord> index(List<SensorRecord> records)
     {
-        if (!indexExist)
+        try {
+            if (this.transportClient.transportAddresses().isEmpty())
+
+                addNodeConnection(this.esHost, this.esPort);
+            if (this.doesIndexExist(this.esIndex)) {
+                createAndMapIndex(records.get(0));
+            }
+            logger.debug("try to index records: \n{}", records.stream().map(SensorRecord::simpleString).collect(Collectors.joining(",\n ")));
+            BulkRequestBuilder bulkRequest = transportClient.prepareBulk();
+            logger.debug("add doc into bulk request");
+            records.forEach(r ->
+            {
+                logger.debug("adding doc {}", r.simpleString());
+                addDocToBulkRequest(bulkRequest, r);
+            });
+            logger.debug("executing bulk request");
+            BulkResponse bulkResponse = bulkRequest.get();
+            if (bulkResponse.hasFailures()) {
+                logger.error("bulk index fails. failure message: {}", bulkResponse.buildFailureMessage());
+                return null;
+            } else {
+                String indexedIds = records.stream()
+                        .map(e -> Long.toString(e.getId()))
+                        .collect(Collectors.joining(", "));
+                logger.info("successful indexed {} object with ids: [{}].", records.size(), indexedIds);
+                logger.debug("indexed objects are: ", records.toString());
+                return records;
+            }
+        }catch (UnknownHostException e)
         {
-            createAndMapIndex(records.get(0));
-            indexExist = true;
-        }
-        logger.debug("try to index records: \n{}", records.stream().map(SensorRecord::simpleString).collect(Collectors.joining(",\n ")));
-        BulkRequestBuilder bulkRequest = client.prepareBulk();
-        logger.debug("add doc into bulk request");
-        records.forEach(r ->
-        {
-            logger.debug("adding doc {}", r.simpleString());
-            addDocToBulkRequest(bulkRequest,r);
-        });
-        logger.debug("executing bulk request");
-        BulkResponse bulkResponse = bulkRequest.get();
-        if (bulkResponse.hasFailures())
-        {
-            logger.error("bulk index fails. failure message: {}",bulkResponse.buildFailureMessage());
+            logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
             return null;
-        }
-        else
-        {
-            String indexedIds = records.stream()
-                    .map(e -> Long.toString(e.getId()))
-                    .collect(Collectors.joining(", "));
-            logger.info("successful indexed {} object with ids: [{}].",records.size(), indexedIds);
-            logger.debug("indexed objects are: ", records.toString());
-            return records;
         }
     }
 
@@ -257,7 +306,7 @@ public class LoRaElasticsearchAdapter
         record.setId(++this.idSequences);
         String docString = this.gson.toJson(record, record.getClass());
         bulkRequest.add(
-                client.prepareIndex(esIndex, record.getClass().getSimpleName(), Long.toString(record.getId()))
+                transportClient.prepareIndex(esIndex, record.getClass().getSimpleName(), Long.toString(record.getId()))
                         .setSource(docString));
     }
 
@@ -268,7 +317,7 @@ public class LoRaElasticsearchAdapter
     private long getLastId()
     {
         logger.info("Trying get last id from index " + this.esIndex );
-        SearchResponse response = client.prepareSearch(this.esIndex)
+        SearchResponse response = transportClient.prepareSearch(this.esIndex)
                 .addAggregation(
                         AggregationBuilders
                                 .max("maxId")
@@ -280,6 +329,7 @@ public class LoRaElasticsearchAdapter
         logger.info("last id is " + id);
         return id;
     }
+
 }
 
 

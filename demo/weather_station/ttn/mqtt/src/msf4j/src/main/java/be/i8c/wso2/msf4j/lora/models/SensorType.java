@@ -22,10 +22,9 @@ package be.i8c.wso2.msf4j.lora.models;
  * @author yanglin
  */
 public enum SensorType {
-    Binary("binary","binary_value",0,0), Loudness("loudness","loudness_value",0,500), Temperature("temperature","temperature_sensor_value",-50,100),
-    Light("light","light_value",0,150), Accelerometer("accelerometer","accelerometer_value",0,0), Pressure("pressure","pressure_value",900,1100),
-    Humidity("humidity","humidity_value",0,100), AirQuality("air quality","air_quality_value",0,1000), BatteryLevel("BatteryLevel","batterylevel_value",0,100),
-    Integer("integer","integer_sensor",0,0);
+    Temperature("temperature","temperature_sensor_value",-50,100), Light("light","light_value",0,150),
+    Pressure("pressure","pressure_value",900,1100), Humidity("humidity","humidity_value",0,100),
+    AirQuality("air quality","air_quality_value",0,1000), BatteryLevel("BatteryLevel","batterylevel_value",0,100);
 
     /**
      * This is the description of specified type in json object of proximus

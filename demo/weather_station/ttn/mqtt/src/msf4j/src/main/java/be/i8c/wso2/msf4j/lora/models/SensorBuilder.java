@@ -18,6 +18,8 @@
 
 package be.i8c.wso2.msf4j.lora.models;
 
+import java.time.Instant;
+
 /**
  * Created by yanglin on 7/04/17.
  */
@@ -25,7 +27,7 @@ public class SensorBuilder
 {
     private String deviceId="unknow";
     private String owner="unknow";
-    private long timestamp;
+    private long timestamp = Instant.now().toEpochMilli();
     private double value;
     private SensorType type;
 
@@ -66,7 +68,18 @@ public class SensorBuilder
 
     public SensorRecord build()
     {
+        if (type == null)
+            throw new IllegalArgumentException("type should not be null");
         return new SensorRecord(this.deviceId,this.owner,this.timestamp,this.value,this.type);
+    }
+
+    public void flush()
+    {
+        deviceId="unknow";
+        owner="unknow";
+        timestamp = Instant.now().toEpochMilli();
+        value=0;
+        type = null;
     }
 
 }
