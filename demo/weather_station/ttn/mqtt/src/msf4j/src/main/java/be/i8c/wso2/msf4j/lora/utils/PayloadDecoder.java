@@ -34,7 +34,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * It's an untilty class which decode the lora payload into SensorRecord class
+ * It's an untilty class which decodes the lora payload en converts into SensorRecord class
  *
  * Created by yanglin on 6/04/17.
  */
@@ -44,20 +44,41 @@ public class PayloadDecoder
 
     private static final Logger logger = LogManager.getLogger(PayloadDecoder.class);
 
+    /**
+     * This class validates the integrity of raw payload.
+     */
     @Autowired
     private UplinkMessageValidator validator;
 
+    /**
+     * Expected payload format in String, load from application.properties.
+     */
     private String format;
 
+    /**
+     * A list of sensorType representing the expected payload format. converted from field format.
+     */
     private List<SensorType> payloadFormat;
 
 
+    /**
+     * Constructor used by Spring for initialization.
+     * @param format Expected payload format in String,
+     * @param validator An instance of uplinkMessageValidator class
+     */
     public PayloadDecoder(String format, UplinkMessageValidator validator)
     {
         this.format = format;
         this.validator = validator;
     }
 
+    /**
+     * Decodes an incoming uplinkMessage into a list of SensorRecords.
+     * @param data The uplinkMessage to be decoded.
+     * @return A list of SensorRecords when decoding succeed.
+     * @throws PayloadFormatException when raw payload of uplinkMessage doesn't match the field payloadFormat.
+     * @throws PayloadFormatNotDefinedException when payload format is not defined.
+     */
     public List<SensorRecord> decodePayload(UplinkMessage data) throws PayloadFormatException, PayloadFormatNotDefinedException
     {
         if (payloadFormat == null || payloadFormat.size() == 0)
@@ -90,6 +111,11 @@ public class PayloadDecoder
         }
     }
 
+    /**
+     * This method is used to convert payload format in String into a list of SensorType.
+     * @return A list of SensorType.
+     * @throws PayloadFormatNotDefinedException When payload format in String is empty or null.
+     */
     private List<SensorType> getPayloadFormat() throws PayloadFormatNotDefinedException
     {
         logger.debug("getting payloadFormat from application.properties");
@@ -101,13 +127,12 @@ public class PayloadDecoder
         logger.debug("payloadFormat: " + types.toString());
         return types;
     }
-    /*
-    private SensorRecord decodeSensor(SensorType t, Integer firstByte, Integer )
-    {
 
-    }
-    */
-
+    /**
+     * Converts raw payload from Bytes to a list of hexadecimal String.
+     * @param payload Raw payload in a array of bytes.
+     * @return A list of Hexadecimal String.
+     */
     private List<String> convertPayloadToHex(byte[] payload)
     {
         List<String> payloadHexString = new ArrayList<>();
@@ -116,6 +141,12 @@ public class PayloadDecoder
         return payloadHexString;
     }
 
+    /**
+     * This method prepares the SensorBuilder.
+     * It is needed because the payload of same uplinkMessage will have same deviceId and timestamp.
+     * @param uplinkMessage uplinkMessage te be decoded.
+     * @return An instance of SensorBuilder with pre-set deviceId and timestamp.
+     */
     private SensorBuilder prepareBuilder(UplinkMessage uplinkMessage)
     {
         Instant instant = Instant.parse(uplinkMessage.getMetadata().getTime());
@@ -124,6 +155,12 @@ public class PayloadDecoder
                 .setTimestamp(instant.toEpochMilli());
     }
 
+    /**
+     * This method translates the hexadecimal String into value of sensor.
+     * @param payload List of hexadecimal Strings of payload.
+     * @param teller index of hexadecimal String to be read.
+     * @return the value of sensor.
+     */
     private double getValueFromPayload(List<String> payload, int teller)
     {
         logger.debug("reading value from payload");

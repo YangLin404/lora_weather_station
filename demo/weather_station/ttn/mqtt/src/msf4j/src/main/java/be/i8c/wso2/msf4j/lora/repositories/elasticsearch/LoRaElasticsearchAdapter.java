@@ -20,6 +20,7 @@ import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
+import org.elasticsearch.transport.ConnectTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -110,41 +112,16 @@ public class LoRaElasticsearchAdapter
          
          logger.debug("initiating elasticsearchAdapter");
          this.gson = new Gson();
-         //this.transportClient = new PreBuiltTransportClient(Settings.EMPTY);
          this.indexExist = new HashMap<>();
-         //this.indexExist = false;
-         /*
-         try 
-         {
-            //this.transportClient = new PreBuiltTransportClient(Settings.EMPTY)
-                    //.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(this.esHost), this.esPort));
-            //logger.info("the connection with elasticsearch server successfully established");
-            
-            //logger.debug("checking if index: [" + this.esIndex + "] exist.");
-            //IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
-
-
-            this.indexExist = this.transportClient.admin().indices()
-                              .exists(indicesExistsRequest).actionGet().isExists();
-            if(this.indexExist)
-            {
-                logger.debug("index: [" + this.esIndex + "] exist.");
-                this.idSequences = getLastId();
-            }
-            else
-            {
-                logger.debug("index: [" + this.esIndex + "] doesn't exist, it will be created at first input, idSequence set to 1");
-                this.idSequences = 0;
-            }
-
-            
-             
-         } catch (UnknownHostException e) {
-             logger.error("connection to " + this.esHost + ":" + this.esPort + " fails." +"\n " + e.getMessage());
-         }
-         */
      }
 
+    /**
+     * This method is used to add TransportAddres of a elasticsearch's node to transportClient.
+     * The transportClient will than try to connect to those node(s).
+     * @param host Hostname of Elasticsearch's node to be added.
+     * @param port Port number of Elasticsearch's node to be added.
+     * @throws UnknownHostException When combination of host and port doesn't is unknown.
+     */
      public void addNodeConnection(String host, int port) throws UnknownHostException
      {
          if (this.transportClient.transportAddresses().isEmpty()) {
@@ -155,16 +132,26 @@ public class LoRaElasticsearchAdapter
 
      }
 
+    /**
+     * Check the existence of given index in current elasticsearch's node.
+     * @param indexToBeChecked the name of index to be checked.
+     * @return true if exist, false if not exist.
+     * @throws NoneNodeConnectedException when there are no elasticsearch's node is connected.
+     */
      public boolean doesIndexExist(String indexToBeChecked) throws NoneNodeConnectedException
      {
          if (!this.transportClient.connectedNodes().isEmpty()) {
              logger.debug("checking if index: [" + indexToBeChecked + "] exist.");
              if (indexExist.containsKey(indexToBeChecked) && indexExist.get(indexToBeChecked))
+             {
+                 logger.debug("index: [{}] exists.", indexToBeChecked);
                  return true;
+             }
              else {
                  IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(indexToBeChecked);
                  boolean exist = this.transportClient.admin().indices()
                          .exists(indicesExistsRequest).actionGet().isExists();
+                 logger.debug("{} exists", exist);
                  this.indexExist.put(indexToBeChecked, exist);
                  if (exist) {
                      logger.debug("index: [" + indexToBeChecked + "] exist.");
@@ -217,6 +204,7 @@ public class LoRaElasticsearchAdapter
                 .get();
          } catch (ResourceAlreadyExistsException e) {
              logger.warn("index: [" + this.esIndex + "] already exist, not created");
+             return;
          }
          logger.info("index: [" + this.esIndex + "] created.");
         
@@ -234,7 +222,7 @@ public class LoRaElasticsearchAdapter
 
             if (this.transportClient.transportAddresses().isEmpty())
                 addNodeConnection(this.esHost, this.esPort);
-            if (this.doesIndexExist(this.esIndex)) {
+            if (!this.doesIndexExist(this.esIndex)) {
                 createAndMapIndex(sensorRecord);
             }
             sensorRecord.setId(++this.idSequences);
@@ -268,9 +256,8 @@ public class LoRaElasticsearchAdapter
     {
         try {
             if (this.transportClient.transportAddresses().isEmpty())
-
                 addNodeConnection(this.esHost, this.esPort);
-            if (this.doesIndexExist(this.esIndex)) {
+            if (!this.doesIndexExist(this.esIndex)) {
                 createAndMapIndex(records.get(0));
             }
             logger.debug("try to index records: \n{}", records.stream().map(SensorRecord::simpleString).collect(Collectors.joining(",\n ")));
@@ -294,13 +281,19 @@ public class LoRaElasticsearchAdapter
                 logger.debug("indexed objects are: ", records.toString());
                 return records;
             }
-        }catch (UnknownHostException e)
+        }catch (UnknownHostException | NoneNodeConnectedException e)
         {
             logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
             return null;
         }
     }
 
+    /**
+     * This method is used to add record to a given bulkrequestBuilder object,
+     * which will be used to build a bulk request later for bulk indexing.
+     * @param bulkRequest bulkRequestBuilder class.
+     * @param record record to be added.
+     */
     private void addDocToBulkRequest(BulkRequestBuilder bulkRequest, SensorRecord record)
     {
         record.setId(++this.idSequences);

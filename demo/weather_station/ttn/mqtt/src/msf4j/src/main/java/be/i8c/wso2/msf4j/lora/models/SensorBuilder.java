@@ -21,6 +21,7 @@ package be.i8c.wso2.msf4j.lora.models;
 import java.time.Instant;
 
 /**
+ * A builder class used to build the instance of Class SensorRecord
  * Created by yanglin on 7/04/17.
  */
 public class SensorBuilder
@@ -66,6 +67,10 @@ public class SensorBuilder
         return this;
     }
 
+    /**
+     * This method is used to build an instance of SensorRecord based on current builder properties.
+     * @return an instance of SensorRecord
+     */
     public SensorRecord build()
     {
         if (type == null)
@@ -73,6 +78,9 @@ public class SensorBuilder
         return new SensorRecord(this.deviceId,this.owner,this.timestamp,this.value,this.type);
     }
 
+    /**
+     * This method reset the properties of builder to default value.
+     */
     public void flush()
     {
         deviceId="unknow";

@@ -53,8 +53,8 @@ public class LoRaElasticRepository implements LoRaRepository
     }
 
     /**
-     * This method inserts lora packet into elasticsearch database.
-     * @param sensorRecord lora packet without id to be inserted.
+     * This method inserts sensorRecord into elasticsearch database.
+     * @param sensorRecord a sensorRecord without id to be inserted.
      * @return An object of sensorRecord with id. Returns null if the insertion fails.
      */
     @Override

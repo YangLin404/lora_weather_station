@@ -29,18 +29,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * This class is used to validate the integrity of data decoded from uplinkMessage using PayloadDecoder class
  * Created by yanglin on 10/04/17.
  */
 @Component
-public class PayloadValidator
+public class DataValidator
 {
     private static final Logger logger = LogManager.getLogger(PayloadDecoder.class);
 
-    public PayloadValidator()
+    public DataValidator()
     {
 
     }
 
+    /**
+     * Validates a list of sensorRecord decoded from uplinkMesssage and filter out the invalid sensorRecord(s)
+     * @param records a list of sensorRecord to be validated.
+     * @return List of valid sensorRecord. null when param is null or empty, as well as when all sensorRecord are invalid.
+     */
     public List<SensorRecord> validateAll(List<SensorRecord> records)
     {
         if (records == null)
@@ -69,6 +75,11 @@ public class PayloadValidator
 
     }
 
+    /**
+     * validates a single sensorRecord.
+     * @param record sensorRecord to be validated.
+     * @return same object when it is valid, null when invalid or param is null.
+     */
     public SensorRecord validate(SensorRecord record)
     {
         if (record != null)

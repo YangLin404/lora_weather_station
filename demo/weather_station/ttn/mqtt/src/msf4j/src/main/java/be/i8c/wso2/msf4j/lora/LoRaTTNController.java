@@ -21,22 +21,23 @@ import be.i8c.wso2.msf4j.lora.services.LoRaTTNService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import java.util.Arrays;
 
 /**
  *
- * This is the micro service class based on msf4j.
+ * This is the micro service class based on msf4j. It is used to handle the http request such as start and stop the mqtt client.
  *
  * @since 0.1-SNAPSHOT
  *
  */
-@RestController
+@Component
 @Path("/api/ttn")
 public class LoRaTTNController
 {
@@ -46,8 +47,6 @@ public class LoRaTTNController
 
     @Autowired
     private LoRaTTNService service;
-
-
 
 
     public LoRaTTNController()
@@ -62,6 +61,10 @@ public class LoRaTTNController
 
     }
 
+    /**
+     * A post method to start the mqtt client.
+     * @return code 204 when successfully starts the mqtt client, code 500 when exception occurred.
+     */
     @POST
     @Path("/manage/startClient")
     public Response startClient()
@@ -71,11 +74,15 @@ public class LoRaTTNController
             return Response.accepted().build();
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.debug(e.getStackTrace());
+            logger.error(Arrays.toString(e.getStackTrace()));
             return Response.serverError().entity(e.getMessage()).build();
         }
     }
 
+    /**
+     * A post method to stop the mqtt client.
+     * @return code 204 when successfully starts the mqtt client, code 500 when exception occurred.
+     */
     @POST
     @Path("/manage/stopClient")
     public Response stopClient()
@@ -85,7 +92,7 @@ public class LoRaTTNController
             return Response.accepted().build();
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.debug(e.getStackTrace());
+            logger.error(Arrays.toString(e.getStackTrace()));
             return Response.serverError().entity(e.getMessage()).build();
         }
     }

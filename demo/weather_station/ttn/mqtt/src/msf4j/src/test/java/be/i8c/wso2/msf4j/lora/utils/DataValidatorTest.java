@@ -19,12 +19,12 @@ import static org.junit.Assert.assertNull;
 /**
  * Created by yanglin on 11/04/17.
  */
-public class PayloadValidatorTest
+public class DataValidatorTest
 {
     private final SensorType sensorTypeToTest = SensorType.Humidity;
 
     @InjectMocks
-    private PayloadValidator validator;
+    private DataValidator validator;
 
     private static SensorBuilder sensorBuilder;
 
