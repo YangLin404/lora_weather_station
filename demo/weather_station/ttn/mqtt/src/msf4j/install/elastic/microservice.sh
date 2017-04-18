@@ -1,5 +1,6 @@
 #!/bin/bash
-JARPATH="../../msf4j/target/msf4j-0.1-SNAPSHOT.jar";
+PATHTOSRC="../../";
+JARPATH="target/msf4j-0.1-SNAPSHOT.jar";
 ELASTICPROFILE="-Dspring.profiles.active=elasticsearch";
 
 
@@ -46,13 +47,13 @@ function installKibana()
 function build()
 {
 	echo "start building project"
-	cd ../../msf4j/;
+	cd "$PATHTOSRC";
 	mvn package;
 	if [[ $? != 0 ]]; then
 		echo "build project fails."
 		exit 1;
 	fi
-	cd ../install;
+	cd ./install/elastic;
 }
 
 function checkRequirements()
@@ -99,7 +100,7 @@ if [[ "$1" == "--install" ]]; then
 	checkConfig;
 	build;
 	echo "-------------------------------------------------------------------------------";
-	echo "installation is completed, run this script with --start to start the REST API server";
+	echo "installation is completed, run this script with --start to start the micro service";
 elif [[ "$1" == "--start" ]]; then
 	checkConfig;
 	echo "starting elasticsearch";
@@ -110,7 +111,7 @@ elif [[ "$1" == "--start" ]]; then
 	./kibana-5.2.2-linux-x86_64/bin/kibana 1>/dev/null  &
 	disown;
 	echo "starting REST API server";
-	java -jar "$ELASTICPROFILE" "$JARPATH";	
+	java -jar "$ELASTICPROFILE" "$PATHTOSRC$JARPATH";	
 elif [[ "$1" == "--stop" ]]; then
 	echo "Finding pids of elasticsearch and kibana server..."
 	pidElastic=`ps aux|grep elasticsearc\[h\] | awk {'print $2'}`;

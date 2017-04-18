@@ -146,7 +146,7 @@ public class SensorRecord
 
     public String getLongString()
     {
-        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner   + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
 
     @Override

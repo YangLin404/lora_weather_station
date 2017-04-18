@@ -1,4 +1,4 @@
-# LoRa REST API server with Postgresql
+# LoRa REST based micro service with Postgresql
 
 ## Requirements
 * Postgresql
@@ -52,16 +52,16 @@ GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
 ```
 ### Step 5. Build project from source code
 
-* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
+* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step1).
 
 * Build source code
 
 	```shell
-	cd demos/msf4j-elasticsearch-kibana/proximus-enco/src/msf4j/
+	cd loRa/demo/weather_station/ttn/mqtt/src/msf4j/
 	mvn package
 	```
 	
-### Step 6. Run REST server
+### Step 6. Run micro service
 
 ```shell
 java -jar -Dspring.profiles.active=postgresql ./target/msf4j-0.1-SNAPSHOT.jar

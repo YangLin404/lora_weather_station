@@ -1,13 +1,13 @@
-# LoRa REST API server with Elasticsearch and Kibana
+# LoRa service with Elasticsearch and Kibana
 
 ## Installation on Ubuntu Server 16.04 LTS
- You can either follow the step-by-step tutorial or run the [startscript](#startscript) to setup and run the REST API.
+ You can either follow the step-by-step tutorial or run the [microservice script](#startscript) to setup and run the micro service.
 
 ### 1. Step-by-step installation
 
-* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
+* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step1).
 
-* Download and unzip Elasticsearch  
+* Download and unzip Elasticsearch 5.2.2
 		
     ```shell
     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.2.2.zip
@@ -19,7 +19,7 @@
 	```shell
 	./elasticsearch-5.2.2/bin/elasticsearch -d
 	```
-* Download and unzip Kibana
+* Download and unzip Kibana 5.2.2
 
 	```shell
 	wget https://artifacts.elastic.co/downloads/kibana/kibana-5.2.2-linux-x86_64.tar.gz
@@ -35,31 +35,31 @@
 * Build source code
 
 	```shell
-	cd demos/msf4j-elasticsearch-kibana/proximus-enco/src/msf4j/
+	cd loRa/demo/weather_station/ttn/mqtt/src/msf4j/
 	mvn package
 	```
 	
-* Run REST server
+* Run micro service with elasticsearch as database
 
 	```shell
 	java -jar -Dspring.profiles.active=elasticsearch ./target/msf4j-0.1-SNAPSHOT.jar
 	```
 	
-### <a name="startscript"></a> 2. Installation using startscirpt
+### <a name="startscript">2. Installation using microservice script</a>
 
 * Go to the directory where you have clone the source code in this [step](../INSTALL.md#step2).
 
 * Install
 
 	```shell
-	cd loRa/demos/lora-rest-service/proximus-enco/src/install/elastic
-	chmod +x rest-api-elastic.sh
-	./rest-api-elastic.sh --install
+	cd loRa/demos/weather_station/ttn/mqtt/src/msf4j/install/elastic
+	chmod +x microservice.sh
+	./microservice.sh --install
 	```
-* Run REST server
+* Run micro service with elasticsearch as database
 
 	```shell
-	./rest-api-elastic.sh --start
+	./microservice.sh --start
 	```
 
 ### 3. Configure Kibana dashboard
@@ -70,8 +70,15 @@
 * To view the imported dashboard, go to Dashboard > open > MyDashboard
 
 
-##### To stop the servers
+### 4. Regardless of used installation method, the microservice script is able to perform following action.
 
-```shell
-./rest-api-elastic.sh --stop
-```
+* To start the micro service. 
+
+	```shell
+	./microservice-elastic.sh --start
+	```
+* To stop the micro service.
+
+	```shell
+	./microservice-elastic.sh --stop
+	```	
