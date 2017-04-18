@@ -1,4 +1,4 @@
-# Weather station with LoRa and Proximus
+# Weather station with LoRa and The Things network(TTN)
 
 ## Introduction
 
@@ -11,6 +11,6 @@ These kits come with access to the following websites:
 username = kristof.lievens@i8c.be  
 password = L0Ra2017!
 
-## Demo 1. Implementation using HTTP protocol
+## Demo 1. Implementation using MQTT protocol
 
-This [demo](./http/) shows how to build a weather station with LoRa device and Proximus using HTTP protocol.
+This [demo](./mqtt/) shows how to build a weather station with LoRa device and Proximus using MQTT protocol.
