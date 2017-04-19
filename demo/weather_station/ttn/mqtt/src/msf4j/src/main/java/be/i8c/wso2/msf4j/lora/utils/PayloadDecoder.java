@@ -90,7 +90,8 @@ public class PayloadDecoder
         logger.debug("convert raw payload to hex string: {}", Arrays.toString(data.getPayloadRaw()) );
         List<String> payloadHexString = convertPayloadToHex(data.getPayloadRaw());
         logger.debug("payloadString to be converted: {}", payloadHexString);
-        if (validator.isRawPayloadValid(payloadHexString, this.payloadFormat)) {
+        if (validator.isRawPayloadValid(payloadHexString, this.payloadFormat))
+        {
             int teller = 0;
             SensorBuilder sensorBuilder = prepareBuilder(data);
             for (SensorType type : this.payloadFormat) {
@@ -136,8 +137,9 @@ public class PayloadDecoder
     private List<String> convertPayloadToHex(byte[] payload)
     {
         List<String> payloadHexString = new ArrayList<>();
-        for (byte b : payload)
+        for (byte b : payload) {
             payloadHexString.add(String.format("%02X", b));
+        }
         return payloadHexString;
     }
 

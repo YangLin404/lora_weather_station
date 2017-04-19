@@ -77,6 +77,6 @@ public class UplinkMessageValidator
      */
     public boolean isRawPayloadValid(List<String> payloadHex, List<SensorType> sensorsToDecode)
     {
-        return payloadHex.size() == (sensorsToDecode.size() * 2);
+        return payloadHex.size() >= (sensorsToDecode.size() * 2);
     }
 }

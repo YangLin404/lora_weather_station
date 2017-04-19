@@ -92,20 +92,6 @@ public class PayloadDecoderTest
         List<SensorRecord> actual = payloadDecoder.decodePayload(uplinkMessage);
     }
 
-    @Test(expected = PayloadFormatException.class)
-    public void decodePayload_RawPayloadTooLong_ShouldThrowPayloadFormatException() throws Throwable
-    {
-
-        byte[] rawPayload = Arrays.copyOf(RAWPAYLOAD_A,9);
-        Arrays.fill(rawPayload,Byte.parseByte("1"));
-
-        when(uplinkMessage.getPayloadRaw()).thenReturn(rawPayload);
-        when(uplinkMessage.getMetadata()).thenReturn(metadata);
-        when(metadata.getTime()).thenReturn(Instant.EPOCH.plusMillis(1).toString());
-
-        List<SensorRecord> actual = payloadDecoder.decodePayload(uplinkMessage);
-    }
-
     @Test(expected = PayloadFormatNotDefinedException.class)
     public void decodePayload_PayloadFormatNotDefined_ShouldThrowPayloadFormatNotDefinedException() throws Throwable
     {

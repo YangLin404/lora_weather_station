@@ -16,11 +16,12 @@
   */
 
 package be.i8c.wso2.msf4j.lora.services;
-
+import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.utils.PayloadDecoder;
 import be.i8c.wso2.msf4j.lora.utils.DataValidator;
+import be.i8c.wso2.msf4j.lora.utils.PayloadEncoder;
 import be.i8c.wso2.msf4j.lora.utils.UplinkMessageValidator;
 import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatException;
 import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatNotDefinedException;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thethingsnetwork.data.common.Connection;
 import org.thethingsnetwork.data.common.messages.DataMessage;
+import org.thethingsnetwork.data.common.messages.DownlinkMessage;
 import org.thethingsnetwork.data.common.messages.UplinkMessage;
 import org.thethingsnetwork.data.mqtt.Client;
 
@@ -66,6 +68,10 @@ public class LoRaTTNService
     /**
      * An instance of DataValidator class, used to validate the integrity of data to be inserted.
      */
+
+    @Autowired
+    private PayloadEncoder encoder;
+
     @Autowired
     private DataValidator dataValidator;
     /**
@@ -168,5 +174,14 @@ public class LoRaTTNService
         logger.info("stopping mqtt client");
         this.client.end();
         logger.info("mqtt client stopped");
+    }
+
+    public void sendDownlink(DownlinkRequest request) throws Exception
+    {
+        logger.debug("payload string are: {}", request.getPayloadString());
+        byte[] _payload = encoder.encode(request.getPayloadString());
+        logger.debug("payload are: " + Arrays.toString(_payload));
+        DownlinkMessage d = new DownlinkMessage(1, _payload);
+        this.client.send(request.getDeviceId(),d);
     }
 }

@@ -53,7 +53,7 @@ public class SensorRecord
      * timestamps
      */
     @XmlElement
-    private long streamValueTime;
+    private long time;
     /**
      * value of sensor
      */
@@ -71,17 +71,17 @@ public class SensorRecord
         
     }
     /*
-    public SensorRecord(String deviceId, String owner, long streamValueTime, SensorType type) {
+    public SensorRecord(String deviceId, String owner, long time, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
-        this.streamValueTime = streamValueTime;
+        this.time = time;
         this.type = type;
     }
     */
-    public SensorRecord(String deviceId, String owner, long streamValueTime, double sensorValue, SensorType type) {
+    public SensorRecord(String deviceId, String owner, long time, double sensorValue, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
-        this.streamValueTime = streamValueTime;
+        this.time = time;
         this.sensorValue = sensorValue;
         this.type = type;
     }
@@ -110,12 +110,12 @@ public class SensorRecord
         this.owner = owner;
     }
 
-    public Long getStreamValueTime() {
-        return streamValueTime;
+    public Long getTime() {
+        return time;
     }
     
-    public void setStreamValueTime(Long streamValueTime) {
-        this.streamValueTime = streamValueTime;
+    public void setTime(Long time) {
+        this.time = time;
     }
 
     public double getSensorValue() {
@@ -146,7 +146,7 @@ public class SensorRecord
 
     public String getLongString()
     {
-        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", streamValueTime=" + streamValueTime + ", sensorValue=" + sensorValue + ", type=" + type + '}';
+        return "Record{ id=" + id + ", deviceId=" + deviceId + ", owner=" + owner + ", time=" + time + ", sensorValue=" + sensorValue + ", type=" + type + '}';
     }
 
     @Override
@@ -156,7 +156,7 @@ public class SensorRecord
 
         SensorRecord record = (SensorRecord) o;
 
-        if (streamValueTime != record.streamValueTime)
+        if (time != record.time)
             return false;
         if (Double.compare(record.sensorValue, sensorValue) != 0)
             return false;
@@ -170,7 +170,7 @@ public class SensorRecord
         int result;
         long temp;
         result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (int) (streamValueTime ^ (streamValueTime >>> 32));
+        result = 31 * result + (int) (time ^ (time >>> 32));
         temp = Double.doubleToLongBits(sensorValue);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (type != null ? type.hashCode() : 0);
