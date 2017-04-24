@@ -22,9 +22,9 @@ package be.i8c.wso2.msf4j.lora.models;
  * @author yanglin
  */
 public enum SensorType {
-    Temperature("temperature","temperature_sensor_value",-50,100), Light("light","light_value",0,150),
-    Pressure("pressure","pressure_value",900,1100), Humidity("humidity","humidity_value",0,100),
-    AirQuality("air quality","air_quality_value",0,1000), BatteryLevel("BatteryLevel","batterylevel_value",0,100);
+    Temperature("temperature","temperature_sensor_value",-50,100,10.0d), Light("light","light_value",0,150, 10.0d),
+    Pressure("pressure","pressure_value",900,1100, 10.0d), Humidity("humidity","humidity_value",0,100, 10.0d),
+    AirQuality("air quality","air_quality_value",0,1000,10.0d), BatteryLevel("BatteryLevel","batterylevel_value",0,1000,1000.0d);
 
     /**
      * This is the description of specified type in json object of proximus
@@ -33,13 +33,15 @@ public enum SensorType {
     private String valueString;
     private double min;
     private double max;
+    private double factor;
     
-    SensorType(String s, String v, double min, double max)
+    SensorType(String s, String v, double min, double max, double factor)
     {
         this.desc = s;
         this.valueString = v;
         this.min = min;
         this.max = max;
+        this.factor = factor;
     }
     
     public String getDesc()
@@ -59,4 +61,6 @@ public enum SensorType {
     public double getMax() {
         return max;
     }
+
+    public double getFactor() {return factor;}
 }

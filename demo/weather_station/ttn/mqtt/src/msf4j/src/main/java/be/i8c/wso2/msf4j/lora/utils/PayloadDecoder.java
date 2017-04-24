@@ -97,7 +97,7 @@ public class PayloadDecoder
             for (SensorType type : this.payloadFormat) {
                 logger.debug("building sensor type: " + type + " teller: " + teller);
                 SensorRecord recordToAdd = sensorBuilder.setType(type)
-                        .setValue(getValueFromPayload(payloadHexString, teller))
+                        .setValue(getValueFromPayload(payloadHexString, teller,type))
                         .build();
                 logger.debug("record to add: " + recordToAdd.simpleString());
                 records.add(recordToAdd);
@@ -161,15 +161,25 @@ public class PayloadDecoder
      * This method translates the hexadecimal String into value of sensor.
      * @param payload List of hexadecimal Strings of payload.
      * @param teller index of hexadecimal String to be read.
+     * @param  type Type of sensor
      * @return the value of sensor.
      */
-    private double getValueFromPayload(List<String> payload, int teller)
+    private double getValueFromPayload(List<String> payload, int teller, SensorType type)
     {
         logger.debug("reading value from payload");
         String hexValue = payload.get(teller) + payload.get(++teller);
+        int rawValue = Integer.parseInt(hexValue, 16);
+        double actualValue = rawValue / type.getFactor();
         logger.debug("hex string: " + hexValue);
-        int rawValue = Integer.parseInt(hexValue,16);
         logger.debug("raw value: " + rawValue);
-        return rawValue/10.0d;
+        if (type == SensorType.BatteryLevel)
+        {
+            return Math.round((actualValue - 2.8d) / 0.014d);
+        }
+        else {
+            return actualValue;
+        }
     }
+
+
 }

@@ -16,9 +16,11 @@
   */
 
 package be.i8c.wso2.msf4j.lora.services;
+import be.i8c.wso2.msf4j.lora.models.Device;
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
+import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.utils.PayloadDecoder;
 import be.i8c.wso2.msf4j.lora.utils.DataValidator;
 import be.i8c.wso2.msf4j.lora.utils.PayloadEncoder;
@@ -37,8 +39,7 @@ import org.thethingsnetwork.data.mqtt.Client;
 
 import javax.annotation.PostConstruct;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -80,6 +81,8 @@ public class LoRaTTNService
     @Autowired
     private UplinkMessageValidator uplinkMessageValidator;
 
+    private Map<String,Device> devices;
+
     /**
      * Constructor used by spring for dependency injection
      * @param mqttClient An instance of mqttClient of TTN JAVA SDK.
@@ -99,6 +102,7 @@ public class LoRaTTNService
     @PostConstruct
     public void init()
     {
+        devices = new HashMap<>();
         try {
             client.onError((Throwable _error) ->
             {
@@ -110,6 +114,9 @@ public class LoRaTTNService
             client.onMessage((String devId, DataMessage data) ->
             {
                 UplinkMessage uplinkData = (UplinkMessage) data;
+                if (devices.isEmpty() || (!devices.containsKey(uplinkData.getDevId())))
+                    devices.put(uplinkData.getDevId(),new Device(uplinkData.getDevId()));
+
                 if (!uplinkMessageValidator.isDuplicatedData(uplinkData))
                 {
                     try {
@@ -120,6 +127,8 @@ public class LoRaTTNService
                         records.forEach(r -> logger.debug(r.simpleString()));
                         logger.debug("start validating {} records", records.size());
                         records = dataValidator.validateAll(records);
+                        logger.debug("checking notification");
+                        dataValidator.checkForNotification(records,devices.get(uplinkData.getDevId()), this::sendDownlink);
                         if (records != null)
                         {
                             logger.info("saving records into database.");
@@ -133,11 +142,7 @@ public class LoRaTTNService
                         }
                         else
                             logger.warn("all records are invalid. ignore uplinkmessage counter {}", uplinkData.getCounter());
-                    }catch (PayloadFormatException e)
-                    {
-                        logger.error(e.getMessage());
-                        logger.debug(Arrays.toString(e.getStackTrace()));
-                    }catch (PayloadFormatNotDefinedException e)
+                    }catch (PayloadFormatException | PayloadFormatNotDefinedException e)
                     {
                         logger.error(e.getMessage());
                         logger.debug(Arrays.toString(e.getStackTrace()));
@@ -176,12 +181,16 @@ public class LoRaTTNService
         logger.info("mqtt client stopped");
     }
 
-    public void sendDownlink(DownlinkRequest request) throws Exception
+    public void sendDownlink(DownlinkRequest request)
     {
         logger.debug("payload string are: {}", request.getPayloadString());
         byte[] _payload = encoder.encode(request.getPayloadString());
         logger.debug("payload are: " + Arrays.toString(_payload));
         DownlinkMessage d = new DownlinkMessage(1, _payload);
-        this.client.send(request.getDeviceId(),d);
+        try {
+            this.client.send(request.getDeviceId(),d);
+        } catch (Exception e) {
+            throw new DownlinkException();
+        }
     }
 }

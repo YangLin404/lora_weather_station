@@ -73,7 +73,7 @@ public class UplinkMessageValidator
      * This method is used to check whether the raw payload is valid or not.
      * @param payloadHex The list of hex string converted from raw payload.
      * @param sensorsToDecode The list of sensorTypes to be expected.
-     * @return
+     * @return true if payload is valid, false if invalid.
      */
     public boolean isRawPayloadValid(List<String> payloadHex, List<SensorType> sensorsToDecode)
     {

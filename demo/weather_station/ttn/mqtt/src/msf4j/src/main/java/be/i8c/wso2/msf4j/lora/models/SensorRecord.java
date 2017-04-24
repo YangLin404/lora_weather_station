@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * This is a POJO representing lora packet
+ * This is a POJO representing the lora packet
  */
 
 @XmlRootElement(name="Record")

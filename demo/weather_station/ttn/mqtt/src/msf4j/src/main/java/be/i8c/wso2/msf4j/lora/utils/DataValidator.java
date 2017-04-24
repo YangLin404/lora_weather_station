@@ -19,13 +19,19 @@
 
 package be.i8c.wso2.msf4j.lora.utils;
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.SensorType;
+import be.i8c.wso2.msf4j.lora.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -35,9 +41,15 @@ import java.util.stream.Collectors;
 @Component
 public class DataValidator
 {
-    private static final Logger logger = LogManager.getLogger(PayloadDecoder.class);
+    private static final Logger logger = LogManager.getLogger(DataValidator.class);
 
     public DataValidator()
+    {
+
+    }
+
+    @PostConstruct
+    public void init()
     {
 
     }
@@ -99,5 +111,30 @@ public class DataValidator
             return null;
     }
 
+    public void checkForNotification(List<SensorRecord> records, Device device, Consumer<DownlinkRequest> func)
+    {
+        records.forEach(e -> {
+            if (e.getType() == SensorType.Light) {
+                if (e.getSensorValue() < 95 && !(device.getNotifiedMaps().get(NotificationType.Light_low)))
+                {
+                    logger.debug("Device: {} light is too low, should be notified", device.getDeviceId());
+                    device.getNotifiedMaps().put(NotificationType.Light_low, true);
+                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedDownlink.TURN_ON_LED.getPayload());
+                    func.accept(downlinkRequest);
+                    logger.debug("Device: {} is notified", device.getDeviceId());
+                }
+                else if (e.getSensorValue() > 95 && device.getNotifiedMaps().get(NotificationType.Light_low))
+                {
+                    logger.debug("Device: {} light is back to normal, should be notified", device.getDeviceId());
+                    device.getNotifiedMaps().put(NotificationType.Light_low, false);
+                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedDownlink.TURN_OFF_LED.getPayload());
+                    func.accept(downlinkRequest);
+                    logger.debug("Device: {} is notified", device.getDeviceId());
+                }
+            }
+        });
 
+
+
+    }
 }
