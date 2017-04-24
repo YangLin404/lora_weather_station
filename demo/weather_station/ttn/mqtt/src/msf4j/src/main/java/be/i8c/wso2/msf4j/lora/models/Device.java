@@ -5,11 +5,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * This class represents a loRa device.
+ * It's holds a map of notifications which already sent out, it is used to prevent duplicated notifications.
  * Created by yanglin on 21/04/17.
  */
 public class Device
 {
+    /**
+     * The unique id of device.
+     */
     private String deviceId;
+
+    /**
+     * A map of notifications which already sent out.
+     */
     private Map<NotificationType,Boolean> notifiedMap;
 
     public Device(String deviceId)

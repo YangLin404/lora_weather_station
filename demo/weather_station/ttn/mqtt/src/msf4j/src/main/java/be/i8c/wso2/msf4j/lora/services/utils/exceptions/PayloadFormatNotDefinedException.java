@@ -15,11 +15,10 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.utils.exceptions;
+package be.i8c.wso2.msf4j.lora.services.utils.exceptions;
 
 /**
  * Created by yanglin on 14/04/17.
  */
-public class PayloadFormatException extends Exception {
-
+public class PayloadFormatNotDefinedException extends Exception {
 }

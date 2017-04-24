@@ -17,25 +17,19 @@
 
 
 
-package be.i8c.wso2.msf4j.lora.utils;
+package be.i8c.wso2.msf4j.lora.services.utils;
 
 import be.i8c.wso2.msf4j.lora.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * This class is used to validate the integrity of data decoded from uplinkMessage using PayloadDecoder class
+ * This class is used to validate the integrity of data decoded from uplinkMessage using PayloadDecoder class and checks the required notification.
  * Created by yanglin on 10/04/17.
  */
 @Component
@@ -44,12 +38,6 @@ public class DataValidator
     private static final Logger logger = LogManager.getLogger(DataValidator.class);
 
     public DataValidator()
-    {
-
-    }
-
-    @PostConstruct
-    public void init()
     {
 
     }
@@ -111,6 +99,12 @@ public class DataValidator
             return null;
     }
 
+    /**
+     * checks if the notification is needed for specific device when its sensor values meets certain threshold .
+     * @param records The sensorrecords to be checked.
+     * @param device The device to be checked.
+     * @param func The callback function when notification should be send.
+     */
     public void checkForNotification(List<SensorRecord> records, Device device, Consumer<DownlinkRequest> func)
     {
         records.forEach(e -> {
@@ -119,7 +113,7 @@ public class DataValidator
                 {
                     logger.debug("Device: {} light is too low, should be notified", device.getDeviceId());
                     device.getNotifiedMaps().put(NotificationType.Light_low, true);
-                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedDownlink.TURN_ON_LED.getPayload());
+                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_ON_LED.getPayload());
                     func.accept(downlinkRequest);
                     logger.debug("Device: {} is notified", device.getDeviceId());
                 }
@@ -127,7 +121,7 @@ public class DataValidator
                 {
                     logger.debug("Device: {} light is back to normal, should be notified", device.getDeviceId());
                     device.getNotifiedMaps().put(NotificationType.Light_low, false);
-                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedDownlink.TURN_OFF_LED.getPayload());
+                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_OFF_LED.getPayload());
                     func.accept(downlinkRequest);
                     logger.debug("Device: {} is notified", device.getDeviceId());
                 }

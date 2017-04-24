@@ -1,10 +1,10 @@
-package be.i8c.wso2.msf4j.lora.utils;
+package be.i8c.wso2.msf4j.lora.services.utils;
 
 import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatException;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatNotDefinedException;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -21,12 +21,12 @@ import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
-import be.i8c.wso2.msf4j.lora.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.utils.DataValidator;
-import be.i8c.wso2.msf4j.lora.utils.PayloadEncoder;
-import be.i8c.wso2.msf4j.lora.utils.UplinkMessageValidator;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatException;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatNotDefinedException;
+import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
+import be.i8c.wso2.msf4j.lora.services.utils.PayloadEncoder;
+import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +120,7 @@ public class LoRaTTNService
                 if (!uplinkMessageValidator.isDuplicatedData(uplinkData))
                 {
                     try {
-                        logger.info("uplinkmessage with counter {} received.", uplinkData.getCounter());
+                        logger.info("uplinkmessage counter {} received.(device: {})", uplinkData.getCounter(),uplinkData.getDevId());
                         logger.debug("converting new uplinkmessage");
                         List<SensorRecord> records = decoder.decodePayload(uplinkData);
                         logger.debug("uplinkmessage converted.");
@@ -181,6 +181,10 @@ public class LoRaTTNService
         logger.info("mqtt client stopped");
     }
 
+    /**
+     * used to send downlink message
+     * @param request An object of DownlinkRequest with deviceid and payload to be sent.
+     */
     public void sendDownlink(DownlinkRequest request)
     {
         logger.debug("payload string are: {}", request.getPayloadString());

@@ -17,8 +17,8 @@
 
 package be.i8c.wso2.msf4j.lora.config;
 
-import be.i8c.wso2.msf4j.lora.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.utils.UplinkMessageValidator;
+import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;

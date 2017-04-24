@@ -15,13 +15,13 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.utils;
+package be.i8c.wso2.msf4j.lora.services.utils;
 
 import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatException;
-import be.i8c.wso2.msf4j.lora.utils.exceptions.PayloadFormatNotDefinedException;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -174,7 +174,7 @@ public class PayloadDecoder
         logger.debug("raw value: " + rawValue);
         if (type == SensorType.BatteryLevel)
         {
-            return Math.round((actualValue - 2.8d) / 0.014d);
+            return (double) Math.round((actualValue - 2.8000d) / 0.0140d);
         }
         else {
             return actualValue;
