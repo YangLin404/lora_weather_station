@@ -2,15 +2,16 @@
 
 ## Introduction
 
-For this project, 2 [LORAWAN Rapid Development Kits](http://www.allthingstalk.com/lorawan-rapid-development-kit) are available from www.allthingstalk.com.  
+In this demo we will be building a weather station with loRa device as sender and The Thingsnetwork as middleware handler. Both HTTP and MQTT protocol will be used in integration.
 
-These kits come with access to the following websites:
+## Components
+### * [LoRa micro service](src/msf4j/README.md)
+LoRa micro service is a REST based micro service for receiving en storing the loRa packets forwarded by The Things network(TTN) back-end. It is build upon MSF4j and Spring. It could also be used to manage the connections with TTN back-end. In that case, HTTP request is used. In addiction, it also provides the ability to send the downlink message to the specific loRa device.
+### * Arduino 
 
-* https://maker.allthingstalk.com  
-* https://devs.enco.io/dashboard  
-username = kristof.lievens@i8c.be  
-password = L0Ra2017!
+## Installing
+#### * LoRa micro service
 
-## Demo 1. Implementation using MQTT protocol
+Please read [INSTALL.md](src/msf4j/install/INSTALL.md) for instruction.
 
-This [demo](./mqtt/) shows how to build a weather station with LoRa device and Proximus using MQTT protocol.
+#### * Arduino
