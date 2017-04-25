@@ -21,7 +21,7 @@ git clone -b loRa-rest-service-ttn --single-branch https://i8c.githost.io/wso2/l
 The next step is to setup the back-end on your Server.
 
 * For server using elasticsearch and Kibana please follow: [install with elasticsearch](elastic/INSTALL-elastic.md).
-* For server using postgresql please follow: [install with postgresql](postgresql/INSTALL-postgresql.md) (Note.The tool for analyzing is currently not provided).
+* For server using postgresql please follow: [install with postgresql](postgresql/INSTALL-postgresql.md) (Note. The tool for analyzing is currently not provided).
 
 ### Step 3: All done
 
