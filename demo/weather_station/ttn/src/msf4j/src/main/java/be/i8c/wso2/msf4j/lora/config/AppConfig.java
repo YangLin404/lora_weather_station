@@ -70,30 +70,54 @@ public class AppConfig
     @Value("${ttn.accessKey}")
     private String accessKey;
 
+    /**
+     * list of deviceIds of the devices which we are expecting, loaded from application.properties
+     */
     @Value("#{'${device.deviceid}'.split(';')}")
     private List<String> deviceIds;
 
+
+    /**
+     * list of the payloadformat for each devices, loaded form application.properties
+     */
     @Value("#{'${device.format}'.split(';')}")
     private List<String> formats;
 
+    /**
+     * this bean creates a instance of prebuilt transportclient of elasticsearch API with default setting.
+     * @return a instance TransportClient
+     */
     @Bean
     public TransportClient transportClient()
     {
         return new PreBuiltTransportClient(Settings.EMPTY);
     }
 
+    /**
+     * this bean creates a instance payloadDecoder used for payload decoding.
+     * @return a instance PayloadDecoder
+     */
     @Bean
     public PayloadDecoder payloadDecoder()
     {
         return new PayloadDecoder(uplinkMessageValidator());
     }
 
+    /**
+     * this bean creates a instance of uplinkMessageValidator used for validating of uplinkMessages.
+     * @return a instance PayloadDecoder
+     */
     @Bean
     public UplinkMessageValidator uplinkMessageValidator()
     {
         return new UplinkMessageValidator();
     }
 
+    /**
+     * this bean creates a instance of mqtt Client of TTN with parameters loaded from application.properties.
+     * MQTT Client is required for communication with TTN back-end.
+     * @return a instance of MQTT Client of TTN.
+     */
     @Bean
     public Client client()
     {
@@ -104,6 +128,10 @@ public class AppConfig
         }
     }
 
+    /**
+     * this bean creates a list of devices defined in application.properties.
+     * @return a Map with deviceId as key and instance of Device as Value.
+     */
     @Bean
     public Map<String,Device> devices()
     {

@@ -7,7 +7,7 @@ import java.util.Map;
 
 /**
  * This class represents a loRa device.
- * It's holds a map of notifications which already sent out, it is used to prevent duplicated notifications.
+ * It's holds a map of notifications which already sent out, this map is used to prevent duplicated notifications.
  * Created by yanglin on 21/04/17.
  */
 public class Device
@@ -24,6 +24,11 @@ public class Device
      */
     private Map<NotificationType,Boolean> notifiedMap;
 
+    /**
+     * Constructor used by spring DI.
+     * @param deviceId the deviceId of the device
+     * @param payloadFormat the payload format of the device
+     */
     public Device(String deviceId, List<SensorType> payloadFormat)
     {
         this.deviceId = deviceId;

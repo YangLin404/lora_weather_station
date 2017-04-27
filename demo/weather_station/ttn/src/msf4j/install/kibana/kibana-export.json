@@ -17,6 +17,23 @@
     }
   },
   {
+    "_id": "4773b8d0-24e0-11e7-95e3-0b4d70c7611d",
+    "_type": "dashboard",
+    "_source": {
+      "title": "MyDashboardTTN",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"1d0138d0-203e-11e7-8380-cbc7f2cf2914\",\"panelIndex\":1,\"row\":1,\"size_x\":8,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"722ade50-203f-11e7-8380-cbc7f2cf2914\",\"panelIndex\":2,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"da81fd30-203f-11e7-8380-cbc7f2cf2914\",\"panelIndex\":3,\"row\":3,\"size_x\":8,\"size_y\":2,\"type\":\"visualization\"},{\"col\":9,\"id\":\"a7066e80-25be-11e7-85e2-65d40d97bcae\",\"panelIndex\":4,\"row\":3,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"8d0dd270-28e3-11e7-8cc6-e7e19e6f6d4a\",\"panelIndex\":5,\"row\":5,\"size_x\":8,\"size_y\":2,\"type\":\"visualization\"}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{\"P-1\":{\"vis\":{\"legendOpen\":false}},\"P-3\":{\"vis\":{\"legendOpen\":false}},\"P-5\":{\"vis\":{\"legendOpen\":false}}}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
     "_id": "319d7850-13a3-11e7-8993-b5a955f40ffb",
     "_type": "search",
     "_source": {
@@ -97,6 +114,146 @@
     }
   },
   {
+    "_id": "dac86d50-2045-11e7-9be5-932755994a59",
+    "_type": "search",
+    "_source": {
+      "title": "AllTemperatureHumidityTTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"lora-ttn\",\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"type:Humidity Temperature\",\n      \"analyze_wildcard\": true\n    }\n  },\n  \"filter\": [],\n  \"highlight\": {\n    \"pre_tags\": [\n      \"@kibana-highlighted-field@\"\n    ],\n    \"post_tags\": [\n      \"@/kibana-highlighted-field@\"\n    ],\n    \"fields\": {\n      \"*\": {}\n    },\n    \"require_field_match\": false,\n    \"fragment_size\": 2147483647\n  }\n}"
+      }
+    }
+  },
+  {
+    "_id": "bd6c44e0-203e-11e7-8380-cbc7f2cf2914",
+    "_type": "search",
+    "_source": {
+      "title": "AllDataTTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"index\": \"lora-ttn\",\n  \"filter\": [],\n  \"highlight\": {\n    \"pre_tags\": [\n      \"@kibana-highlighted-field@\"\n    ],\n    \"post_tags\": [\n      \"@/kibana-highlighted-field@\"\n    ],\n    \"fields\": {\n      \"*\": {}\n    },\n    \"require_field_match\": false,\n    \"fragment_size\": 2147483647\n  },\n  \"query\": {\n    \"query_string\": {\n      \"query\": \"*\",\n      \"analyze_wildcard\": true\n    }\n  }\n}"
+      }
+    }
+  },
+  {
+    "_id": "86682fd0-267a-11e7-92d2-b150925cb146",
+    "_type": "search",
+    "_source": {
+      "title": "AllBatteryApp1TTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora-ttn\",\"query\":{\"query_string\":{\"query\":\"type:BatteryLevel && deviceId:device_demo_application\",\"analyze_wildcard\":true}},\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647}}"
+      }
+    }
+  },
+  {
+    "_id": "c1a83650-203d-11e7-8380-cbc7f2cf2914",
+    "_type": "search",
+    "_source": {
+      "title": "AllHumiditiesTTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora-ttn\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Humidity && deviceId:device_demo_application\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "cdb64d60-203d-11e7-8380-cbc7f2cf2914",
+    "_type": "search",
+    "_source": {
+      "title": "AllPressureApp1TTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora-ttn\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Pressure && deviceId:device_demo_application\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "d6a10460-203d-11e7-8380-cbc7f2cf2914",
+    "_type": "search",
+    "_source": {
+      "title": "AllLightApp1TTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora-ttn\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Light && deviceId:device_demo_application\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "ac0fa5d0-203d-11e7-8380-cbc7f2cf2914",
+    "_type": "search",
+    "_source": {
+      "title": "AllTemperatureApp1TTN",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "time",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora-ttn\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Temperature && deviceId:device_demo_application\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
     "_id": "6b4bb490-13a3-11e7-b015-e72771ba0fe4",
     "_type": "visualization",
     "_source": {
@@ -170,6 +327,20 @@
     }
   },
   {
+    "_id": "847e4490-147b-11e7-989e-551ffbdc44b3",
+    "_type": "visualization",
+    "_source": {
+      "title": "AllDataTable",
+      "visState": "{\"title\":\"AllDataTable\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showMeticsAtAllLevels\":false,\"showPartialRows\":false,\"showTotal\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"totalFunc\":\"sum\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"max\",\"schema\":\"metric\",\"params\":{\"field\":\"streamValueTime\",\"customLabel\":\"Time\"}},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"type.keyword\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Sensor type\"}},{\"id\":\"4\",\"enabled\":true,\"type\":\"terms\",\"schema\":\"bucket\",\"params\":{\"field\":\"sensorValue\",\"size\":2,\"order\":\"desc\",\"orderBy\":\"1\",\"customLabel\":\"Sensor value\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":1,\"direction\":null}}}}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
     "_id": "ba8b5bc0-13ab-11e7-bbf6-9bc4df5a98ca",
     "_type": "visualization",
     "_source": {
@@ -193,6 +364,96 @@
       "uiStateJSON": "{\"vis\":{\"colors\":{\"0 to 99\":\"#9AC48A\",\"100 to 299\":\"#F2C96D\",\"500 to 700\":\"#EA6460\",\"300 to 499\":\"#F9934E\"}}}",
       "description": "",
       "savedSearchId": "3fe0a260-13a4-11e7-b015-e72771ba0fe4",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "118f7580-24e3-11e7-95e3-0b4d70c7611d",
+    "_type": "visualization",
+    "_source": {
+      "title": "HumiditiesTTN",
+      "visState": "{\n  \"title\": \"HumiditiesTTN\",\n  \"type\": \"line\",\n  \"params\": {\n    \"addTooltip\": true,\n    \"addLegend\": true,\n    \"legendPosition\": \"right\",\n    \"showCircles\": true,\n    \"interpolate\": \"linear\",\n    \"scale\": \"linear\",\n    \"drawLinesBetweenPoints\": true,\n    \"radiusRatio\": 9,\n    \"times\": [],\n    \"addTimeMarker\": false,\n    \"defaultYExtents\": false,\n    \"setYExtents\": false\n  },\n  \"aggs\": [\n    {\n      \"id\": \"1\",\n      \"enabled\": true,\n      \"type\": \"avg\",\n      \"schema\": \"metric\",\n      \"params\": {\n        \"field\": \"sensorValue\"\n      }\n    },\n    {\n      \"id\": \"2\",\n      \"enabled\": true,\n      \"type\": \"date_histogram\",\n      \"schema\": \"segment\",\n      \"params\": {\n        \"field\": \"time\",\n        \"interval\": \"auto\",\n        \"customInterval\": \"2h\",\n        \"min_doc_count\": 1,\n        \"extended_bounds\": {}\n      }\n    }\n  ],\n  \"listeners\": {}\n}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "c1a83650-203d-11e7-8380-cbc7f2cf2914",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\n  \"filter\": []\n}"
+      }
+    }
+  },
+  {
+    "_id": "722ade50-203f-11e7-8380-cbc7f2cf2914",
+    "_type": "visualization",
+    "_source": {
+      "title": "All data analyzed TTN",
+      "visState": "{\"title\":\"All data analyzed TTN\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Total received data\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "bd6c44e0-203e-11e7-8380-cbc7f2cf2914",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "a7066e80-25be-11e7-85e2-65d40d97bcae",
+    "_type": "visualization",
+    "_source": {
+      "title": "PressureTTN",
+      "visState": "{\"title\":\"PressureTTN\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\",\"customLabel\":\"Pressure\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "cdb64d60-203d-11e7-8380-cbc7f2cf2914",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "8d0dd270-28e3-11e7-8cc6-e7e19e6f6d4a",
+    "_type": "visualization",
+    "_source": {
+      "title": "BatteryApp1TTN",
+      "visState": "{\"title\":\"BatteryApp1TTN\",\"type\":\"line\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"showCircles\":true,\"interpolate\":\"linear\",\"scale\":\"linear\",\"drawLinesBetweenPoints\":true,\"radiusRatio\":9,\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"time\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "86682fd0-267a-11e7-92d2-b150925cb146",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "1d0138d0-203e-11e7-8380-cbc7f2cf2914",
+    "_type": "visualization",
+    "_source": {
+      "title": "Temperature App1 TTN",
+      "visState": "{\"title\":\"Temperature App1 TTN\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":true,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"linear\",\"legendPosition\":\"right\",\"orderBucketsBySum\":true,\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":true,\"showCircles\":true,\"times\":[],\"yAxis\":{\"max\":30,\"min\":20}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\",\"customLabel\":\"Temperature\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"time\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "ac0fa5d0-203d-11e7-8380-cbc7f2cf2914",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "da81fd30-203f-11e7-8380-cbc7f2cf2914",
+    "_type": "visualization",
+    "_source": {
+      "title": "Light App1 TTN",
+      "visState": "{\"title\":\"Light App1 TTN\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":true,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"linear\",\"legendPosition\":\"right\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":false,\"showCircles\":true,\"times\":[]},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\",\"customLabel\":\"Light\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"time\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "d6a10460-203d-11e7-8380-cbc7f2cf2914",
       "version": 1,
       "kibanaSavedObjectMeta": {
         "searchSourceJSON": "{\"filter\":[]}"

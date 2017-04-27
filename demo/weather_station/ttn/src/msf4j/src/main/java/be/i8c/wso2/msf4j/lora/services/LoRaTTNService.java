@@ -43,8 +43,8 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 /**
- *
- * This service class is used to manage communication with MQTT backend of TTN by using TTN JAVA SDK and as well used to manage the client class.
+ * This service class is used to manage communication with MQTT backend of TTN and to manage the MQTT client class.
+ * It is also responsible for pass through the incoming data to the Repository class.
  *
  */
 @Service
@@ -85,6 +85,9 @@ public class LoRaTTNService
     @Autowired
     private UplinkMessageValidator uplinkMessageValidator;
 
+    /**
+     * a list of predefined devices.
+     */
     @Autowired
     private Map<String,Device> devices;
 
@@ -100,7 +103,7 @@ public class LoRaTTNService
 
     /**
      * The initialization method of class LoRaTTNService.
-     * It registers a set of handlers to mqttClient of TTN JAVA SDK and start the client.
+     * It registers a set of handlers to mqttClient of TTN JAVA SDK and then start the client.
      * registered handlers are:
      * - error handler: handles when error occurred.
      * - uplink event handler: handles incoming uplink message
@@ -179,7 +182,7 @@ public class LoRaTTNService
 
     /**
      * Stop the mqtt client.
-     * @throws Exception when mqtt client connot be stopped.
+     * @throws Exception when mqtt client cannot be stopped.
      */
     public void stopClient() throws Exception {
         logger.info("stopping mqtt client");
@@ -188,7 +191,7 @@ public class LoRaTTNService
     }
 
     /**
-     * used to send downlink message.
+     * used to send downlink message to specific device.
      * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
      */
     public void sendDownlink(DownlinkRequest request)

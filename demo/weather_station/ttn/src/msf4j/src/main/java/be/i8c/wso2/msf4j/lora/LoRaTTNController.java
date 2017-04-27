@@ -33,9 +33,11 @@ import javax.ws.rs.core.Response;
 import java.util.Arrays;
 
 /**
- *
- * This is the micro service class based on msf4j. It is used to handle the http request such as start and stop the mqtt client.
- *
+ * This is the micro service class based on msf4j. It is used to handle the http request.
+ * Currently available API are:
+ * - start the MQTT client
+ * - stop the MQTT client
+ * - send downlinkmessage to specific device
  * @since 0.1-SNAPSHOT
  *
  */
