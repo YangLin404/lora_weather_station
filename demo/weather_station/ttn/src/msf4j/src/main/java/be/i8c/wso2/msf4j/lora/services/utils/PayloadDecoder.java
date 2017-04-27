@@ -120,7 +120,8 @@ public class PayloadDecoder
         Instant instant = Instant.parse(uplinkMessage.getMetadata().getTime());
         return new SensorBuilder()
                 .setDeviceId(uplinkMessage.getDevId())
-                .setTimestamp(instant.toEpochMilli());
+                .setTimestamp(instant.toEpochMilli())
+                .setCounter(uplinkMessage.getCounter());
     }
 
     /**

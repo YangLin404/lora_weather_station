@@ -31,6 +31,7 @@ public class SensorBuilder
     private long timestamp = Instant.now().toEpochMilli();
     private double value;
     private SensorType type;
+    private int counter;
 
     public SensorBuilder()
     {
@@ -67,6 +68,12 @@ public class SensorBuilder
         return this;
     }
 
+    public SensorBuilder setCounter(int counter)
+    {
+        this.counter = counter;
+        return this;
+    }
+
     /**
      * This method is used to build an instance of SensorRecord based on current builder properties.
      * @return an instance of SensorRecord
@@ -75,7 +82,7 @@ public class SensorBuilder
     {
         if (type == null)
             throw new IllegalArgumentException("type should not be null");
-        return new SensorRecord(this.deviceId,this.owner,this.timestamp,this.value,this.type);
+        return new SensorRecord(this.deviceId,this.owner,this.timestamp,this.value,this.type,this.counter);
     }
 
     /**
@@ -88,6 +95,7 @@ public class SensorBuilder
         timestamp = Instant.now().toEpochMilli();
         value=0;
         type = null;
+        counter = 0;
     }
 
 }

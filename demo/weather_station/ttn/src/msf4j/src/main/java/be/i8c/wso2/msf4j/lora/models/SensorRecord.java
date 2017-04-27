@@ -42,48 +42,42 @@ public class SensorRecord
     /**
      * id of lora device
      */
-    @XmlTransient
     private String deviceId;
     /**
      * owner of lora device
      */
-    @XmlTransient
     private String owner;
     /**
      * timestamps
      */
-    @XmlElement
     private long time;
     /**
      * value of sensor
      */
-    @XmlElement
     private double sensorValue;
     /**
      * type of sensor
      */
-    @XmlElement
     @Enumerated(EnumType.STRING)
     private SensorType type;
+
+    /**
+     * counter of the payload which the sensor is coming from
+     */
+    private int counter;
     
     public SensorRecord()
     {
         
     }
-    /*
-    public SensorRecord(String deviceId, String owner, long time, SensorType type) {
-        this.deviceId = deviceId;
-        this.owner = owner;
-        this.time = time;
-        this.type = type;
-    }
-    */
-    public SensorRecord(String deviceId, String owner, long time, double sensorValue, SensorType type) {
+
+    public SensorRecord(String deviceId, String owner, long time, double sensorValue, SensorType type, int counter) {
         this.deviceId = deviceId;
         this.owner = owner;
         this.time = time;
         this.sensorValue = sensorValue;
         this.type = type;
+        this.counter = counter;
     }
 
     public Long getId() {
@@ -132,6 +126,14 @@ public class SensorRecord
     
     public void setType(SensorType type) {
         this.type = type;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     public String simpleString()
