@@ -18,6 +18,7 @@
 package be.i8c.wso2.msf4j.lora.services.utils;
 
 import be.i8c.wso2.msf4j.lora.models.SensorType;
+import be.i8c.wso2.msf4j.lora.models.Uplink;
 import org.springframework.stereotype.Component;
 import org.thethingsnetwork.data.common.messages.UplinkMessage;
 
@@ -31,7 +32,7 @@ import java.util.List;
 @Component
 public class UplinkMessageValidator
 {
-    private UplinkMessage previousData;
+    private Uplink previousData;
 
     public UplinkMessageValidator()
     {
@@ -43,7 +44,7 @@ public class UplinkMessageValidator
      * @param data incoming uplinkMessage
      * @return true if uplinkMessage is duplicate
      */
-    public boolean isDuplicatedData(UplinkMessage data)
+    public boolean isDuplicatedData(Uplink data)
     {
         if (previousData == null) {
             this.previousData = data;

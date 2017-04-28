@@ -17,10 +17,7 @@
 
 package be.i8c.wso2.msf4j.lora.services.utils;
 
-import be.i8c.wso2.msf4j.lora.models.Device;
-import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.SensorType;
+import be.i8c.wso2.msf4j.lora.models.*;
 import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
 import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
@@ -67,7 +64,7 @@ public class PayloadDecoder
      * @return A list of SensorRecords when decoding succeed.
      * @throws PayloadFormatException when raw payload of uplinkMessage doesn't match the field payloadFormat.
      */
-    public List<SensorRecord> decodePayload(UplinkMessage data, Device device) throws PayloadFormatException
+    public List<SensorRecord> decodePayload(Uplink data, Device device) throws PayloadFormatException
     {
         List<SensorRecord> records = new LinkedList<>();
         logger.debug("convert raw payload to hex string: {}", Arrays.toString(data.getPayloadRaw()) );
@@ -115,7 +112,7 @@ public class PayloadDecoder
      * @param uplinkMessage uplinkMessage te be decoded.
      * @return An instance of SensorBuilder with pre-set deviceId and timestamp.
      */
-    private SensorBuilder prepareBuilder(UplinkMessage uplinkMessage)
+    private SensorBuilder prepareBuilder(Uplink uplinkMessage)
     {
         Instant instant = Instant.parse(uplinkMessage.getMetadata().getTime());
         return new SensorBuilder()

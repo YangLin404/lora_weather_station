@@ -56,6 +56,7 @@ public class DataValidatorTest
         sensorBuilder.flush();
     }
 
+    /*
     @Test
     public void validate__RecordWithValueInRange_ShouldReturnSameRecord()
 
@@ -103,6 +104,7 @@ public class DataValidatorTest
         assertEquals(ValidRecords, actual);
     }
 
+    */
     @Test
     public void validateAll_ListOfRecordsWithSomeInvalidRecord_ShouldReturnListOfValidRecord()
     {

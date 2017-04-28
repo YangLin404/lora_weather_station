@@ -18,11 +18,15 @@
 package be.i8c.wso2.msf4j.lora;
 
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
-import be.i8c.wso2.msf4j.lora.services.LoRaTTNService;
+import be.i8c.wso2.msf4j.lora.models.Uplink;
+import be.i8c.wso2.msf4j.lora.services.AbstractLoRaService;
+import be.i8c.wso2.msf4j.lora.services.exceptions.ClientNotRunningException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.thethingsnetwork.data.common.messages.UplinkMessage;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;
@@ -42,17 +46,30 @@ import java.util.Arrays;
  *
  */
 @Component
-@Path("/api/ttn")
-public class LoRaTTNController {
-    private static final Logger logger = LogManager.getLogger(LoRaTTNController.class);
+@Path("/lora/ttn/api")
+public class LoRaController {
+    private static final Logger logger = LogManager.getLogger(LoRaController.class);
 
 
     @Autowired
-    private LoRaTTNService service;
+    private AbstractLoRaService service;
+
+    @Autowired
+    private Environment env;
+
+    private boolean isHttp;
 
 
-    public LoRaTTNController() {
+    public LoRaController() {
 
+    }
+
+    @PostConstruct
+    public void init()
+    {
+        logger.debug(Arrays.toString(env.getActiveProfiles()));
+        isHttp = Arrays.asList(env.getActiveProfiles()).contains("http");
+        logger.debug("is http?: {}", isHttp);
     }
 
     /**
@@ -97,7 +114,7 @@ public class LoRaTTNController {
      * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
      */
     @POST
-    @Path("/manage/downlink")
+    @Path("/downlink")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response downlink(DownlinkRequest payload) {
         try {
@@ -111,7 +128,23 @@ public class LoRaTTNController {
                     entity(e.getMessage()).
                     build();
         }
+    }
 
-
+    @POST
+    @Path("/uplink")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response uplink(Uplink uplinkMessage)
+    {
+        if (isHttp) {
+            try {
+                service.save(uplinkMessage);
+                return Response.accepted().build();
+            }catch (RuntimeException e)
+            {
+                return Response.serverError().entity(e.getMessage()).build();
+            }
+        }
+        else
+            return Response.noContent().build();
     }
 }

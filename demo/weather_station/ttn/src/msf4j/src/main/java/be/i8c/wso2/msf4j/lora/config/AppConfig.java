@@ -31,6 +31,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.thethingsnetwork.data.mqtt.Client;
 
 import java.net.URISyntaxException;
@@ -48,27 +49,6 @@ public class AppConfig
 {
 
     private static final Logger logger = LogManager.getLogger(AppConfig.class);
-    /**
-     * payload format loaded from application.properties
-     */
-
-    /**
-     * the broker address, loaded from application.properties
-     */
-    @Value("${ttn.region}")
-    private String region;
-
-    /**
-     * the appId, loaded from application.properties
-     */
-    @Value("${ttn.appId}")
-    private String appId;
-
-    /**
-     * the accesskey, loaded from application.properties
-     */
-    @Value("${ttn.accessKey}")
-    private String accessKey;
 
     /**
      * list of deviceIds of the devices which we are expecting, loaded from application.properties
@@ -91,41 +71,6 @@ public class AppConfig
     public TransportClient transportClient()
     {
         return new PreBuiltTransportClient(Settings.EMPTY);
-    }
-
-    /**
-     * this bean creates a instance payloadDecoder used for payload decoding.
-     * @return a instance PayloadDecoder
-     */
-    @Bean
-    public PayloadDecoder payloadDecoder()
-    {
-        return new PayloadDecoder(uplinkMessageValidator());
-    }
-
-    /**
-     * this bean creates a instance of uplinkMessageValidator used for validating of uplinkMessages.
-     * @return a instance PayloadDecoder
-     */
-    @Bean
-    public UplinkMessageValidator uplinkMessageValidator()
-    {
-        return new UplinkMessageValidator();
-    }
-
-    /**
-     * this bean creates a instance of mqtt Client of TTN with parameters loaded from application.properties.
-     * MQTT Client is required for communication with TTN back-end.
-     * @return a instance of MQTT Client of TTN.
-     */
-    @Bean
-    public Client client()
-    {
-        try {
-            return new Client(region,appId,accessKey);
-        } catch (URISyntaxException e) {
-            throw new BeanCreationException("ttn mqtt client", e.getMessage(), e);
-        }
     }
 
     /**

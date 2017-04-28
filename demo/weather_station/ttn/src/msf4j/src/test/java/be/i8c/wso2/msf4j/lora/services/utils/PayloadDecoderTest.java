@@ -1,9 +1,6 @@
 package be.i8c.wso2.msf4j.lora.services.utils;
 
-import be.i8c.wso2.msf4j.lora.models.Device;
-import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.SensorType;
+import be.i8c.wso2.msf4j.lora.models.*;
 import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
 import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.junit.Before;
@@ -44,7 +41,7 @@ public class PayloadDecoderTest
 
     private static Device device;
     @Mock
-    private UplinkMessage uplinkMessage;
+    private Uplink uplinkMessage;
     @Mock
     private Metadata metadata;
 

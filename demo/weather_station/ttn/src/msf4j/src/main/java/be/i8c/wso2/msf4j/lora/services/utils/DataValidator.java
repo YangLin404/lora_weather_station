@@ -62,7 +62,7 @@ public class DataValidator
         else
         {
             List<SensorRecord> validRecords = records.stream()
-                    .filter(r -> this.validate(r) != null)
+                    .filter(SensorRecord::isValid)
                     .collect(Collectors.toList());
             logger.info("validating records finished, {} record are valid.", validRecords.size());
             logger.debug("valid records are: \n {}", validRecords.toString());
@@ -72,31 +72,6 @@ public class DataValidator
             }
             return validRecords;
         }
-
-    }
-
-    /**
-     * validates a single sensorRecord.
-     * @param record sensorRecord to be validated.
-     * @return same object when it is valid, null when invalid or param is null.
-     */
-    public SensorRecord validate(SensorRecord record)
-    {
-        if (record != null)
-        {
-            double min = record.getType().getMin();
-            double max = record.getType().getMax();
-            logger.debug("validating record: {}", record.simpleString());
-            logger.debug("range are {} - {}", min, max);
-            if (record.getSensorValue() > max || record.getSensorValue() < min) {
-                logger.warn("record: {} is invalid. It will be filter out.", record.simpleString());
-                return null;
-            } else
-                logger.debug("record: {} is valid.", record.simpleString());
-            return record;
-        }
-        else
-            return null;
     }
 
     /**
@@ -115,7 +90,7 @@ public class DataValidator
                     device.getNotifiedMaps().put(NotificationType.Light_low, true);
                     DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_ON_LED.getPayload());
                     func.accept(downlinkRequest);
-                    logger.debug("Device: {} is notified", device.getDeviceId());
+                    logger.info("Device: {} light is too low, notified", device.getDeviceId());
                 }
                 else if (e.getSensorValue() > 95 && device.getNotifiedMaps().get(NotificationType.Light_low))
                 {
@@ -123,7 +98,7 @@ public class DataValidator
                     device.getNotifiedMaps().put(NotificationType.Light_low, false);
                     DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_OFF_LED.getPayload());
                     func.accept(downlinkRequest);
-                    logger.debug("Device: {} is notified", device.getDeviceId());
+                    logger.info("Device: {} light is too low, notified", device.getDeviceId());
                 }
             }
         });

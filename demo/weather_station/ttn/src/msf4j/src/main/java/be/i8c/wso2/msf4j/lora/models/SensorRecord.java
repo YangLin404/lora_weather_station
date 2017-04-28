@@ -17,6 +17,10 @@
 
 package be.i8c.wso2.msf4j.lora.models;
 
+import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,8 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 public class SensorRecord
 {
+
+    private static final Logger logger = LogManager.getLogger(DataValidator.class);
     /**
-     * id
+     * unique id
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -92,48 +98,40 @@ public class SensorRecord
         return deviceId;
     }
     
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-    
     public String getOwner() {
         return owner;
-    }
-    
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public Long getTime() {
         return time;
     }
-    
-    public void setTime(Long time) {
-        this.time = time;
-    }
 
     public double getSensorValue() {
         return sensorValue;
     }
-    
-    public void setSensorValue(double value) {
-        this.sensorValue = value;
-    }
 
     public SensorType getType() {
         return type;
-    }
-    
-    public void setType(SensorType type) {
-        this.type = type;
     }
 
     public int getCounter() {
         return counter;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    /**
+     * validate this sensor.
+     * @return same object when it is valid, null when invalid or param is null.
+     */
+    public boolean isValid()
+    {
+        logger.debug("validating record: {}", this.simpleString());
+        logger.debug("range are {} - {}", type.getMin(), type.getMax());
+        if (this.getSensorValue() > type.getMax() || this.getSensorValue() < type.getMin()) {
+            logger.warn("record: {} is invalid. It will be filter out.", this.simpleString());
+            return false;
+        } else
+            logger.debug("record: {} is valid.", this.simpleString());
+        return true;
     }
 
     public String simpleString()
