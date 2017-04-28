@@ -16,21 +16,16 @@
   */
 
 package be.i8c.wso2.msf4j.lora.services;
-import be.i8c.wso2.msf4j.lora.models.Device;
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
+import be.i8c.wso2.msf4j.lora.models.Uplink;
 import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
-import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
 import be.i8c.wso2.msf4j.lora.services.utils.PayloadEncoder;
-import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.thethingsnetwork.data.common.Connection;
 import org.thethingsnetwork.data.common.messages.DataMessage;
@@ -47,26 +42,18 @@ import java.util.*;
  * It is also responsible for pass through the incoming data to the Repository class.
  *
  */
+
 @Service
-public class LoRaTTNService
+@Profile("mqtt")
+public class LoRaMQTTService extends AbstractLoRaService
 {
-    private static final Logger logger = LogManager.getLogger(LoRaTTNService.class);
+    private static final Logger logger = LogManager.getLogger(LoRaMQTTService.class);
 
     /**
      * MQTT client of TTN JAVA SDK, used to communicate with MQTT backend of TTN.
      */
+    @Autowired
     private Client client;
-
-    /**
-     * Repository class used to communicate with database.
-     */
-    @Autowired
-    private LoRaRepository repo;
-    /**
-     * An instance of PayloadDecoder class, used to decode the payload of uplinkMessage into SensorRecord.
-     */
-    @Autowired
-    private PayloadDecoder decoder;
 
     /**
      * An instance of PayloadEncoder class, used to encode the payload into bytes for downlink message.
@@ -74,35 +61,18 @@ public class LoRaTTNService
     @Autowired
     private PayloadEncoder encoder;
 
-    /**
-     * An instance of DataValidator class, used to validate the integrity of data to be inserted.
-     */
-    @Autowired
-    private DataValidator dataValidator;
-    /**
-     * An instance of UplinkMessageValidator class, used to validate the uplinkMessage.
-     */
-    @Autowired
-    private UplinkMessageValidator uplinkMessageValidator;
-
-    /**
-     * a list of predefined devices.
-     */
-    @Autowired
-    private Map<String,Device> devices;
 
     /**
      * Constructor used by spring for dependency injection
      * @param mqttClient An instance of mqttClient of TTN JAVA SDK.
      */
-    public LoRaTTNService(Client mqttClient, Map<String,Device> devices)
+    public LoRaMQTTService(Client mqttClient)
     {
-        this.devices = devices;
         this.client = mqttClient;
     }
 
     /**
-     * The initialization method of class LoRaTTNService.
+     * The initialization method of class LoRaMQTTService.
      * It registers a set of handlers to mqttClient of TTN JAVA SDK and then start the client.
      * registered handlers are:
      * - error handler: handles when error occurred.
@@ -122,43 +92,9 @@ public class LoRaTTNService
             client.onMessage((String devId, DataMessage data) ->
             {
                 UplinkMessage uplinkData = (UplinkMessage) data;
-
-                if (!uplinkMessageValidator.isDuplicatedData(uplinkData))
-                {
-                    try {
-                        logger.info("uplinkmessage counter {} received.(device: {})", uplinkData.getCounter(),uplinkData.getDevId());
-                        Device receivedDevice = devices.get(uplinkData.getDevId());
-                        if (receivedDevice == null)
-                            throw new UnknownDeviceException(uplinkData.getDevId());
-                        logger.debug("converting new uplinkmessage");
-                        List<SensorRecord> records = decoder.decodePayload(uplinkData,devices.get(uplinkData.getDevId()));
-                        logger.debug("uplinkmessage converted.");
-                        records.forEach(r -> logger.debug(r.simpleString()));
-                        logger.debug("start validating {} records", records.size());
-                        records = dataValidator.validateAll(records);
-                        logger.debug("checking notification");
-                        dataValidator.checkForNotification(records,devices.get(uplinkData.getDevId()), this::sendDownlink);
-                        if (records != null)
-                        {
-                            logger.info("saving records into database.");
-                            List savedRecords = repo.save(records);
-                            if (savedRecords != null) {
-                                logger.info("uplinkmessage with counter {} saved.", uplinkData.getCounter());
-                                logger.debug("saved data: \n {}", savedRecords.toString());
-                            }
-                            else
-                                logger.error("saving records into database fails, please check logs of repository class for detailed information");
-                        }
-                        else
-                            logger.warn("all records are invalid. ignore uplinkmessage counter {}", uplinkData.getCounter());
-                    }catch (PayloadFormatException e)
-                    {
-                        logger.error(e.getMessage());
-                        logger.debug(Arrays.toString(e.getStackTrace()));
-                    }
-                }
-                else
-                    logger.info("duplicated data with counter {} received, ignore.", uplinkData.getCounter());
+                Uplink uplink = new Uplink(uplinkData);
+                logger.info("uplink: {}", uplink.toString());
+                super.save(uplink);
             });
             client.start();
         }catch (URISyntaxException | UnknownDeviceException e) {
@@ -174,6 +110,7 @@ public class LoRaTTNService
      * Start the mqtt client.
      * @throws Exception when mqtt client cannot be started or it is already connected.
      */
+    @Override
     public void startClient() throws Exception {
         logger.info("starting mqtt client");
         this.client.start();
@@ -184,6 +121,7 @@ public class LoRaTTNService
      * Stop the mqtt client.
      * @throws Exception when mqtt client cannot be stopped.
      */
+    @Override
     public void stopClient() throws Exception {
         logger.info("stopping mqtt client");
         this.client.end();
@@ -194,6 +132,7 @@ public class LoRaTTNService
      * used to send downlink message to specific device.
      * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
      */
+    @Override
     public void sendDownlink(DownlinkRequest request)
     {
         logger.debug("payload string are: {}", request.getPayloadString());
@@ -205,5 +144,10 @@ public class LoRaTTNService
         } catch (Exception e) {
             throw new DownlinkException();
         }
+    }
+
+    @Override
+    protected void log(String log, Level level) {
+        logger.log(level,log);
     }
 }

@@ -20,6 +20,6 @@ package be.i8c.wso2.msf4j.lora.services.utils.exceptions;
 /**
  * Created by yanglin on 14/04/17.
  */
-public class PayloadFormatException extends Exception {
+public class PayloadFormatException extends RuntimeException {
 
 }
