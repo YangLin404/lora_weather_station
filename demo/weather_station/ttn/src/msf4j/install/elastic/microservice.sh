@@ -95,6 +95,18 @@ function checkConfig()
 	sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' ./kibana-5.2.2-linux-x86_64/config/kibana.yml;
 }
 
+function checkParameter()
+{
+	for par in "$@"
+	do
+		if [[ "$par" == "http" ]]; then
+			ELASTICPROFILE += ",http";
+		elif [[ "$par" == "mqtt" ]]; then
+			ELASTICPROFILE += ",mqtt"
+		fi
+	done
+}
+
 if [[ "$1" == "--install" ]]; then
 	checkRequirements;
 	checkConfig;
@@ -103,6 +115,7 @@ if [[ "$1" == "--install" ]]; then
 	echo "installation is completed, run this script with --start to start the micro service";
 elif [[ "$1" == "--start" ]]; then
 	checkConfig;
+	checkParameter;
 	echo "starting elasticsearch";
 	./elasticsearch-5.2.2/bin/elasticsearch -d;
 	echo "waiting elasticsearch to start.....";

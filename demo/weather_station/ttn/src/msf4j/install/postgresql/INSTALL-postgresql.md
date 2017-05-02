@@ -52,7 +52,7 @@ GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
 ```
 ### Step 5. Build project from source code
 
-* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step1).
+* Go to the directory where you have clone the source code in this [step](../README.md#step1).
 
 * Build source code
 
@@ -62,11 +62,15 @@ GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
 	```
 	
 ### Step 6. Run micro service
-
+* Run micro service with mqtt protocol
 ```shell
-java -jar -Dspring.profiles.active=postgresql ./target/msf4j-0.1-SNAPSHOT.jar
+java -jar -Dspring.profiles.active=postgresql,mqtt ./target/msf4j-0.1-SNAPSHOT.jar
 ```
 
+* Run micro service with http protocol
+```shell
+java -jar -Dspring.profiles.active=postgresql,mqtt ./target/msf4j-0.1-SNAPSHOT.jar
+```
 
 
     

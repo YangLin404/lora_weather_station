@@ -96,7 +96,7 @@ public abstract class AbstractLoRaService
 
     /**
      * This method is used to handle the uplinkMessage coming from TTN. First, the raw payload will be convert into a list of Records.
-     * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for serialization.
+     * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for persistence.
      * @param uplinkMessage the uplinkMessage coming from TTN.
      */
     public void save(Uplink uplinkMessage)

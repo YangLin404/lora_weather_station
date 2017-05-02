@@ -39,10 +39,16 @@
 	mvn package
 	```
 	
-* Run micro service with elasticsearch as database
+* Run micro service with elasticsearch as database and http as protocol
 
 	```shell
-	java -jar -Dspring.profiles.active=elasticsearch ./target/msf4j-0.1-SNAPSHOT.jar
+	java -jar -Dspring.profiles.active=elasticsearch,http ./target/msf4j-0.1-SNAPSHOT.jar
+	```
+	
+* Run micro service with elasticsearch as database and mqtt as protocol
+
+	```shell
+	java -jar -Dspring.profiles.active=elasticsearch,mqtt ./target/msf4j-0.1-SNAPSHOT.jar
 	```
 	
 ### <a name="startscript">2. Installation using microservice script</a>
@@ -80,13 +86,13 @@ Please read [Config file description](../CONFIG.md) and edit where neccessary.
 
 ### 5. Regardless of used installation method, the microservice script is able to perform following action.
 
-* To start the micro service. 
+* To start the micro service with mqtt protocol. 
 
 	```shell
-	./microservice-elastic.sh --start
+	./microservice-elastic.sh --start mqtt
 	```
-* To stop the micro service.
+* To stop the micro service with http protocol.
 
 	```shell
-	./microservice-elastic.sh --stop
+	./microservice-elastic.sh --stop http
 	```	

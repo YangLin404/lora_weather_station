@@ -137,7 +137,7 @@ public class PayloadDecoder
         if (type == SensorType.BatteryLevel)
         {
             logger.info("battery voltage: {}", actualValue);
-            return (double) Math.round((actualValue - 3.3000d) / 0.0090d);
+            return ((double) (Math.round(((actualValue - 3.3000d) / 0.0090d) * 100))) / 100;
         }
         else {
             return actualValue;

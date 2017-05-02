@@ -24,7 +24,7 @@ package be.i8c.wso2.msf4j.lora.models;
 public enum SensorType {
     Temperature(-50,100,10.0d), Light(0,150, 10.0d),
     Pressure(900,1100, 10.0d), Humidity(0,100, 10.0d),
-    AirQuality(0,1000,10.0d), BatteryLevel(0,100,1000.0d);
+    AirQuality(0,1000,10.0d), BatteryLevel(0,101,1000.0d);
 
     /**
      * This is the description of specified type in json object of proximus
