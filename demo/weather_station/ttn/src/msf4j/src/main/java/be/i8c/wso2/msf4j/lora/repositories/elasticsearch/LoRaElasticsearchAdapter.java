@@ -20,7 +20,6 @@ import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +34,6 @@ import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.metrics.max.Max;
-import org.elasticsearch.transport.ConnectTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -70,10 +68,11 @@ public class LoRaElasticsearchAdapter
      */
      @Value("${elasticsearch.index}")
      private String esIndex;
+
+    /**
+     * The port number of elasticsearch server. It will be automatically read from application.properties
+     */
      @Value("${elasticsearch.port}")
-     /**
-      * The port number of elasticsearch server. It will be automatically read from application.properties
-      */
      private int esPort;
     /**
      * The name of field to be mapped as date. It will be automatically read from application.properties

@@ -20,9 +20,6 @@ package be.i8c.wso2.msf4j.lora.services.utils;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
 import org.springframework.stereotype.Component;
-import org.thethingsnetwork.data.common.messages.UplinkMessage;
-
-import java.util.Arrays;
 import java.util.List;
 
 /**

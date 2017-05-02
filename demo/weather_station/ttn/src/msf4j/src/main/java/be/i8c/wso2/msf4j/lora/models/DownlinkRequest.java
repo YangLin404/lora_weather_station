@@ -19,7 +19,6 @@ package be.i8c.wso2.msf4j.lora.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 
 /**
  * This is a POJO representation of a downlink message request. It's needed by creating of downlink message.

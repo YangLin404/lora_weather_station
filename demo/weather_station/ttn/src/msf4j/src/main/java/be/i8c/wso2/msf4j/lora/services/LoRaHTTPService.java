@@ -1,3 +1,20 @@
+/*
+  * Copyright (c) 2017, i8c N.V. (Integr8 Consulting; http://www.i8c.be)
+  * All Rights Reserved.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
+
 package be.i8c.wso2.msf4j.lora.services;
 
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
@@ -18,6 +35,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * The implementation of loRaService using HTTP protocol.
  * Created by yanglin on 27/04/17.
  */
 
@@ -27,6 +45,9 @@ public class LoRaHTTPService extends AbstractLoRaService
 {
     private static final Logger logger = LogManager.getLogger(LoRaHTTPService.class);
 
+    /**
+     * The proces id of TTN HTTP integration, loaded from application.properties
+     */
     @Value("${ttn.http.procesId}")
     private String procesId;
 
@@ -37,16 +58,25 @@ public class LoRaHTTPService extends AbstractLoRaService
     private String appId;
 
     /**
-     * the accesskey, loaded from application.properties
+     * The accesskey, loaded from application.properties
      */
     @Value("${ttn.accessKey}")
     private String accessKey;
 
+    /**
+     * The url used to send downlinkmessage, loaded from application.properties.
+     */
     @Value("${ttn.http.url}")
     private String downlinkUrl;
 
+    /**
+     * Jackson ObjectMapper, used to serialize object into Json.
+     */
     private ObjectMapper objectMapper;
 
+    /**
+     * A variable determines if HTTP protocol is running or not.
+     */
     private boolean isRunning;
 
     public LoRaHTTPService()
@@ -54,6 +84,9 @@ public class LoRaHTTPService extends AbstractLoRaService
 
     }
 
+    /**
+     * init method, builds the downlink url and initializes the ObjectMapper.
+     */
     @PostConstruct
     private void init()
     {
@@ -67,6 +100,7 @@ public class LoRaHTTPService extends AbstractLoRaService
         objectMapper = new ObjectMapper();
     }
 
+
     @Override
     public void startClient() throws Exception {
         isRunning = true;
@@ -77,8 +111,13 @@ public class LoRaHTTPService extends AbstractLoRaService
         isRunning = false;
     }
 
+    /**
+     * Sends the downlink message through HTTP protocol
+     * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
+     * @throws RuntimeException when response code are not 202 and when IOException occurred.
+     */
     @Override
-    public void sendDownlink(DownlinkRequest request) throws RuntimeException {
+    public void sendDownlink(DownlinkRequest request) throws DownlinkException {
         if (!isRunning)
             throw new ClientNotRunningException();
         else

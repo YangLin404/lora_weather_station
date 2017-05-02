@@ -19,22 +19,15 @@ package be.i8c.wso2.msf4j.lora.config;
 
 import be.i8c.wso2.msf4j.lora.models.Device;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
-import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
 import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.thethingsnetwork.data.mqtt.Client;
-
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

@@ -25,7 +25,7 @@ public enum PreDefinedPayload
 {
     TURN_ON_LED("-1"), TURN_OFF_LED("0");
 
-    private String payload;
+    private final String payload;
 
     PreDefinedPayload(String payload)
     {

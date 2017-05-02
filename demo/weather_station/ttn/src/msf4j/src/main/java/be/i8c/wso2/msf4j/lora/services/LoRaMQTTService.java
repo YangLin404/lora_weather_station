@@ -16,6 +16,7 @@
   */
 
 package be.i8c.wso2.msf4j.lora.services;
+
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
 import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
@@ -37,9 +38,7 @@ import java.net.URISyntaxException;
 import java.util.*;
 
 /**
- * This service class is used to manage communication with MQTT backend of TTN and to manage the MQTT client class.
- * It is also responsible for pass through the incoming data to the Repository class.
- *
+ * The implementation of loRaService using MQTT protocol.
  */
 
 @Service
@@ -54,11 +53,6 @@ public class LoRaMQTTService extends AbstractLoRaService
     @Autowired
     private Client client;
 
-
-    /**
-     * Constructor used by spring for dependency injection
-     * @param mqttClient An instance of mqttClient of TTN JAVA SDK.
-     */
     public LoRaMQTTService(Client mqttClient)
     {
         this.client = mqttClient;
@@ -125,7 +119,7 @@ public class LoRaMQTTService extends AbstractLoRaService
      * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
      */
     @Override
-    public void sendDownlink(DownlinkRequest request)
+    public void sendDownlink(DownlinkRequest request) throws DownlinkException
     {
         logger.debug("payload string are: {}", request.getPayloadString());
         super.encode(request);

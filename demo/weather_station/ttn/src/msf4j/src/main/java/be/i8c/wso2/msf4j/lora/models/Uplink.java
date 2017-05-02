@@ -1,3 +1,20 @@
+/*
+  * Copyright (c) 2017, i8c N.V. (Integr8 Consulting; http://www.i8c.be)
+  * All Rights Reserved.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
+
 package be.i8c.wso2.msf4j.lora.models;
 
 import org.thethingsnetwork.data.common.Metadata;
@@ -9,23 +26,24 @@ import java.util.Base64;
 import java.util.Map;
 
 /**
+ * A wrapper class of UplinkMessage class of TTN JAVA SDK.
  * Created by yanglin on 28/04/17.
  */
 public class Uplink implements DataMessage {
 
-    private String app_id;
+    private final String app_id;
 
-    private String dev_id;
+    private final String dev_id;
 
-    private String hardware_serial;
+    private final String hardware_serial;
 
-    private boolean is_Retry;
-    private int port;
-    private int counter;
+    private final boolean is_Retry;
+    private final int port;
+    private final int counter;
     private String payload_raw;
-    private byte[] payload;
+    private final byte[] payload;
     private Map<String, Object> payload_fields;
-    private Metadata metadata;
+    private final Metadata metadata;
 
     public Uplink(UplinkMessage uplinkMessage) {
         this.app_id = uplinkMessage.getAppId();

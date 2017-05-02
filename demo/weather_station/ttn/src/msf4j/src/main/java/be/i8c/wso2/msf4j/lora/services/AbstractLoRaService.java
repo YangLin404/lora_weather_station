@@ -1,3 +1,20 @@
+/*
+  * Copyright (c) 2017, i8c N.V. (Integr8 Consulting; http://www.i8c.be)
+  * All Rights Reserved.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
+
 package be.i8c.wso2.msf4j.lora.services;
 
 import be.i8c.wso2.msf4j.lora.models.Device;
@@ -5,6 +22,7 @@ import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
+import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.exceptions.SaveToRepositoryException;
 import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
 import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
@@ -19,6 +37,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * An abstract loraService class which can be implemented into either HTTP or MQTT service depends on the usage.
+ * LoRaService is used to handle the uplinkmessages, send the downlink messages and manages the client which is used in communication with TTN back-end.
  * Created by yanglin on 27/04/17.
  */
 public abstract class AbstractLoRaService
@@ -65,12 +85,21 @@ public abstract class AbstractLoRaService
 
     }
 
+    /**
+     * Constroctor with predefined Devices in application.properties.
+     * @param devices predefined Devices in application.properties
+     */
     public AbstractLoRaService(Map<String,Device> devices)
     {
         this.devices = devices;
     }
 
-    public void save(Uplink uplinkMessage) throws RuntimeException
+    /**
+     * This method is used to handle the uplinkMessage coming from TTN. First, the raw payload will be convert into a list of Records.
+     * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for serialization.
+     * @param uplinkMessage the uplinkMessage coming from TTN.
+     */
+    public void save(Uplink uplinkMessage)
     {
         if (!uplinkMessageValidator.isDuplicatedData(uplinkMessage))
         {
@@ -107,6 +136,11 @@ public abstract class AbstractLoRaService
             log(String.format("duplicated data with counter %d received, ignore.", uplinkMessage.getCounter()),Level.INFO);
     }
 
+    /**
+     * this method passes the valid sensor records to the repository class for serialization.
+     * @param records a list of valid sensor records.
+     * @throws SaveToRepositoryException when parameter records are null.
+     */
     private void saveToRepo(List<SensorRecord> records)  throws SaveToRepositoryException
     {
         List savedRecords = repo.save(records);
@@ -118,14 +152,32 @@ public abstract class AbstractLoRaService
         }
     }
 
+    /**
+     * This method encodes the human readable downlink payload into an array of bytes.
+     * @param downlinkRequest The downlink message to be sent.
+     */
     protected void encode(DownlinkRequest downlinkRequest)
     {
         downlinkRequest.setPayload_raw(encoder.encode(downlinkRequest.getPayloadString()));
     }
 
+    /**
+     * Let service start listening on uplinkmessages.
+     * @throws Exception
+     */
     abstract public void startClient() throws Exception;
+
+    /**
+     * Let service stop listening on uplinkmessages.
+     * @throws Exception
+     */
     abstract public void stopClient() throws Exception;
-    abstract public void sendDownlink(DownlinkRequest request);
+
+    /**
+     * Send the downlink message.
+     * @param request
+     */
+    abstract public void sendDownlink(DownlinkRequest request) throws DownlinkException;
 
     abstract protected void log(String log, Level level);
 }

@@ -20,13 +20,11 @@ package be.i8c.wso2.msf4j.lora;
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
 import be.i8c.wso2.msf4j.lora.services.AbstractLoRaService;
-import be.i8c.wso2.msf4j.lora.services.exceptions.ClientNotRunningException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.thethingsnetwork.data.common.messages.UplinkMessage;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.Consumes;

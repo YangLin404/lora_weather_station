@@ -22,18 +22,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * This is a POJO representing the lora packet
  */
 
-@XmlRootElement(name="Record")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
 public class SensorRecord
 {
@@ -119,7 +112,7 @@ public class SensorRecord
     }
 
     /**
-     * validate this sensor.
+     * validates this sensor.
      * @return same object when it is valid, null when invalid or param is null.
      */
     public boolean isValid()
