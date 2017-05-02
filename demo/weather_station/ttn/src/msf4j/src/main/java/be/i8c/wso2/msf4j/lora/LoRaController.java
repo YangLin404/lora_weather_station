@@ -145,6 +145,9 @@ public class LoRaController {
             }
         }
         else
+        {
+            logger.debug("http message incoming, but http integration not enable.");
             return Response.noContent().build();
+        }
     }
 }

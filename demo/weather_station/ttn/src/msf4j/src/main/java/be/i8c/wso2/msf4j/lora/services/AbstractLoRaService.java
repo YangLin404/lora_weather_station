@@ -9,10 +9,10 @@ import be.i8c.wso2.msf4j.lora.services.exceptions.SaveToRepositoryException;
 import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
 import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
 import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.services.utils.PayloadEncoder;
 import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.thethingsnetwork.data.common.messages.UplinkMessage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +42,12 @@ public abstract class AbstractLoRaService
      */
     @Autowired
     private PayloadDecoder decoder;
+
+    /**
+     * An instance of PayloadEncoder class, used to encode the payload into bytes for downlink message.
+     */
+    @Autowired
+    private PayloadEncoder encoder;
 
     /**
      * An instance of DataValidator class, used to validate the integrity of data to be inserted.
@@ -110,6 +116,11 @@ public abstract class AbstractLoRaService
         else {
             throw new SaveToRepositoryException();
         }
+    }
+
+    protected void encode(DownlinkRequest downlinkRequest)
+    {
+        downlinkRequest.setPayload_raw(encoder.encode(downlinkRequest.getPayloadString()));
     }
 
     abstract public void startClient() throws Exception;

@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class PayloadEncoder
      * @return array of byte
      * @throws IllegalArgumentException when payload string is null or empty.
      */
-    public byte[] encode(String payloadString)
+    public String encode(String payloadString)
     {
         if (payloadString == null || payloadString.isEmpty())
             throw new IllegalArgumentException("payload string cannot be empty");
@@ -55,6 +56,8 @@ public class PayloadEncoder
         byte[] payload = new byte[payloadstringList.size()];
         payloadstringList.forEach(e -> Arrays.fill(payload, Byte.parseByte(e,16)));
         logger.debug("encoded bytes are: {}", Arrays.toString(payload));
-        return payload;
+        String base64 = Base64.getEncoder().encodeToString(payload);
+        logger.debug("encoded base64 is: {}", base64);
+        return base64;
     }
 }

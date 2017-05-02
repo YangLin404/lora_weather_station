@@ -46,6 +46,7 @@ public class UplinkMessageValidator
      */
     public boolean isDuplicatedData(Uplink data)
     {
+        /*
         if (previousData == null) {
             this.previousData = data;
             return false;
@@ -66,6 +67,18 @@ public class UplinkMessageValidator
                     return true;
             }
             previousData = data;
+            return false;
+        }
+        */
+        if (previousData == null)
+        {
+            this.previousData = data;
+            return false;
+        }
+        if(data.getMetadata().getTime().equals(this.previousData.getMetadata().getTime()))
+            return true;
+        else {
+            this.previousData = data;
             return false;
         }
     }

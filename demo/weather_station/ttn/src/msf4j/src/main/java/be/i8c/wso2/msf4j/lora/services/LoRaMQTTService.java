@@ -20,7 +20,6 @@ import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
 import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
-import be.i8c.wso2.msf4j.lora.services.utils.PayloadEncoder;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,12 +54,6 @@ public class LoRaMQTTService extends AbstractLoRaService
     @Autowired
     private Client client;
 
-    /**
-     * An instance of PayloadEncoder class, used to encode the payload into bytes for downlink message.
-     */
-    @Autowired
-    private PayloadEncoder encoder;
-
 
     /**
      * Constructor used by spring for dependency injection
@@ -93,7 +86,6 @@ public class LoRaMQTTService extends AbstractLoRaService
             {
                 UplinkMessage uplinkData = (UplinkMessage) data;
                 Uplink uplink = new Uplink(uplinkData);
-                logger.info("uplink: {}", uplink.toString());
                 super.save(uplink);
             });
             client.start();
@@ -136,9 +128,9 @@ public class LoRaMQTTService extends AbstractLoRaService
     public void sendDownlink(DownlinkRequest request)
     {
         logger.debug("payload string are: {}", request.getPayloadString());
-        byte[] _payload = encoder.encode(request.getPayloadString());
-        logger.debug("payload are: " + Arrays.toString(_payload));
-        DownlinkMessage d = new DownlinkMessage(1, _payload);
+        super.encode(request);
+        logger.debug("payload are: {}", request.getPayload_raw());
+        DownlinkMessage d = new DownlinkMessage(request.getPort(), request.getPayload_raw());
         try {
             this.client.send(request.getDeviceId(),d);
         } catch (Exception e) {

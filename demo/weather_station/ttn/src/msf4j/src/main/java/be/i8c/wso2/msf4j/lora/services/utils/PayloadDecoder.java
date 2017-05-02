@@ -138,7 +138,8 @@ public class PayloadDecoder
         logger.debug("raw value: " + rawValue);
         if (type == SensorType.BatteryLevel)
         {
-            return (double) Math.round((actualValue - 2.8000d) / 0.0140d);
+            logger.info("battery voltage: {}", actualValue);
+            return (double) Math.round((actualValue - 3.3000d) / 0.0090d);
         }
         else {
             return actualValue;
