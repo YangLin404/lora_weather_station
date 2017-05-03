@@ -1,0 +1,9 @@
+{
+    "id": "Light_level",
+    "title": "Light level",
+    "type": "gadget",
+    "thumbnail": "gadget/Light_level/thumbnail.png",
+    "data": {
+        "url": "gadget/Light_level/gadget.xml"
+    }
+}
