@@ -8,6 +8,7 @@ All configurations are required, unless otherwise specified.
 | **http.port**  | the port which microservice will be listening. | 8287  |
 
 ## Elasticsearch
+This configurations is used by elasticsearch. Leave it empty if you are using Postgresql database.
 
 | Config | Description | Default |
 |---|---|---|
@@ -16,6 +17,7 @@ All configurations are required, unless otherwise specified.
 | **elasticsearch.port** | the port which elasticsearch is listening. | 9300 |
 
 ## Postgresql
+This configurations is used by postgresql database. Leave it empty if you are using elasticsearch.
 
 | Config | Description | Default |
 |---|---|---|
@@ -25,6 +27,7 @@ All configurations are required, unless otherwise specified.
 | **db.password** | password of postgresql database | |
 
 ## Hibernate
+This configurations is used by postgresql database. Leave it empty if you are using elasticsearch.
 
 | Config | Description | Default |
 |---|---|---|
@@ -41,7 +44,7 @@ All configurations are required, unless otherwise specified.
 | **ttn.accessKey** | An access key for the application, formatted as base64. |
 
 ## Devices:
-
+Here defines your lora devices.
 
 | Config | Description | Default |
 |---|---|---|

@@ -72,7 +72,7 @@
 	
 ### <a name="config">3. Configure application.properties</a>
 
-After succesfully build the source code, you will find the config file application.properties under ./target/config/ folder. It is neccessary to edit it before first time starting the microservice. 
+After succesfully build the source code, you will find the config file application.properties under ./target/config/folder. It is neccessary to edit it before first time starting the microservice. 
 
 Please read [Config file description](../CONFIG.md) and edit where neccessary.
 
@@ -86,12 +86,12 @@ Please read [Config file description](../CONFIG.md) and edit where neccessary.
 
 ### 5. Regardless of used installation method, the microservice script is able to perform following action.
 
-* To start the micro service with mqtt protocol. 
+* To start the micro service with mqtt protocol and elasticsearch. 
 
 	```shell
 	./microservice-elastic.sh --start mqtt
 	```
-* To stop the micro service with http protocol.
+* To stop the micro service with http protocol and elasticsearch.
 
 	```shell
 	./microservice-elastic.sh --stop http

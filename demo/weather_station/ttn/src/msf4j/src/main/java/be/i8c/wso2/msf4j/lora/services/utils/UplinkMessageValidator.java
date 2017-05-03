@@ -38,6 +38,7 @@ public class UplinkMessageValidator
 
     /**
      * This method is used to check whether incoming uplinkMessage is duplicate compared to the previous received uplinkMessage or not.
+     * It checks on the timestamps of 2 uplinkmessages
      * @param data incoming uplinkMessage
      * @return true if uplinkMessage is duplicate
      */

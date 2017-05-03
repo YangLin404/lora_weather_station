@@ -3,9 +3,9 @@
 ## Functional specs
 This porject is a micro service with following functions: 
 
-* Receving and storing the loRa packets.
+* Receving and storing the loRa packets foward by The Thingsnetwork(TTN).
 * Sending the downlink message to specific loRa device.
-* Managing the connections with The Thingsnetwork(TTN) back-end.
+* Managing the connections TTN back-end.
 
 ## Technical specs
 
