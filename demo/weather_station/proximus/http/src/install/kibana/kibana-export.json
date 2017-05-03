@@ -1,0 +1,202 @@
+[
+  {
+    "_id": "13cc2640-13a4-11e7-b015-e72771ba0fe4",
+    "_type": "dashboard",
+    "_source": {
+      "title": "MyDashBoard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"id\":\"6b4bb490-13a3-11e7-b015-e72771ba0fe4\",\"panelIndex\":1,\"row\":3,\"size_x\":9,\"size_y\":3,\"type\":\"visualization\"},{\"col\":1,\"id\":\"fb544390-13a3-11e7-b015-e72771ba0fe4\",\"panelIndex\":2,\"row\":1,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"},{\"col\":1,\"id\":\"7a6bd120-13a4-11e7-b015-e72771ba0fe4\",\"panelIndex\":3,\"row\":6,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\"85ace1f0-13a9-11e7-8a47-8d1dfa9a7683\",\"panelIndex\":4,\"row\":3,\"size_x\":3,\"size_y\":3,\"type\":\"visualization\"},{\"col\":4,\"id\":\"cfbc4640-13aa-11e7-8a47-8d1dfa9a7683\",\"panelIndex\":5,\"row\":6,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"ba8b5bc0-13ab-11e7-bbf6-9bc4df5a98ca\",\"panelIndex\":6,\"row\":6,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":7,\"id\":\"5b90b690-13ad-11e7-bbf6-9bc4df5a98ca\",\"panelIndex\":7,\"row\":1,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{\"P-3\":{\"vis\":{\"colors\":{\"0 to 99\":\"#9AC48A\",\"100 to 299\":\"#F4D598\",\"300 to 499\":\"#F9BA8F\",\"500 to 700\":\"#EA6460\"}}}}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "319d7850-13a3-11e7-8993-b5a955f40ffb",
+    "_type": "search",
+    "_source": {
+      "title": "AllTemperatures",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "streamValueTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Temperature\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "3fe0a260-13a4-11e7-b015-e72771ba0fe4",
+    "_type": "search",
+    "_source": {
+      "title": "AllAirQualities",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "streamValueTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:AirQuality\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "663de570-13aa-11e7-8a47-8d1dfa9a7683",
+    "_type": "search",
+    "_source": {
+      "title": "AllLoudness",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "streamValueTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"type:Loudness\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "6ddf5e20-13ab-11e7-a4d8-8dd6e8695710",
+    "_type": "search",
+    "_source": {
+      "title": "AllHumidities",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "streamValueTime",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"type:Humidity\"}},\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647}}"
+      }
+    }
+  },
+  {
+    "_id": "6b4bb490-13a3-11e7-b015-e72771ba0fe4",
+    "_type": "visualization",
+    "_source": {
+      "title": "Average Temperature Per Hour",
+      "visState": "{\"title\":\"Average Temperature Per Hour\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":false,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"cardinal\",\"legendPosition\":\"right\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":true,\"showCircles\":true,\"times\":[],\"yAxis\":{\"max\":30,\"min\":15}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\",\"customLabel\":\"Temperature\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"streamValueTime\",\"interval\":\"custom\",\"customInterval\":\"30m\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"Hour\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "319d7850-13a3-11e7-8993-b5a955f40ffb",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "cfbc4640-13aa-11e7-8a47-8d1dfa9a7683",
+    "_type": "visualization",
+    "_source": {
+      "title": "Loudness PieChart",
+      "visState": "{\"title\":\"Loudness PieChart\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Loudness\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"range\",\"schema\":\"segment\",\"params\":{\"field\":\"sensorValue\",\"ranges\":[{\"from\":0,\"to\":20},{\"from\":21,\"to\":50},{\"from\":51,\"to\":80},{\"from\":81,\"to\":100}],\"customLabel\":\"\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"colors\":{\"21 to 50\":\"#F2C96D\",\"51 to 80\":\"#F9934E\",\"0 to 20\":\"#9AC48A\",\"81 to 100\":\"#EA6460\"}}}",
+      "description": "",
+      "savedSearchId": "663de570-13aa-11e7-8a47-8d1dfa9a7683",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "85ace1f0-13a9-11e7-8a47-8d1dfa9a7683",
+    "_type": "visualization",
+    "_source": {
+      "title": "Average Temperature",
+      "visState": "{\"title\":\"Average Temperature\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"schema\":\"metric\",\"params\":{\"field\":\"sensorValue\",\"customLabel\":\"Average Temperature\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "319d7850-13a3-11e7-8993-b5a955f40ffb",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "5b90b690-13ad-11e7-bbf6-9bc4df5a98ca",
+    "_type": "visualization",
+    "_source": {
+      "title": "Total data analyzed",
+      "visState": "{\"title\":\"Total data analyzed\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":60},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Total data analyzed\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"lora\",\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "fb544390-13a3-11e7-b015-e72771ba0fe4",
+    "_type": "visualization",
+    "_source": {
+      "title": "TitleMarkdown",
+      "visState": "{\"title\":\"TitleMarkdown\",\"type\":\"markdown\",\"params\":{\"markdown\":\"# Environmental analytics of I8C office\"},\"aggs\":[],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}},\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "ba8b5bc0-13ab-11e7-bbf6-9bc4df5a98ca",
+    "_type": "visualization",
+    "_source": {
+      "title": "Humidity PieChart",
+      "visState": "{\"title\":\"Humidity PieChart\",\"type\":\"pie\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"isDonut\":true},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Humidity\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"range\",\"schema\":\"segment\",\"params\":{\"field\":\"sensorValue\",\"ranges\":[{\"from\":5,\"to\":20},{\"from\":21,\"to\":40},{\"from\":41,\"to\":80},{\"from\":81,\"to\":100}]}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"colors\":{\"21 to 50\":\"#F2C96D\",\"5 to 20\":\"#9AC48A\",\"51 to 80\":\"#F9934E\",\"21 to 40\":\"#F2C96D\",\"81 to 100\":\"#EA6460\",\"41 to 80\":\"#F9934E\"}}}",
+      "description": "",
+      "savedSearchId": "6ddf5e20-13ab-11e7-a4d8-8dd6e8695710",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "7a6bd120-13a4-11e7-b015-e72771ba0fe4",
+    "_type": "visualization",
+    "_source": {
+      "title": "Air Quality PieChart",
+      "visState": "{\"title\":\"Air Quality PieChart\",\"type\":\"pie\",\"params\":{\"addLegend\":true,\"addTooltip\":true,\"isDonut\":true,\"legendPosition\":\"right\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"range\",\"schema\":\"segment\",\"params\":{\"field\":\"sensorValue\",\"ranges\":[{\"from\":0,\"to\":99},{\"from\":100,\"to\":299},{\"from\":300,\"to\":499},{\"from\":500,\"to\":700}],\"customLabel\":\"Air quality\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{\"vis\":{\"colors\":{\"0 to 99\":\"#9AC48A\",\"100 to 299\":\"#F2C96D\",\"500 to 700\":\"#EA6460\",\"300 to 499\":\"#F9934E\"}}}",
+      "description": "",
+      "savedSearchId": "3fe0a260-13a4-11e7-b015-e72771ba0fe4",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }
+]

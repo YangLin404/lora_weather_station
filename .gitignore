@@ -1,0 +1,9 @@
+**/target/*
+**/.classpath
+**/.project
+**/.settings/*
+**/dependency-reduced-pom.xml
+**/realExample.json
+**/nbactions.xml
+**/msf4j.iml
+**/.idea
