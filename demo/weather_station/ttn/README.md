@@ -7,6 +7,6 @@ In this demo we will be building a weather station with loRa device as sender, T
 ## Components
 This demo contains following components: 
 
-* [LoRa micro service](src/msf4j/README.md)
+* [LoRa micro service](src/msf4j/)
 
 * Arduino

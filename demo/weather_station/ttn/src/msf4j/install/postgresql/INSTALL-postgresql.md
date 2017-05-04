@@ -1,4 +1,4 @@
-# LoRa REST based micro service with Postgresql
+# LoRa micro service with Postgresql
 
 ## Requirements
 * Postgresql
@@ -9,6 +9,7 @@ Make sure you have installed requirement listed above.
 
 ### Step 1. Change postgresql authentication methode to md5
 Open config file
+
 ```shell
 sudo vim /etc/postgresql/<version>/main/pg_hba.conf 
 ```
@@ -40,15 +41,15 @@ sudo /etc/init.d/postgresql reload
 ```
 ### Step 3. Create postgresql database 'loRaDb'
 ```shell
-sudo -u postgres createdb loRaDb
+sudo -u postgres createdb loradb
 ```
 ### Step 4. Create postgresql user 'loRa' with password 'loRa'
 ```shell
 sudo -u postgres psql template1
 ```
 ```sql
-CREATE USER loRa WITH PASSWORD 'loRa';
-GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
+CREATE USER loRa WITH PASSWORD 'lora';
+GRANT ALL PRIVILEGES ON DATABASE loradb to lora;
 ```
 ### Step 5. Build project from source code
 
@@ -57,20 +58,11 @@ GRANT ALL PRIVILEGES ON DATABASE loRaDb to loRa;
 * Build source code
 
 	```shell
-	cd loRa/demo/weather_station/ttn/mqtt/src/msf4j/
+	cd loRa/demo/weather_station/ttn/src/msf4j/
 	mvn package
 	```
 	
-### Step 6. Run micro service
-* Run micro service with mqtt protocol
-```shell
-java -jar -Dspring.profiles.active=postgresql,mqtt ./target/msf4j-0.1-SNAPSHOT.jar
-```
-
-* Run micro service with http protocol
-```shell
-java -jar -Dspring.profiles.active=postgresql,mqtt ./target/msf4j-0.1-SNAPSHOT.jar
-```
+### Step 6. For following instructions please read [this Instruction.](../README.md/#step3)
 
 
     

@@ -16,13 +16,67 @@ cd lora-ttn
 git clone -b loRa-rest-service-ttn --single-branch https://i8c.githost.io/wso2/loRa
 ```
 
-### Step 2: Installation
+### Step 2: install 
 
-The next step is to setup the back-end on your Server.
+The next step is to setup the loRa micro service on your Server.
 
-* For micro service using elasticsearch and Kibana please follow: [install with elasticsearch](elastic/INSTALL-elastic.md).
-* For micro service using postgresql please follow: [install with postgresql](postgresql/INSTALL-postgresql.md) (Note. The tool for analyzing is currently not provided).
+* Using [microservice script](./microservice.sh)
 
-### Step 3: All done
+	* Make microservice.sh executable
 
-##### All done! Now just wait for your loRa device to collect enough data.
+		```shell
+		chmod +x ./microservice.sh
+		```
+	* Install microservice with elasticsearch and kibana
+
+		```shell
+		sudo ./microservice.sh --install elastic
+		```
+	* Install microservice with Postgresql (Note. Analyzing tool is currently not provided.)
+
+		```shell
+		sudo ./microservice.sh --install postgresql
+		```
+* Follow step-by-step install instruction
+
+	* For [elasticsearch and kibana](./elastic/INSTALL-elastic.md)
+	* For [postgresql](./postgresql/INSTALL-postgresql.md)
+
+### Step 3. <a name="step3">Configure application.properties</a>
+
+After succesfully install the microservice, you will find the config file application.properties under ./target/config/folder. It is neccessary to edit it before first time starting the microservice. 
+
+Please read [Config file description](CONFIG.md) and edit where neccessary.
+
+### Step 4. Configure Kibana dashboard
+
+* Access Kibana server at http://localhost:5601
+* Go to Management > Saved Objects.
+* Click Import and choose [kibanaExport.json](../kibana/kibana-export.json) under directory sources.
+* To view the imported dashboard, go to Dashboard > open > MyDashboard
+
+### Step 5: Run
+
+```shell
+sudo ./microservice.sh --start [OPTIONS]
+```
+OPTIONS:
+
+| Parameter | Description |
+|---|---|
+| elastic | using elasticsearch as database and kibana as dashboard |
+| postgresql| using postgresql as database |
+| http| receiving lorapackets over http protocol |
+| mqtt| receiving lorapackets over mqtt protocol |
+| bg| run microservice in background |
+
+Example: following command will start microservice in background with elasticsearch as database and receiving lorapacket over http protocol.
+
+```shell
+sudo ./microservice.sh --start elastic http bg
+```
+
+### Step 4: stop 
+
+```shell
+sudo ./microservice.sh --stop
