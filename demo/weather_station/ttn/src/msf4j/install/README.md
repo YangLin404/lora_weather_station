@@ -63,7 +63,7 @@ sudo ./microservice.sh --start [OPTIONS]
 ```
 OPTIONS:
 
-| Parameter | Description |
+| **Parameter** | **Description** |
 |---|---|
 | elastic | using elasticsearch as database and kibana as dashboard |
 | postgresql| using postgresql as database |

@@ -37,7 +37,7 @@ Please check [install folder](./install) for instruction.
 
 ##### 1. MQTT client administration 
 
-| Method | HTTP Request | Description |
+| **Method** | **HTTP Request** | **Description** |
 |---|---|---|
 | start  | POST /api/ttn/manage/start  | start the mqtt client of TTN  |
 | stop  | POST /api/ttn/manage/stop  | stop the mqtt client of TTN  |

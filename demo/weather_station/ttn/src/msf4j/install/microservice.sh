@@ -281,9 +281,12 @@ if [[ "$1" == "--install" ]]; then
 		if [[ "$BUILD" == "true" ]]; then
 			build;	
 		fi
+		echo "-------------------------------------------------------------------------------";
+		echo "installation is completed, run this script with --start to start the micro service";
+	else
+		echo "install fails.";
+		exit 1;
 	fi
-	echo "-------------------------------------------------------------------------------";
-	echo "installation is completed, run this script with --start to start the micro service";
 
 elif [[ "$1" == "--start" ]]; then
 	checkElastic;

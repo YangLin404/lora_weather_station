@@ -68,7 +68,7 @@ function checkRequirements()
 
 function checkConfig()
 {
-	sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' ./kibana-5.2.2-linux-x86_64/config/kibana.yml;
+	sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' ~/lora/kibana-5.2.2-linux-x86_64/config/kibana.yml;
 }
 	checkRequirements;
 	checkConfig;
