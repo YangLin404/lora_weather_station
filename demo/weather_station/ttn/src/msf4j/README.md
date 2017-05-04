@@ -1,6 +1,8 @@
 # LoRa micro service
 The purpose of this micro service is to handle the loRa packets foward by The Thingsnetwork(TTN) and send downlink messages to specific loRa devices. 
 
+![screenshot kibana](doc/img/screenshot_kibana.png)
+
 
 ## Functional specs
 This micro service contains following functions: 
