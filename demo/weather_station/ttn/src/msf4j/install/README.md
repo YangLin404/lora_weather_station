@@ -13,14 +13,15 @@ Clone the source code by using following commands:
 cd ~
 mkdir lora-ttn
 cd lora-ttn
-git clone -b loRa-rest-service-ttn --single-branch https://i8c.githost.io/wso2/loRa
+git clone -b loRa-rest-service --single-branch https://i8c.githost.io/wso2/loRa
+cd loRa/demo/weather_station/ttn/src/msf4j/install/
 ```
 
 ### Step 2: install 
 
-The next step is to setup the loRa micro service on your Server.
+The next step is to setup the loRa micro service on your Server. You can either use the microservice script or follow the step-by-step instruction to install the microservice.
 
-* Using [microservice script](./microservice.sh)
+* ##### Using [microservice script](./microservice.sh)
 
 	* Make microservice.sh executable
 
@@ -37,7 +38,7 @@ The next step is to setup the loRa micro service on your Server.
 		```shell
 		sudo ./microservice.sh --install postgresql
 		```
-* Follow step-by-step install instruction
+* ##### Follow step-by-step install instruction
 
 	* For [elasticsearch and kibana](./elastic/INSTALL-elastic.md)
 	* For [postgresql](./postgresql/INSTALL-postgresql.md)

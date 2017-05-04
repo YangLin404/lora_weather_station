@@ -1,7 +1,6 @@
 # LoRa micro service with Elasticsearch and Kibana
 
 ## Installation on Ubuntu Server 16.04 LTS
- You can either follow the step-by-step tutorial or run the [microservice script](#startscript) to setup and run the micro service.
 
 ### 1. Install elasticsearch and kibana
 
@@ -34,4 +33,4 @@
 	mvn package
 	```
 	
-### 3. For following instructions please read [this Instruction.](../README.md/#step3)
+### 3. For further instructions please read [this.](../README.md/#step3)

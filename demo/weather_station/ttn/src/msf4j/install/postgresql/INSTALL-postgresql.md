@@ -62,7 +62,7 @@ GRANT ALL PRIVILEGES ON DATABASE loradb to lora;
 	mvn package
 	```
 	
-### Step 6. For following instructions please read [this Instruction.](../README.md/#step3)
+### Step 6. For further instructions please read [this](../README.md/#step3)
 
 
     

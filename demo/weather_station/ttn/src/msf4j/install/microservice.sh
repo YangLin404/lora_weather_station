@@ -265,6 +265,7 @@ function checkParameter()
 }
 
 checkParameter "$@";
+checkRequirements;
 if [[ "$1" == "--install" ]]; then
 	if [[ "$2" == "elastic" ]]; then
 		chmod +x ./elastic/install.sh;
@@ -277,7 +278,6 @@ if [[ "$1" == "--install" ]]; then
 		exit 1;
 	fi
 	if [[ $? == 0 ]]; then
-		checkRequirements "$2";
 		if [[ "$BUILD" == "true" ]]; then
 			build;	
 		fi
