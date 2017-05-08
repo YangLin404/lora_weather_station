@@ -60,5 +60,5 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 
 ## Installation
 
-* With own gateway: Please check [the install folder]()
-* With Proximus Enco: Please check [thie install folder]()
+* With own gateway: Please check [the install folder](demo/weather_station/ttn/install)
+* With Proximus Enco: Please check [thie install folder](demo/weather_station/proximus/install)

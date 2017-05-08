@@ -1,16 +1,12 @@
-# Weather station with LoRa and Proximus
+# Weather station with LoRa and The Things network(TTN)
 
 ## Introduction
 
-For this project, 2 [LORAWAN Rapid Development Kits](http://www.allthingstalk.com/lorawan-rapid-development-kit) are available from www.allthingstalk.com.  
+In this demo we will be building a weather station with loRa device as sender, Proximus as middleware handler, a msf4j based microservice as back-end. Both HTTP and MQTT protocol will be used in integration.
 
-These kits come with access to the following websites:
+## Components
+This demo contains following components: 
 
-* https://maker.allthingstalk.com  
-* https://devs.enco.io/dashboard  
-username = kristof.lievens@i8c.be  
-password = L0Ra2017!
+* [LoRa micro service](http/src/)
 
-## Demo 1. Implementation using HTTP protocol
-
-This [demo](./http/) shows how to build a weather station with LoRa device and Proximus using HTTP protocol.
+* [Arduino appication]()
