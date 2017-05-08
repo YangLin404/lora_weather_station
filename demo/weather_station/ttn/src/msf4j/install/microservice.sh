@@ -31,34 +31,10 @@ function installSDK()
 	fi
 }
 
-
-
-function installElastic()
-{
-	echo "installing elasticsearch";
-	downloadElastic;
-	unzip "${MAINPATH}elasticsearch-5.2.2.zip" -d "$MAINPATH" 1> /dev/null;
-	if [[ $? != 0 ]]; then
-		echo "unzip elasticsearch fails"
-		exit 1;
-	fi
-}
-
 function installUnzip()
 {
 	echo "install unzip";
 	sudo apt-get install unzip;
-}
-
-function installKibana()
-{
-	echo "installing Kibana";
-	downloadKibana;
-	sudo tar -xzf "${MAINPATH}kibana-5.2.2-linux-x86_64.tar.gz" -C "${MAINPATH}" 1> /dev/null;
-	if [[ $? != 0 ]]; then
-		echo "unzip kibana fails"
-		exit 1;
-	fi
 }
 
 function installUnzip()
