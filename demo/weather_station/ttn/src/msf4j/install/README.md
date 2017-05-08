@@ -53,7 +53,7 @@ Please read [Config file description](CONFIG.md) and edit where neccessary.
 
 * Access Kibana server at http://localhost:5601
 * Go to Management > Saved Objects.
-* Click Import and choose [kibanaExport.json](../kibana/kibana-export.json) under directory sources.
+* Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/.
 * To view the imported dashboard, go to Dashboard > open > MyDashboard
 
 ### Step 5: Run
