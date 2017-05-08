@@ -15,6 +15,7 @@
   * limitations under the License.
   */
 package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
+import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 
 
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import be.i8c.wso2.msf4j.lora.models.SensorType;
 import be.i8c.wso2.msf4j.lora.repositories.elasticsearch.exceptions.NoneNodeConnectedException;
 import com.google.gson.Gson;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -112,6 +114,17 @@ public class LoRaElasticsearchAdapter
          logger.debug("initiating elasticsearchAdapter");
          this.gson = new Gson();
          this.indexExist = new HashMap<>();
+         if (this.transportClient.transportAddresses().isEmpty())
+             try {
+                 addNodeConnection(this.esHost, this.esPort);
+             } catch (UnknownHostException e)
+             {
+                 logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
+             }
+         if (!this.doesIndexExist(this.esIndex)) {
+             createAndMapIndex(new SensorBuilder().setType(SensorType.Temperature).setValue(20).build());
+         }
+
      }
 
     /**
@@ -217,13 +230,6 @@ public class LoRaElasticsearchAdapter
     public SensorRecord index(SensorRecord sensorRecord) {
         //create and map the given TimestampName into index as type date,
         //otherwise elasticseach can't recognise timestamps
-        try {
-
-            if (this.transportClient.transportAddresses().isEmpty())
-                addNodeConnection(this.esHost, this.esPort);
-            if (!this.doesIndexExist(this.esIndex)) {
-                createAndMapIndex(sensorRecord);
-            }
             sensorRecord.setId(++this.idSequences);
             logger.debug("trying to index doc into: " + this.esIndex + ". object: " + sensorRecord.simpleString());
             String docString = this.gson.toJson(sensorRecord, sensorRecord.getClass());
@@ -239,11 +245,6 @@ public class LoRaElasticsearchAdapter
                 logger.error("index object into" + this.esIndex + " fails. object: " + sensorRecord.simpleString());
                 return null;
             }
-        }catch (UnknownHostException e)
-        {
-            logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
-            return null;
-        }
 
     }
     /**
