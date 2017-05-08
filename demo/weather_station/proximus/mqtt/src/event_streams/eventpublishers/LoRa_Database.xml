@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eventPublisher name="LoRa_Database" statistics="disable"
+  trace="disable" xmlns="http://wso2.org/carbon/eventpublisher">
+  <from streamName="MQTT_MappedData_floatsensor" version="1.0.0"/>
+  <mapping customMapping="disable" type="map"/>
+  <to eventAdapterType="rdbms">
+    <property name="datasource.name">LoRa_Database</property>
+    <property name="update.keys">key.group</property>
+    <property name="execution.mode">insert</property>
+    <property name="table.name">loradatabse</property>
+  </to>
+</eventPublisher>

@@ -1,0 +1,20 @@
+{
+  "name": "ProximusCloudChannel",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "Time",
+      "type": "LONG"
+    },
+    {
+      "name": "Value",
+      "type": "FLOAT"
+    },
+    {
+      "name": "Sensor",
+      "type": "STRING"
+    }
+  ]
+}

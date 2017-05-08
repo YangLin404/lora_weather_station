@@ -1,0 +1,30 @@
+{
+  "name": "LoRa_MQTT_Wso2_Datbase",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "metaData": [
+    {
+      "name": "DeviceId",
+      "type": "STRING"
+    },
+    {
+      "name": "Timestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "Description",
+      "type": "STRING"
+    }
+  ],
+  "payloadData": [
+    {
+      "name": "StreamId",
+      "type": "INT"
+    },
+    {
+      "name": "FloatValue",
+      "type": "FLOAT"
+    }
+  ]
+}
