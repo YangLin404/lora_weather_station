@@ -1,11 +1,9 @@
-# Installing LoRa REST server
+# Installing LoRa Microservice
 Follow steps below to get LoRa REST server running.
 ## <a name="Prerequirements"></a> Requirements
 * Git
 * JDK 1.8 or above
 * Maven
-* [LORAWAN Rapid Development Kits](http://www.allthingstalk.com/lorawan-rapid-development-kit)
-* [Arduino IDE](https://www.arduino.cc/en/main/software)
 
 
 ### Step 1: Setup loRa device

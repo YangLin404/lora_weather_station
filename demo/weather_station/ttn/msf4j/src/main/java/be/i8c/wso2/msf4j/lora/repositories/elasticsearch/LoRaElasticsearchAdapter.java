@@ -100,7 +100,7 @@ public class LoRaElasticsearchAdapter
      
      public LoRaElasticsearchAdapter()
      {
-         
+
      }
 
     /**
@@ -110,7 +110,6 @@ public class LoRaElasticsearchAdapter
     @PostConstruct
      private void init()
      {
-         
          logger.debug("initiating elasticsearchAdapter");
          this.gson = new Gson();
          this.indexExist = new HashMap<>();
@@ -124,7 +123,6 @@ public class LoRaElasticsearchAdapter
          if (!this.doesIndexExist(this.esIndex)) {
              createAndMapIndex(new SensorBuilder().setType(SensorType.Temperature).setValue(20).build());
          }
-
      }
 
     /**
@@ -168,6 +166,8 @@ public class LoRaElasticsearchAdapter
                  if (exist) {
                      logger.debug("index: [" + indexToBeChecked + "] exist.");
                      this.idSequences = getLastId();
+                     if(this.idSequences < 0)
+                         this.idSequences = 0;
                  } else {
                      logger.debug("index: [" + this.esIndex + "] doesn't exist, it will be created at first index, idSequence set to 0");
                      this.idSequences = 0;
