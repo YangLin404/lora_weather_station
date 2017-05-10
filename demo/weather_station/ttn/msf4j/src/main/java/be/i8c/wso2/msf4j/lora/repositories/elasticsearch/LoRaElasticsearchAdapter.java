@@ -55,7 +55,7 @@ import org.springframework.beans.factory.annotation.Value;
  * @author yanglin
  */
 @Component
-@Profile("elasticsearch")
+@Profile("elastic")
 public class LoRaElasticsearchAdapter
 {
      private static final Logger logger = LogManager.getLogger(LoRaElasticsearchAdapter.class);

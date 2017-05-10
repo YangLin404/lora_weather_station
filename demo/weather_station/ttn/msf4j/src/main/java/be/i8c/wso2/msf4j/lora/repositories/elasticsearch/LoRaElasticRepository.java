@@ -33,7 +33,7 @@ import java.util.List;
  * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=elasticsearch
  * @author yanglin
  */
-@Profile("elasticsearch")
+@Profile("elastic")
 @Repository
 public class LoRaElasticRepository implements LoRaRepository
 {

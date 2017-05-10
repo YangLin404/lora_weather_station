@@ -13,6 +13,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -23,6 +24,7 @@ import java.net.UnknownHostException;
 
 
 @Configuration
+@Profile("elastic")
 public class AppConfigElastic {
     private static final Logger logger = LogManager.getLogger(AppConfigElastic.class);
 

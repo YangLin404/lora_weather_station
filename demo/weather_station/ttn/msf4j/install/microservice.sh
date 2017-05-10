@@ -210,10 +210,10 @@ function checkParameter()
 			runInbg="true";
 		elif [[ "$par" == "elastic" ]]; then
 			if [[ "$profileAdded" == "false" ]]; then
-				SPRINGPROFILE+="elasticsearch";
+				SPRINGPROFILE+="elastic";
 				profileAdded="true"
 			else
-				SPRINGPROFILE+=",elasticsearch";
+				SPRINGPROFILE+=",elastic";
 			fi
 		elif [[ "$par" == "mqtt" ]]; then
 			if [[ "$profileAdded" == "false" ]]; then
