@@ -57,16 +57,6 @@ public class AppConfig
     private List<String> formats;
 
     /**
-     * this bean creates a instance of prebuilt transportclient of elasticsearch API with default setting.
-     * @return a instance TransportClient
-     */
-    @Bean
-    public TransportClient transportClient()
-    {
-        return new PreBuiltTransportClient(Settings.EMPTY);
-    }
-
-    /**
      * this bean creates a list of devices defined in application.properties.
      * @return a Map with deviceId as key and instance of Device as Value.
      */

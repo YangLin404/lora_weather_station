@@ -65,17 +65,19 @@ public class LoRaElasticsearchAdapter
      */
     @Value("${elasticsearch.host}")
      private String esHost;
+
     /**
      * The name of index. It will be automatically read from application.properties
      */
-     @Value("${elasticsearch.index}")
-     private String esIndex;
+    @Value("${elasticsearch.index}")
+    private String esIndex;
 
     /**
      * The port number of elasticsearch server. It will be automatically read from application.properties
      */
-     @Value("${elasticsearch.port}")
-     private int esPort;
+    @Value("${elasticsearch.port}")
+    private int esPort;
+
     /**
      * The name of field to be mapped as date. It will be automatically read from application.properties
      */
@@ -130,7 +132,7 @@ public class LoRaElasticsearchAdapter
      * The transportClient will than try to connect to those node(s).
      * @param host Hostname of Elasticsearch's node to be added.
      * @param port Port number of Elasticsearch's node to be added.
-     * @throws UnknownHostException When combination of host and port doesn't is unknown.
+     * @throws UnknownHostException When combination of host and port is unknown.
      */
      public void addNodeConnection(String host, int port) throws UnknownHostException
      {
