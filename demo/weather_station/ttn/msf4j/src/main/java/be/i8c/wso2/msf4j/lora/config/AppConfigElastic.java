@@ -3,9 +3,12 @@ package be.i8c.wso2.msf4j.lora.config;
 import be.i8c.wso2.msf4j.lora.models.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
+import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ResourceAlreadyExistsException;
+import org.elasticsearch.action.DocWriteResponse;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -66,12 +69,24 @@ public class AppConfigElastic {
         try {
             client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(esHost), esPort));
             createAndMapIndex(client);
+            createIndexProperties(client);
         } catch (UnknownHostException e) {
             logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
             return client;
         }
         logger.info("the connection with elasticsearch server is successfully established");
         return client;
+    }
+
+    private void createIndexProperties(TransportClient client)
+    {
+        SensorRecord sensorRecord = new SensorBuilder().setType(SensorType.Temperature).setValue(20).build();
+        sensorRecord.setId(0L);
+        String docString = new Gson().toJson(sensorRecord, sensorRecord.getClass());
+        IndexResponse u =
+                client.prepareIndex(esIndex, sensorRecord.getClass().getSimpleName(), Long.toString(sensorRecord.getId()))
+                        .setSource(docString)
+                        .get();
     }
 
 
@@ -96,6 +111,5 @@ public class AppConfigElastic {
             return;
         }
         logger.info("index: [" + this.esIndex + "] created.");
-
     }
 }
