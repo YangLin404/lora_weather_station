@@ -44,7 +44,7 @@ import java.util.Arrays;
  *
  */
 @Component
-@Path("/lora/ttn/api")
+@Path("/lora/api")
 public class LoRaController {
     private static final Logger logger = LogManager.getLogger(LoRaController.class);
 
@@ -56,6 +56,7 @@ public class LoRaController {
     private Environment env;
 
     private boolean isHttp;
+    private boolean isProximus;
 
 
     public LoRaController() {
@@ -67,7 +68,9 @@ public class LoRaController {
     {
         logger.debug(Arrays.toString(env.getActiveProfiles()));
         isHttp = Arrays.asList(env.getActiveProfiles()).contains("http");
+        isHttp = Arrays.asList(env.getActiveProfiles()).contains("proximus");
         logger.debug("is http?: {}", isHttp);
+        logger.debug("is proximus?: {}", isProximus);
     }
 
     /**
@@ -129,7 +132,7 @@ public class LoRaController {
     }
 
     @POST
-    @Path("/uplink")
+    @Path("/ttn/uplink")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response uplink(Uplink uplinkMessage)
     {
@@ -139,13 +142,41 @@ public class LoRaController {
                 return Response.accepted().build();
             }catch (RuntimeException e)
             {
+                logger.error(e.getMessage());
+                logger.debug(Arrays.toString(e.getStackTrace()));
                 return Response.serverError().entity(e.getMessage()).build();
             }
         }
         else
         {
             logger.debug("http message incoming, but http integration not enable.");
-            return Response.noContent().build();
+            return Response.accepted().build();
         }
     }
+
+    @POST
+    @Path("/proximus/uplink")
+    public Response post(Object o)
+    {
+        if (isProximus) {
+            try {
+                service.save(o.toString());
+                return Response.accepted().build();
+            }catch (RuntimeException e)
+            {
+                logger.error(e.getMessage());
+                logger.debug(Arrays.toString(e.getStackTrace()));
+                return Response.serverError().entity(e.getMessage()).build();
+            }
+
+        }
+        else
+        {
+            logger.debug("proximus uplink incoming, but profile proximus not enable.");
+            return Response.accepted().build();
+        }
+
+
+    }
+
 }

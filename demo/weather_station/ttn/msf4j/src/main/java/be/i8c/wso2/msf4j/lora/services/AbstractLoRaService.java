@@ -99,11 +99,10 @@ public abstract class AbstractLoRaService
      * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for persistence.
      * @param uplinkMessage the uplinkMessage coming from TTN.
      */
-    public void save(Uplink uplinkMessage)
+    public void save(Uplink uplinkMessage) throws RuntimeException
     {
         if (!uplinkMessageValidator.isDuplicatedData(uplinkMessage))
         {
-            try {
                 log(String.format("uplinkmessage counter %s received.(device: %s)", uplinkMessage.getCounter(),uplinkMessage.getDevId()),Level.INFO);
                 Device receivedDevice = devices.get(uplinkMessage.getDevId());
                 if (receivedDevice == null)
@@ -126,26 +125,41 @@ public abstract class AbstractLoRaService
                 }
                 else
                     log(String.format("all records are invalid. ignore uplinkmessage counter %d", uplinkMessage.getCounter()),Level.WARN);
-            }catch (RuntimeException e)
-            {
-                log(e.getMessage(),Level.ERROR);
-                log(Arrays.toString(e.getStackTrace()),Level.DEBUG);
-            }
         }
         else
             log(String.format("duplicated data with counter %d received, ignore.", uplinkMessage.getCounter()),Level.INFO);
     }
 
+    public void save(String s) throws RuntimeException
+    {
+
+    }
+
     /**
-     * this method passes the valid sensor records to the repository class for serialization.
+     * this method passes a list of valid sensor records to the repository class for serialization.
      * @param records a list of valid sensor records.
      * @throws SaveToRepositoryException when parameter records are null.
      */
-    private void saveToRepo(List<SensorRecord> records)  throws SaveToRepositoryException
+    protected void saveToRepo(List<SensorRecord> records)  throws SaveToRepositoryException
     {
         List savedRecords = repo.save(records);
         if (savedRecords != null) {
             log("saved data: \n" + savedRecords.toString(),Level.DEBUG);
+        }
+        else {
+            throw new SaveToRepositoryException();
+        }
+    }
+    /**
+     * this method passes the valid sensor records to the repository class for serialization.
+     * @param record a list of valid sensor records.
+     * @throws SaveToRepositoryException when parameter records are null.
+     */
+    protected void saveToRepo(SensorRecord record)  throws SaveToRepositoryException
+    {
+        SensorRecord savedRecord = repo.save(record);
+        if (savedRecord != null) {
+            log("saved data: \n" + savedRecord.toString(),Level.DEBUG);
         }
         else {
             throw new SaveToRepositoryException();

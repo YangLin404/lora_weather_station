@@ -26,16 +26,23 @@ import java.time.Instant;
  */
 public class SensorBuilder
 {
-    private String deviceId="unknow";
-    private String owner="unknow";
-    private long timestamp = Instant.now().toEpochMilli();
+    private String deviceId;
+    private String owner;
+    private long timestamp;
     private double value;
     private SensorType type;
     private int counter;
 
     public SensorBuilder()
     {
+        this.flush();
+    }
 
+    public SensorBuilder(ProximusSensor p)
+    {
+        this.deviceId = p.getDeviceId();
+        this.owner = p.getOwner();
+        this.timestamp = p.getStreamValueTime();
     }
 
     public SensorBuilder setDeviceId(String deviceId)
