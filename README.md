@@ -59,6 +59,17 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 | stop  | POST /api/ttn/manage/stop  | stop the mqtt client of TTN  |
 
 ## Installation
+* Install on a exist Ubuntu machine
 
-* With own gateway: Please check [the install folder](demo/weather_station/ttn/install)
-* With Proximus Enco: Please check [thie install folder](demo/weather_station/proximus/install)
+	* With own gateway(MQTT and HTTP):
+		* Arduino: please check [the install folder](demo/weather_station/ttn/mqtt)
+		* Microservice: please check [the install folder](demo/weather_station/ttn/msf4j/install)
+	* With Proximus Enco(MQTT):
+		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)
+
+	* With Proxumus Enco(HTTP)
+		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)
+		* Microservice: please check [the install folder](demo/weather_station/proximus/http/)
+
+		
+* [Automatic Deployment on AWS](deployment/aws)

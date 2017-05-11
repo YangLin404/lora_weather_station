@@ -1,0 +1,25 @@
+aws:
+  #access key id of aws account, required
+  access_key_id: "AWS ACCESS KEY ID"
+  #secret access key of aws account, required
+  secret_access_key: "AWS SECRET ACCESS KEY"
+  #the name of keypair, required
+  keypair_name: "AWS KEYPAIR NAME"
+  #the security groups of which the instance will belong to, make sure the port 22, 8287 and 5601 are open, required
+  security_groups: "AWS SECURITY GROUPS"
+  #aws region, required
+  region: "AWS REGION"
+  #aws ami, required
+  ami: "AWS AMI"
+  #username used to ssh to your aws instance, it is usually ubuntu, required
+  ssh_username: "ubuntu"
+  #path to your private key, required
+  private_key_path: "PATH TO YOUR PRIVATE KEY"
+
+microservice:
+  #which protocol you want to used by lora microservice, either http or mqtt, required
+  protocol: "http"
+  #which database you want to used, required
+  database: "elastic"
+  #which middelware handler you want to used, either proximus or ttn, required
+  middleware_handler: "proximus"

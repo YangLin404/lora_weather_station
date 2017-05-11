@@ -49,9 +49,10 @@ After succesfully install the microservice, you will find the config file applic
 
 Please read [Config file description](CONFIG.md) and edit where neccessary.
 
-### Step 4. Configure Kibana dashboard
+### Step 4. <a name="configureKibana">Configure Kibana dashboard</a>
 
-* Access Kibana server at http://localhost:5601
+* Access Kibana server at http://hostname or ip:5601
+* Create index named lora
 * Go to Management > Saved Objects.
 * Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/.
 * To view the imported dashboard, go to Dashboard > open > MyDashboard

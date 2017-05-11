@@ -1,5 +1,5 @@
 # Installing LoRa Microservice
-Follow steps below to get LoRa REST server running.
+Follow steps below to get LoRa Microservice running.
 ## <a name="Prerequirements"></a> Requirements
 * Git
 * JDK 1.8 or above
@@ -23,16 +23,7 @@ mkdir lora-proximus
 cd lora-proximus
 git clone -b loRa-rest-service --single-branch https://i8c.githost.io/wso2/loRa
 ```
-
-### Step 3: Open sketch application
-
-Now open the sketch application [send-data](../arduino/send-data/send-data.ino) under src/arduino/send-data with Arduino IDE.
-
-### Step 4: Upload and run sketch application
-
-Upload the sketch application by click ![upload logo](../../doc/img/arduino-upload.png) at top left corner of Arduino IDE. You can use the built-in serial monitor to check whether the application is running correctly or not.
-
-### Step 5: Create CloudChannel
+### Step 3: Create CloudChannel
 
 Once the sketch application is running correctly on your LoRa device, you should follow the guide below to create CloudChannels API's which forward the data's to the REST API:
 
@@ -58,15 +49,15 @@ Once the sketch application is running correctly on your LoRa device, you should
 	* HTTP method: POST
 	* Click on Ok
 9. Click Save Changes.
-10. Redo above steps to create CloudChannels for AirQualitySensor, LoudnessSensor and HumiditySensor
+10. Redo above steps to create CloudChannels for PressureSensor, BatteryLevelSensor and HumiditySensor.
 
-### Step 6: Setup back-end
+### Step 4: Setup back-end
 
 The next step is to setup the back-end on your Server.
 
 * For server using elasticsearch please follow: [install with elasticsearch](elastic/INSTALL-elastic.md).
 * For server using postgresql please follow: [install with postgresql](postgresql/INSTALL-postgresql.md).
 
-### Step 7: All done
+### Step 5: All done
 
 ##### All done! Now just wait for your loRa device to collect enough data.
