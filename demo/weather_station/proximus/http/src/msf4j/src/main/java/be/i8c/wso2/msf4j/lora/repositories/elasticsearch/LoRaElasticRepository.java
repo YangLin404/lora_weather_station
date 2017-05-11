@@ -16,9 +16,7 @@
   */
 package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-
-import javax.annotation.PostConstruct;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import org.apache.logging.log4j.LogManager;
@@ -53,12 +51,12 @@ public class LoRaElasticRepository implements LoRaRepository
 
     /**
      * This method inserts lora packet into elasticsearch database.
-     * @param sensorRecord lora packet without id to be inserted.
-     * @return An object of sensorRecord with id. Returns null if the insertion fails.
+     * @param proximusSensor lora packet without id to be inserted.
+     * @return An object of proximusSensor with id. Returns null if the insertion fails.
      */
     @Override
-    public SensorRecord save(SensorRecord sensorRecord)
+    public ProximusSensor save(ProximusSensor proximusSensor)
     {
-        return esa.save(sensorRecord);
+        return esa.save(proximusSensor);
     }
 }

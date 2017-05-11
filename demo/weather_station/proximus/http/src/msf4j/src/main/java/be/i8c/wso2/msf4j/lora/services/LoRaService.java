@@ -18,7 +18,7 @@
 package be.i8c.wso2.msf4j.lora.services;
 
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.utils.LoRaJsonConvertor;
@@ -39,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This is the micro service class based on msf4j, It's used to handle the lora packet forwarded from Proximus.
- * Received packet will be converted to model class SensorRecord and insert into database afterward.
+ * Received packet will be converted to model class ProximusSensor and insert into database afterward.
  *
  * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=proximus
  * @since 0.1-SNAPSHOT
@@ -47,10 +47,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Profile("proximus")
 @Component
 @Path("/service")
-public class LoRaRestService 
+public class LoRaService
 {
 
-    private static final Logger LOGGER = LogManager.getLogger(LoRaRestService.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoRaService.class);
 
     /**
      * The repository class used to store or retrieve lora packet
@@ -65,9 +65,9 @@ public class LoRaRestService
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_XML)
-    public SensorRecord getXml() {
+    public ProximusSensor getXml() {
         LOGGER.debug("get invoked");
-        SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
+        ProximusSensor r = new ProximusSensor("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
         r.setSensorValue(20.0);
         
         return r;
@@ -80,9 +80,9 @@ public class LoRaRestService
     @GET
     @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
-    public SensorRecord getJson() {
+    public ProximusSensor getJson() {
         LOGGER.debug("get invoked");
-        SensorRecord r = new SensorRecord("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
+        ProximusSensor r = new ProximusSensor("x", "x", "1", "x", Calendar.getInstance().getTimeInMillis(), SensorType.Light);
         r.setSensorValue(20.0);
 
         return r;
@@ -90,7 +90,7 @@ public class LoRaRestService
 
     /**
      * This method is used to receive the lora packet forwarded from Proximus.
-     * Received packet will be converted to model class SensorRecord and insert into database afterward.
+     * Received packet will be converted to model class ProximusSensor and insert into database afterward.
      * @param o json object to be inserted.
      * @return code 200 when insertion succeed, code 500 when insertion fails.
      */
@@ -99,8 +99,8 @@ public class LoRaRestService
     public Response post(Object o) 
     {
         LOGGER.debug("post invoked. data: " + o);
-        SensorRecord r = LoRaJsonConvertor.getInstance().convertFromProximus(o.toString());
-        SensorRecord result = repo.save(r);
+        ProximusSensor r = LoRaJsonConvertor.getInstance().convertFromProximus(o.toString());
+        ProximusSensor result = repo.save(r);
         if (result != null)
             return Response.ok().build();
         else
@@ -109,23 +109,23 @@ public class LoRaRestService
 
     /**
      * This method is used to receive dummy data's and insert into database afterward for testing purposes.
-     * @param sensorRecord object to be inserted.
+     * @param proximusSensor object to be inserted.
      * @return code 200 when insertion succeed, code 500 when insertion fails.
      */
     @POST
     @Path("/testing")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response post(SensorRecord sensorRecord)
+    public Response post(ProximusSensor proximusSensor)
     {
-        LOGGER.info("testing post invoked. data: " + sensorRecord.toString());
-        if (sensorRecord.getType() == null)
+        LOGGER.info("testing post invoked. data: " + proximusSensor.toString());
+        if (proximusSensor.getType() == null)
         {
             LOGGER.warn("data is empty: ");
             return Response.serverError().build();
         }
         else
         {
-            SensorRecord result = repo.save(sensorRecord);
+            ProximusSensor result = repo.save(proximusSensor);
             if (result != null)
                 return Response.ok().build();
             else

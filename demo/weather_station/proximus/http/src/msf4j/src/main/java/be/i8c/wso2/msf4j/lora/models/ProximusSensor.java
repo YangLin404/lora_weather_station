@@ -28,10 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
  * This is a POJO representing lora packet
  */
 
-@XmlRootElement(name="Record")
-@XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class SensorRecord
+public class ProximusSensor
 {
     /**
      * id
@@ -42,40 +40,33 @@ public class SensorRecord
     /**
      * id of lora device
      */
-    @XmlTransient
     private String deviceId;
     /**
      * owner of lora device
      */
-    @XmlTransient
     private String owner;
-    @XmlTransient
     private String stream_id;
-    @XmlTransient
     private String streamUnit;
     /**
      * timestamps
      */
-    @XmlElement
     private long streamValueTime;
     /**
      * value of sensor
      */
-    @XmlElement
     private double sensorValue;
     /**
      * type of sensor
      */
-    @XmlElement
     @Enumerated(EnumType.STRING)
     private SensorType type;
     
-    protected SensorRecord()
+    protected ProximusSensor()
     {
         
     }
 
-    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, SensorType type) {
+    public ProximusSensor(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
         this.stream_id = stream_id;
@@ -84,7 +75,7 @@ public class SensorRecord
         this.type = type;
     }
 
-    public SensorRecord(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, double sensorValue, SensorType type) {
+    public ProximusSensor(String deviceId, String owner, String stream_id, String streamUnit, long streamValueTime, double sensorValue, SensorType type) {
         this.deviceId = deviceId;
         this.owner = owner;
         this.stream_id = stream_id;

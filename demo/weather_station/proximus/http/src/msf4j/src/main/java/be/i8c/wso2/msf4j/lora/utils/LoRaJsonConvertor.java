@@ -17,7 +17,7 @@
 
 package be.i8c.wso2.msf4j.lora.utils;
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -28,7 +28,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class is used to convert json object into model class SensorRecord and vice versa.
+ * This class is used to convert json object into model class ProximusSensor and vice versa.
  *
  * Note: It's necessary to use this class to convert the json object from Proximus,
  * because the structure of json object from Proximus is different per SensorType.
@@ -54,15 +54,15 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This method is used to convert a json object forwarded from Proximus-enco into a SensorRecord object.
+     * This method is used to convert a json object forwarded from Proximus-enco into a ProximusSensor object.
      * @param s json object to be converted.
-     * @return a SensorRecord object
+     * @return a ProximusSensor object
      */
-    public SensorRecord convertFromProximus(String s)
+    public ProximusSensor convertFromProximus(String s)
     {
         LOGGER.info("converting json object");
         LOGGER.debug("object: " + s);
-        SensorRecord r = gson.fromJson(s, SensorRecord.class);
+        ProximusSensor r = gson.fromJson(s, ProximusSensor.class);
         JsonObject jo = new JsonParser().parse(s).getAsJsonObject();
         SensorType sensorType = getTypeFromJSON(jo);
         r.setType(sensorType);
@@ -73,11 +73,11 @@ public class LoRaJsonConvertor
     }
 
     /**
-     * This method is used to convert a SensorRecord object into json object in string format.
-     * @param t SensorRecord object to be convert
+     * This method is used to convert a ProximusSensor object into json object in string format.
+     * @param t ProximusSensor object to be convert
      * @return json object in string format
      */
-    public String convertToJsonString(SensorRecord t)
+    public String convertToJsonString(ProximusSensor t)
     {
         return this.gson.toJson(t, t.getClass());
     }

@@ -16,7 +16,7 @@
   */
 package be.i8c.wso2.msf4j.lora.repositories.postgresql;
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.CrudRepository;
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Repository;
 
 @Profile("postgresql")
 @Repository
-public interface LoRaPostgresqlRepository extends CrudRepository<SensorRecord, String>, LoRaRepository
+public interface LoRaPostgresqlRepository extends CrudRepository<ProximusSensor, String>, LoRaRepository
 {
 
 }

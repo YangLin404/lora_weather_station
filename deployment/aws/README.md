@@ -1,6 +1,6 @@
 # Automatic deployment on AWS
 
-This Folder contains required instructions and files to automatically deploy lora microservice on [Amazon Web Services](https://aws.amazon.com/)
+This Folder contains required instructions and files to automatically deploy lora microservice on [Amazon Web Services](https://aws.amazon.com/) with Vagrant and [Chef](https://www.chef.io/chef/).
 
 
 ### Requirements
@@ -40,6 +40,12 @@ This Folder contains required instructions and files to automatically deploy lor
 
 	```shell
 	vagrant up --provider=aws
+	```
+	
+* now you can ssh into this instance with
+
+	```shell
+	vagrant ssh
 	```
 	
 	

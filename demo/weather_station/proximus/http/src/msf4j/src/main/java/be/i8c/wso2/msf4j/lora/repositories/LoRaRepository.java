@@ -17,12 +17,12 @@
 
 package be.i8c.wso2.msf4j.lora.repositories;
 
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 
 /**
  * interface used to allow injection of different implementation of repository class.
  */
 public interface LoRaRepository
 {
-    SensorRecord save(SensorRecord t);
+    ProximusSensor save(ProximusSensor t);
 }

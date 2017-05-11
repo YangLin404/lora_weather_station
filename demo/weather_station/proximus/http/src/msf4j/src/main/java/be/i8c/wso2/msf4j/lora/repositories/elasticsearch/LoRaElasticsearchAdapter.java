@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 package be.i8c.wso2.msf4j.lora.repositories.elasticsearch;
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ProximusSensor;
 import be.i8c.wso2.msf4j.lora.utils.LoRaJsonConvertor;
 
 
@@ -152,15 +152,15 @@ public class LoRaElasticsearchAdapter
     /**
      * This method is used to create index and add date mapping to it's timestamp field.
      * This method will be called by first insertion of lora packet if the given index doesn't exist.
-     * @param sensorRecord lora packet which will be indexed after creation of index.
+     * @param proximusSensor lora packet which will be indexed after creation of index.
      */
-    private void createAndMapIndex(SensorRecord sensorRecord)
+    private void createAndMapIndex(ProximusSensor proximusSensor)
      {
         LOGGER.info("try creating index: [" + this. esIndex + "]");
          try {
              client.admin().indices().prepareCreate(this.esIndex)   
-               .addMapping(sensorRecord.getClass().getSimpleName(), "{\n" +
-               "    \"" + sensorRecord.getClass().getSimpleName() + "\": {\n" +
+               .addMapping(proximusSensor.getClass().getSimpleName(), "{\n" +
+               "    \"" + proximusSensor.getClass().getSimpleName() + "\": {\n" +
                "      \"properties\": {\n" +
                "        \"" + this.esTimestampName + "\": {\n" +
                "          \"type\": \"date\"\n" +
@@ -178,29 +178,29 @@ public class LoRaElasticsearchAdapter
 
     /**
      * This method is used to index a object into a specified index.
-     * @param sensorRecord a object of sensorRecord which will be indexed.
-     * @return  An object of sensorRecord or null when index unsuccessfully.
+     * @param proximusSensor a object of proximusSensor which will be indexed.
+     * @return  An object of proximusSensor or null when index unsuccessfully.
      */
-    public SensorRecord save(SensorRecord sensorRecord) {
+    public ProximusSensor save(ProximusSensor proximusSensor) {
         //create and map the given TimestampName into index as type date,
         //otherwise elasticseach can't recognise timestamps
         if (!indexExist)
         {
-            createAndMapIndex(sensorRecord);
+            createAndMapIndex(proximusSensor);
             indexExist = true;
         }
-        sensorRecord.setId(++this.idSequences);
-        LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + sensorRecord.simpleString());
-        String docString = loRaJsonConvertor.convertToJsonString(sensorRecord);
+        proximusSensor.setId(++this.idSequences);
+        LOGGER.info("trying to index doc into: " + this.esIndex + ". object: " + proximusSensor.simpleString());
+        String docString = loRaJsonConvertor.convertToJsonString(proximusSensor);
         IndexResponse u =
-                client.prepareIndex(esIndex, sensorRecord.getClass().getSimpleName(),Long.toString(sensorRecord.getId()))
+                client.prepareIndex(esIndex, proximusSensor.getClass().getSimpleName(),Long.toString(proximusSensor.getId()))
                         .setSource(docString)
                         .get();
         DocWriteResponse.Result r = u.getResult();
         if (r == DocWriteResponse.Result.CREATED)
         {
             LOGGER.info("successful indexed object into " + this.esIndex + ". result is: " + r);
-            return sensorRecord;
+            return proximusSensor;
         }
         else
             return null;
