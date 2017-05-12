@@ -15,24 +15,21 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services;
+package be.i8c.wso2.msf4j.lora.services.ttn;
 
-import be.i8c.wso2.msf4j.lora.models.Device;
-import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
-import be.i8c.wso2.msf4j.lora.models.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.Uplink;
+import be.i8c.wso2.msf4j.lora.models.*;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
-import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
-import be.i8c.wso2.msf4j.lora.services.exceptions.SaveToRepositoryException;
-import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
-import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
-import be.i8c.wso2.msf4j.lora.services.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.services.utils.PayloadEncoder;
-import be.i8c.wso2.msf4j.lora.services.utils.UplinkMessageValidator;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.SaveToRepositoryException;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
+import be.i8c.wso2.msf4j.lora.services.common.utils.DataValidator;
+import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadEncoder;
+import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -55,7 +52,7 @@ public abstract class AbstractLoRaService
      * a list of predefined devices.
      */
     @Autowired
-    private Map<String,Device> devices;
+    protected Map<String,Device> devices;
 
     /**
      * An instance of PayloadDecoder class, used to decode the payload of uplinkMessage into SensorRecord.
@@ -73,12 +70,17 @@ public abstract class AbstractLoRaService
      * An instance of DataValidator class, used to validate the integrity of data to be inserted.
      */
     @Autowired
-    private DataValidator dataValidator;
+    protected DataValidator dataValidator;
     /**
      * An instance of UplinkMessageValidator class, used to validate the uplinkMessage.
      */
     @Autowired
     private UplinkMessageValidator uplinkMessageValidator;
+
+    /**
+     * Jackson ObjectMapper, used to serialize object into Json.
+     */
+    protected ObjectMapper objectMapper;
 
     public AbstractLoRaService()
     {
@@ -117,11 +119,8 @@ public abstract class AbstractLoRaService
                 dataValidator.checkForNotification(records,devices.get(uplinkMessage.getDevId()), this::sendDownlink);
                 if (records != null)
                 {
-                    log("saving records into database.",Level.INFO);
                     this.saveToRepo(records);
                     log(String.format("record with counter %d saved", uplinkMessage.getCounter()),Level.INFO);
-
-
                 }
                 else
                     log(String.format("all records are invalid. ignore uplinkmessage counter %d", uplinkMessage.getCounter()),Level.WARN);

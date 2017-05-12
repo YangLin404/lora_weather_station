@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class DataValidator
     {
         if (records == null)
         {
-            logger.error("list of records to be validated is null");
+            logger.error("list of records to be validated are null");
             return null;
         }
         else if (records.size() == 0)
@@ -71,6 +72,19 @@ public class DataValidator
                 return null;
             }
             return validRecords;
+        }
+    }
+
+    public SensorRecord validate(SensorRecord sensorRecord)
+    {
+        if (sensorRecord == null)
+        {
+            logger.error("record to be validated is null");
+            return null;
+        }
+        else
+        {
+            return sensorRecord.isValid()?sensorRecord:null;
         }
     }
 
@@ -102,8 +116,12 @@ public class DataValidator
                 }
             }
         });
+    }
 
-
-
+    public void checkForNotification(SensorRecord record, Device device, Consumer<DownlinkRequest> func)
+    {
+        List<SensorRecord> records = new ArrayList<>();
+        records.add(record);
+        this.checkForNotification(records,device,func);
     }
 }

@@ -25,6 +25,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.Map;
  * Created by yanglin on 13/04/17.
  */
 @Configuration
+@Profile("ttn")
 public class AppConfig
 {
 
@@ -43,14 +46,14 @@ public class AppConfig
     /**
      * list of deviceIds of the devices which we are expecting, loaded from application.properties
      */
-    @Value("#{'${device.deviceid}'.split(';')}")
+    @Value("#{'${ttn.device.deviceid}'.split(';')}")
     private List<String> deviceIds;
 
 
     /**
      * list of the payloadformat for each devices, loaded form application.properties
      */
-    @Value("#{'${device.format}'.split(';')}")
+    @Value("#{'${ttn.device.format}'.split(';')}")
     private List<String> formats;
 
     /**
