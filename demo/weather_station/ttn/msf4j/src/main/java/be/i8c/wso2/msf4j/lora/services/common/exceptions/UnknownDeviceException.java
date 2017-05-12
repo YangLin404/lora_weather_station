@@ -15,15 +15,14 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.exceptions;
+package be.i8c.wso2.msf4j.lora.services.common.exceptions;
 
 /**
- * Created by yanglin on 28/04/17.
+ * Created by yanglin on 25/04/17.
  */
-public class ClientNotRunningException extends RuntimeException
-{
-    public ClientNotRunningException()
+public class UnknownDeviceException extends RuntimeException {
+    public UnknownDeviceException(String deviceId)
     {
-        super("Client is not running, please start client first");
+        super("Device with {} could not be found in config file.");
     }
 }

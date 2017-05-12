@@ -15,11 +15,12 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services;
+package be.i8c.wso2.msf4j.lora.services.ttn;
 
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
-import be.i8c.wso2.msf4j.lora.services.exceptions.ClientNotRunningException;
-import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
+import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -70,11 +71,6 @@ public class LoRaHTTPService extends AbstractLoRaService
     private String downlinkUrl;
 
     /**
-     * Jackson ObjectMapper, used to serialize object into Json.
-     */
-    private ObjectMapper objectMapper;
-
-    /**
      * A variable determines if HTTP protocol is running or not.
      */
     private boolean isRunning;
@@ -97,7 +93,7 @@ public class LoRaHTTPService extends AbstractLoRaService
                 procesId +
                 "?key=" +
                 accessKey;
-        objectMapper = new ObjectMapper();
+        super.objectMapper = new ObjectMapper();
     }
 
 
@@ -113,7 +109,7 @@ public class LoRaHTTPService extends AbstractLoRaService
 
     /**
      * Sends the downlink message through HTTP protocol
-     * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
+     * @param request An object of TTNDownlinkRequest contains deviceid and payload to be sent.
      * @throws RuntimeException when response code are not 202 and when IOException occurred.
      */
     @Override

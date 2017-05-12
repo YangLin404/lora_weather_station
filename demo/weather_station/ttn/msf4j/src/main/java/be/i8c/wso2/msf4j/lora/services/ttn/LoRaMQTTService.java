@@ -15,12 +15,13 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services;
+package be.i8c.wso2.msf4j.lora.services.ttn;
 
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
-import be.i8c.wso2.msf4j.lora.services.exceptions.DownlinkException;
-import be.i8c.wso2.msf4j.lora.services.exceptions.UnknownDeviceException;
+import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
+import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -116,7 +117,7 @@ public class LoRaMQTTService extends AbstractLoRaService
 
     /**
      * used to send downlink message to specific device.
-     * @param request An object of DownlinkRequest contains deviceid and payload to be sent.
+     * @param request An object of TTNDownlinkRequest contains deviceid and payload to be sent.
      */
     @Override
     public void sendDownlink(DownlinkRequest request) throws DownlinkException

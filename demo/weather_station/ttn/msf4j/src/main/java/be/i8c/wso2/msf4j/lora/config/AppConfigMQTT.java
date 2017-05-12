@@ -18,6 +18,8 @@
 package be.i8c.wso2.msf4j.lora.config;
 
 import be.i8c.wso2.msf4j.lora.models.Device;
+import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
+import be.i8c.wso2.msf4j.lora.services.ttn.LoRaMQTTService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.BeanCreationException;

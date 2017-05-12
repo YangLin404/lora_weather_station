@@ -15,14 +15,15 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.exceptions;
+package be.i8c.wso2.msf4j.lora.services.common.exceptions;
 
 /**
- * Created by yanglin on 27/04/17.
+ * Created by yanglin on 28/04/17.
  */
-public class SaveToRepositoryException extends RuntimeException {
-    public SaveToRepositoryException()
+public class ClientNotRunningException extends RuntimeException
+{
+    public ClientNotRunningException()
     {
-        super("saving records into database fails, please check logs of repository class for detailed information");
+        super("Client is not running, please start client first");
     }
 }

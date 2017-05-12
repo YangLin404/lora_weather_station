@@ -15,19 +15,14 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.exceptions;
+package be.i8c.wso2.msf4j.lora.services.common.exceptions;
 
 /**
- * Created by yanglin on 20/04/17.
+ * Created by yanglin on 27/04/17.
  */
-public class DownlinkException extends RuntimeException
-{
-    public DownlinkException()
+public class SaveToRepositoryException extends RuntimeException {
+    public SaveToRepositoryException()
     {
-        super("sending downlink fails.");
-    }
-    public DownlinkException(String s)
-    {
-        super("sending downlink fails: " + s);
+        super("saving records into database fails, please check logs of repository class for detailed information");
     }
 }

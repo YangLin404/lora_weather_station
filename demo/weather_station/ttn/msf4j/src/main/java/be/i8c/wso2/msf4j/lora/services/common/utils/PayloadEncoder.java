@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.common.utils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

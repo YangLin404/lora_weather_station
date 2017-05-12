@@ -15,10 +15,19 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.utils.exceptions;
+package be.i8c.wso2.msf4j.lora.services.common.exceptions;
 
 /**
- * Created by yanglin on 14/04/17.
+ * Created by yanglin on 20/04/17.
  */
-public class PayloadFormatNotDefinedException extends Exception {
+public class DownlinkException extends RuntimeException
+{
+    public DownlinkException()
+    {
+        super("sending downlink fails.");
+    }
+    public DownlinkException(String s)
+    {
+        super("sending downlink fails: " + s);
+    }
 }
