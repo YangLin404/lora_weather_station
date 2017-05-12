@@ -17,7 +17,7 @@
 
 
 
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.common.utils;
 
 import be.i8c.wso2.msf4j.lora.models.*;
 import org.apache.logging.log4j.LogManager;
@@ -94,7 +94,7 @@ public class DataValidator
      * @param device The device to be checked.
      * @param func The callback function when notification should be send.
      */
-    public void checkForNotification(List<SensorRecord> records, Device device, Consumer<DownlinkRequest> func)
+    public void checkForNotification(List<SensorRecord> records, Device device, Consumer<TTNDownlinkRequest> func)
     {
         records.forEach(e -> {
             if (e.getType() == SensorType.Light) {
@@ -102,7 +102,7 @@ public class DataValidator
                 {
                     logger.debug("Device: {} light is too low, should be notified", device.getDeviceId());
                     device.getNotifiedMaps().put(NotificationType.Light_low, true);
-                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_ON_LED.getPayload());
+                    TTNDownlinkRequest downlinkRequest = new TTNDownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_ON_LED.getPayload());
                     func.accept(downlinkRequest);
                     logger.info("Device: {} light is too low, notified", device.getDeviceId());
                 }
@@ -110,7 +110,7 @@ public class DataValidator
                 {
                     logger.debug("Device: {} light is back to normal, should be notified", device.getDeviceId());
                     device.getNotifiedMaps().put(NotificationType.Light_low, false);
-                    DownlinkRequest downlinkRequest = new DownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_OFF_LED.getPayload());
+                    TTNDownlinkRequest downlinkRequest = new TTNDownlinkRequest(device.getDeviceId(), PreDefinedPayload.TURN_OFF_LED.getPayload());
                     func.accept(downlinkRequest);
                     logger.info("Device: {} light is too low, notified", device.getDeviceId());
                 }
@@ -118,7 +118,7 @@ public class DataValidator
         });
     }
 
-    public void checkForNotification(SensorRecord record, Device device, Consumer<DownlinkRequest> func)
+    public void checkForNotification(SensorRecord record, Device device, Consumer<TTNDownlinkRequest> func)
     {
         List<SensorRecord> records = new ArrayList<>();
         records.add(record);

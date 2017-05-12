@@ -14,22 +14,23 @@ This Folder contains required instructions and files to automatically deploy lor
 
 * download and install Vagrant at [download link](https://www.vagrantup.com/downloads.html)
 
-* install vagrant aws plugin
+* install vagrant aws plugin and add required box.
 
 	```shell
 	vagrant plugin install vagrant-aws
 	vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 	```
+	
 ### Step 2: Clone the source code
 
-	```shell
-	cd ~
-	git clone -b loRa-rest-service --single-branch https://i8c.githost.io/wso2/loRa
-	cd loRa/deployment
-	```
+```shell
+cd ~
+git clone -b loRa-rest-service --single-branch https://i8c.githost.io/wso2/loRa
+cd loRa/deployment
+```
 
 
-### Step 2: configuration
+### Step 3: configuration
 
 * Open [config file](settings/setting.yaml) and edit where neccessary.
 * Save config file
@@ -42,7 +43,7 @@ This Folder contains required instructions and files to automatically deploy lor
 	vagrant up --provider=aws
 	```
 	
-* now you can ssh into this instance with
+* after deployment, you can ssh into this instance with:
 
 	```shell
 	vagrant ssh

@@ -15,16 +15,16 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.common;
+package be.i8c.wso2.msf4j.lora.services.proximus;
 
 import be.i8c.wso2.msf4j.lora.models.Device;
 import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.SensorRecord;
+import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
 import be.i8c.wso2.msf4j.lora.services.common.utils.ProximusJsonConvertor;
-import be.i8c.wso2.msf4j.lora.services.proximus.ProximusAuthenticator;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -49,8 +49,6 @@ import java.net.URL;
 public class LoRaProximusHTTPService extends AbstractLoRaService {
 
     private static final Logger logger = LogManager.getLogger(LoRaProximusHTTPService.class);
-
-
 
     @Autowired
     private ProximusJsonConvertor jsonConvertor;

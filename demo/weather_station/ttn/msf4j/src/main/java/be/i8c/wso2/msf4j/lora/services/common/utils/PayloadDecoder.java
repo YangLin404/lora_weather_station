@@ -15,10 +15,10 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.common.utils;
 
 import be.i8c.wso2.msf4j.lora.models.*;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

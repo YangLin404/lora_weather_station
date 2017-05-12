@@ -19,7 +19,7 @@ package be.i8c.wso2.msf4j.lora.config;
 
 import be.i8c.wso2.msf4j.lora.models.Device;
 import be.i8c.wso2.msf4j.lora.models.SensorType;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
+import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatNotDefinedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,18 +37,17 @@ import java.util.Map;
  * Created by yanglin on 13/04/17.
  */
 @Configuration
-@Profile("ttn")
-public class AppConfig
+@Profile({"mqtt","http"})
+public class AppConfigTTN
 {
 
-    private static final Logger logger = LogManager.getLogger(AppConfig.class);
+    private static final Logger logger = LogManager.getLogger(AppConfigTTN.class);
 
     /**
      * list of deviceIds of the devices which we are expecting, loaded from application.properties
      */
     @Value("#{'${ttn.device.deviceid}'.split(';')}")
     private List<String> deviceIds;
-
 
     /**
      * list of the payloadformat for each devices, loaded form application.properties

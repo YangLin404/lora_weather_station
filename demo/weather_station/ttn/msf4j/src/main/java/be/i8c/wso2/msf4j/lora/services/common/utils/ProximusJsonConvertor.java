@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.common.utils;
 
 
 import be.i8c.wso2.msf4j.lora.models.ProximusSensor;

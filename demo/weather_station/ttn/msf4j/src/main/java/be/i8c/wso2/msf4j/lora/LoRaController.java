@@ -17,9 +17,9 @@
 
 package be.i8c.wso2.msf4j.lora;
 
-import be.i8c.wso2.msf4j.lora.models.DownlinkRequest;
+import be.i8c.wso2.msf4j.lora.models.TTNDownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.Uplink;
-import be.i8c.wso2.msf4j.lora.services.AbstractLoRaService;
+import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class LoRaController {
     {
         logger.debug(Arrays.toString(env.getActiveProfiles()));
         isHttp = Arrays.asList(env.getActiveProfiles()).contains("http");
-        isHttp = Arrays.asList(env.getActiveProfiles()).contains("proximus");
+        isProximus = Arrays.asList(env.getActiveProfiles()).contains("proximus");
         logger.debug("is http?: {}", isHttp);
         logger.debug("is proximus?: {}", isProximus);
     }
@@ -111,13 +111,13 @@ public class LoRaController {
 
     /**
      * A post method to send the downlink message to specific devices
-     * @param payload An instance of DownlinkRequest which contains the device id and payload to be sent out.
+     * @param payload An instance of TTNDownlinkRequest which contains the device id and payload to be sent out.
      * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
      */
     @POST
     @Path("/downlink")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response downlink(DownlinkRequest payload) {
+    public Response downlink(TTNDownlinkRequest payload) {
         try {
             service.sendDownlink(payload);
             return Response.accepted().build();

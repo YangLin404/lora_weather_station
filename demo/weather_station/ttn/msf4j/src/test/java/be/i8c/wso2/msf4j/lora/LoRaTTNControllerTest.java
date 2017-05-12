@@ -1,18 +1,5 @@
 package be.i8c.wso2.msf4j.lora;
 
-import be.i8c.wso2.msf4j.lora.services.LoRaMQTTService;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-
-import javax.ws.rs.core.Response;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 /**
  * Created by yanglin on 13/04/17.
  */

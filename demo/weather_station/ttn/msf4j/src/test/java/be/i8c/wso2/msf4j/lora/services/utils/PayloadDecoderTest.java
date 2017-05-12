@@ -1,8 +1,10 @@
 package be.i8c.wso2.msf4j.lora.services.utils;
 
 import be.i8c.wso2.msf4j.lora.models.*;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatException;
-import be.i8c.wso2.msf4j.lora.services.utils.exceptions.PayloadFormatNotDefinedException;
+import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadDecoder;
+import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
+import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatException;
+import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatNotDefinedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.thethingsnetwork.data.common.Metadata;
-import org.thethingsnetwork.data.common.messages.UplinkMessage;
 
 import java.time.Instant;
 import java.util.Arrays;

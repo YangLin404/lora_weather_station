@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This is a POJO representation of a downlink message request. It's needed by creating of downlink message.
  * Created by yanglin on 19/04/17.
  */
-public class DownlinkRequest
+public class TTNDownlinkRequest implements DownlinkRequest
 {
     /**
      * Payload of downlink message in String format
@@ -42,12 +42,12 @@ public class DownlinkRequest
 
     private String payload_raw;
 
-    public DownlinkRequest()
+    public TTNDownlinkRequest()
     {
 
     }
 
-    public DownlinkRequest(String deviceId, String payloadString)
+    public TTNDownlinkRequest(String deviceId, String payloadString)
     {
         this.deviceId = deviceId;
         this.payloadString = payloadString;

@@ -17,7 +17,7 @@
 
 package be.i8c.wso2.msf4j.lora.models;
 
-import be.i8c.wso2.msf4j.lora.services.utils.DataValidator;
+import be.i8c.wso2.msf4j.lora.services.common.utils.DataValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

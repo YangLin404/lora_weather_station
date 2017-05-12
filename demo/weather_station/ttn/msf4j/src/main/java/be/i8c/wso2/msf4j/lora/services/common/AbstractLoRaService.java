@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.ttn;
+package be.i8c.wso2.msf4j.lora.services.common;
 
 import be.i8c.wso2.msf4j.lora.models.*;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
@@ -29,6 +29,7 @@ import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
