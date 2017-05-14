@@ -29,7 +29,7 @@ import java.util.Map;
  * A wrapper class of UplinkMessage class of TTN JAVA SDK.
  * Created by yanglin on 28/04/17.
  */
-public class Uplink implements DataMessage {
+public class TTNUplink implements DataMessage {
 
     private final String app_id;
 
@@ -45,7 +45,7 @@ public class Uplink implements DataMessage {
     private Map<String, Object> payload_fields;
     private final Metadata metadata;
 
-    public Uplink(UplinkMessage uplinkMessage) {
+    public TTNUplink(UplinkMessage uplinkMessage) {
         this.app_id = uplinkMessage.getAppId();
         this.dev_id = uplinkMessage.getDevId();
         this.hardware_serial = uplinkMessage.getHardwareSerial();
@@ -98,7 +98,7 @@ public class Uplink implements DataMessage {
 
     @Override
     public String toString() {
-        return "Uplink{" +
+        return "TTNUplink{" +
                 "appId='" + app_id + '\'' +
                 ", devId='" + dev_id + '\'' +
                 ", hardwareSerial='" + hardware_serial + '\'' +

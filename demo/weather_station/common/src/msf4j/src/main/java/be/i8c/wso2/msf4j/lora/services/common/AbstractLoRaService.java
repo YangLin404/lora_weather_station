@@ -20,7 +20,7 @@ package be.i8c.wso2.msf4j.lora.services.common;
 import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.ttn.Uplink;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.SaveToRepositoryException;
@@ -100,36 +100,36 @@ public abstract class AbstractLoRaService
     }
 
     /**
-     * This method is used to handle the uplinkMessage coming from TTN. First, the raw payload will be convert into a list of Records.
+     * This method is used to handle the TTNUplinkMessage coming from TTN. First, the raw payload will be convert into a list of Records.
      * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for persistence.
-     * @param uplinkMessage the uplinkMessage coming from TTN.
+     * @param TTNUplinkMessage the TTNUplinkMessage coming from TTN.
      */
-    public void save(Uplink uplinkMessage) throws RuntimeException
+    public void save(TTNUplink TTNUplinkMessage) throws RuntimeException
     {
-        if (!uplinkMessageValidator.isDuplicatedData(uplinkMessage))
+        if (!uplinkMessageValidator.isDuplicatedData(TTNUplinkMessage))
         {
-                log(String.format("uplinkmessage counter %s received.(device: %s)", uplinkMessage.getCounter(),uplinkMessage.getDevId()),Level.INFO);
-                Device receivedDevice = devices.get(uplinkMessage.getDevId());
+                log(String.format("uplinkmessage counter %s received.(device: %s)", TTNUplinkMessage.getCounter(), TTNUplinkMessage.getDevId()),Level.INFO);
+                Device receivedDevice = devices.get(TTNUplinkMessage.getDevId());
                 if (receivedDevice == null)
-                    throw new UnknownDeviceException(uplinkMessage.getDevId());
+                    throw new UnknownDeviceException(TTNUplinkMessage.getDevId());
                 log("converting new uplinkmessage", Level.DEBUG);
-                List<SensorRecord> records = decoder.decodePayload(uplinkMessage,devices.get(uplinkMessage.getDevId()));
+                List<SensorRecord> records = decoder.decodePayload(TTNUplinkMessage,devices.get(TTNUplinkMessage.getDevId()));
                 log("uplinkmessage converted.",Level.DEBUG);
                 records.forEach(r -> log(r.simpleString(), Level.DEBUG));
                 log(String.format("start validating %d records", records.size()),Level.DEBUG);
                 records = dataValidator.validateAll(records);
                 log("checking notification",Level.DEBUG);
-                dataValidator.checkForNotification(records,devices.get(uplinkMessage.getDevId()), this::sendDownlink);
+                dataValidator.checkForNotification(records,devices.get(TTNUplinkMessage.getDevId()), this::sendDownlink);
                 if (records != null)
                 {
                     this.saveToRepo(records);
-                    log(String.format("record with counter %d saved", uplinkMessage.getCounter()),Level.INFO);
+                    log(String.format("record with counter %d saved", TTNUplinkMessage.getCounter()),Level.INFO);
                 }
                 else
-                    log(String.format("all records are invalid. ignore uplinkmessage counter %d", uplinkMessage.getCounter()),Level.WARN);
+                    log(String.format("all records are invalid. ignore uplinkmessage counter %d", TTNUplinkMessage.getCounter()),Level.WARN);
         }
         else
-            log(String.format("duplicated data with counter %d received, ignore.", uplinkMessage.getCounter()),Level.INFO);
+            log(String.format("duplicated data with counter %d received, ignore.", TTNUplinkMessage.getCounter()),Level.INFO);
     }
 
     public void save(String s) throws RuntimeException

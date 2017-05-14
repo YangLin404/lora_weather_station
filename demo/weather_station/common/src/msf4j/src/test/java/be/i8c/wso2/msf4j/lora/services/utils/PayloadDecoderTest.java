@@ -4,7 +4,7 @@ import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.common.SensorType;
-import be.i8c.wso2.msf4j.lora.models.ttn.Uplink;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadDecoder;
 import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
 import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatException;
@@ -46,7 +46,7 @@ public class PayloadDecoderTest
 
     private static Device device;
     @Mock
-    private Uplink uplinkMessage;
+    private TTNUplink TTNUplinkMessage;
     @Mock
     private Metadata metadata;
 
@@ -85,11 +85,11 @@ public class PayloadDecoderTest
     public void decodePayload_RawPayloadIsValid_ShouldReturnListOfSensorRecord() throws PayloadFormatException, PayloadFormatNotDefinedException {
         List<SensorRecord> excepted = LIST_OF_SENSOR_A;
 
-        when(uplinkMessage.getPayloadRaw()).thenReturn(RAWPAYLOAD_A);
-        when(uplinkMessage.getMetadata()).thenReturn(metadata);
+        when(TTNUplinkMessage.getPayloadRaw()).thenReturn(RAWPAYLOAD_A);
+        when(TTNUplinkMessage.getMetadata()).thenReturn(metadata);
         when(metadata.getTime()).thenReturn(Instant.EPOCH.plusMillis(1).toString());
 
-        List<SensorRecord> actual = payloadDecoder.decodePayload(uplinkMessage,device);
+        List<SensorRecord> actual = payloadDecoder.decodePayload(TTNUplinkMessage,device);
 
         assertEquals(excepted,actual);
     }
@@ -100,11 +100,11 @@ public class PayloadDecoderTest
         List<SensorRecord> excepted = LIST_OF_SENSOR_A;
         byte[] rawPayload = Arrays.copyOf(RAWPAYLOAD_A,7);
 
-        when(uplinkMessage.getPayloadRaw()).thenReturn(rawPayload);
-        when(uplinkMessage.getMetadata()).thenReturn(metadata);
+        when(TTNUplinkMessage.getPayloadRaw()).thenReturn(rawPayload);
+        when(TTNUplinkMessage.getMetadata()).thenReturn(metadata);
         when(metadata.getTime()).thenReturn(Instant.EPOCH.plusMillis(1).toString());
 
-        List<SensorRecord> actual = payloadDecoder.decodePayload(uplinkMessage,device);
+        List<SensorRecord> actual = payloadDecoder.decodePayload(TTNUplinkMessage,device);
     }
 
 

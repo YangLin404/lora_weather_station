@@ -18,6 +18,7 @@
 package be.i8c.wso2.msf4j.lora.services.ttn;
 
 import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNDownlinkRequest;
 import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;

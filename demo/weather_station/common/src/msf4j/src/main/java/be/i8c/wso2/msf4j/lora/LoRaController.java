@@ -17,8 +17,9 @@
 
 package be.i8c.wso2.msf4j.lora;
 
+import be.i8c.wso2.msf4j.lora.models.proximus.ProximusDownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.ttn.TTNDownlinkRequest;
-import be.i8c.wso2.msf4j.lora.models.ttn.Uplink;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,14 +111,37 @@ public class LoRaController {
     }
 
     /**
-     * A post method to send the downlink message to specific devices
+     * A post method to send the downlink message to specific devices through ttn
      * @param payload An instance of TTNDownlinkRequest which contains the device id and payload to be sent out.
      * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
      */
     @POST
-    @Path("/downlink")
+    @Path("/proximus/downlink")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response downlink(TTNDownlinkRequest payload) {
+        try {
+            service.sendDownlink(payload);
+            return Response.accepted().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            logger.error(Arrays.toString(e.getStackTrace()));
+            return Response.serverError().
+                    entity(e.getMessage()).
+                    build();
+        }
+    }
+
+
+    /**
+     * A post method to send the downlink message to specific devices through proximus
+     * @param payload An instance of ProximusDownlinkRequest which contains the device id and payload to be sent out.
+     * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
+     */
+    @POST
+    @Path("/proximus/downlink")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response downlink(ProximusDownlinkRequest payload) {
         try {
             service.sendDownlink(payload);
             return Response.accepted().build();
@@ -134,11 +158,11 @@ public class LoRaController {
     @POST
     @Path("/ttn/uplink")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response uplink(Uplink uplinkMessage)
+    public Response uplink(TTNUplink TTNUplinkMessage)
     {
         if (isHttp) {
             try {
-                service.save(uplinkMessage);
+                service.save(TTNUplinkMessage);
                 return Response.accepted().build();
             }catch (RuntimeException e)
             {

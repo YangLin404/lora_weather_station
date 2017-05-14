@@ -51,12 +51,31 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 
 ### <a name="apireferrences">API referrences</a>
 
-##### 1. MQTT client administration 
+#### 1. Connection client administration 
+
+* **start Client**
+
+	It starts the client 
+
 
 | **Method** | **HTTP Request** | **Description** |
 |---|---|---|
-| start  | POST /api/ttn/manage/start  | start the mqtt client of TTN  |
-| stop  | POST /api/ttn/manage/stop  | stop the mqtt client of TTN  |
+| startClient  | POST /lora/api/manage/startClient  | start the client |
+| stopClient  | POST /lora/api/manage/stopClient  | stop the client |
+
+#### 2. LoRa downlink API
+
+| **Method** | **HTTP Request** | **Body** | **Description** |
+|---|---|---|---|
+| sendDownlink proximus  | POST /lora/api/proximus/downlink  | {"deviceId" : "1FFEA", "port": 1, "binaryMessage": "message"}  |send downlink message to specified device through proximus |
+| sendDownlink ttn | POST /lora/api/ttn/downlink  | {"dev_id": "my-dev-id","port":1, "confirmed":false,"payload_raw": "AQIDBA=="} | send downlink message to specified device through ttn |
+
+#### 3. LoRa uplink API(needed by creating the cloudchanel for proximus or the http integration for The thingsnetwork.
+
+| **Method** | **HTTP Request** | **Description** |
+|---|---|---|
+| uplink proximus  | POST /lora/api/proximus/uplink  | Used by proximus to forward the uplinkmessage through HTTP protocol |
+| uplink ttn  | POST /lora/api/ttn/uplink  | Used by the thingsnetwork to forward the uplinkmessage through HTTP protocol |
 
 ## Installation
 * Install on a exist Ubuntu machine

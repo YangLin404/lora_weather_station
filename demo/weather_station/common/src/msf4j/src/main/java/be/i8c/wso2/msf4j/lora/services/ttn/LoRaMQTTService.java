@@ -18,7 +18,7 @@
 package be.i8c.wso2.msf4j.lora.services.ttn;
 
 import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
-import be.i8c.wso2.msf4j.lora.models.ttn.Uplink;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
@@ -80,8 +80,8 @@ public class LoRaMQTTService extends AbstractLoRaService
             client.onMessage((String devId, DataMessage data) ->
             {
                 UplinkMessage uplinkData = (UplinkMessage) data;
-                Uplink uplink = new Uplink(uplinkData);
-                super.save(uplink);
+                TTNUplink TTNUplink = new TTNUplink(uplinkData);
+                super.save(TTNUplink);
             });
             client.start();
         }catch (URISyntaxException | UnknownDeviceException e) {

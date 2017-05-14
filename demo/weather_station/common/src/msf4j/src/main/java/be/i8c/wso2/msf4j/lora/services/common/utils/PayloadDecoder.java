@@ -21,7 +21,7 @@ import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.common.SensorType;
-import be.i8c.wso2.msf4j.lora.models.ttn.Uplink;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,7 +66,7 @@ public class PayloadDecoder
      * @return A list of SensorRecords when decoding succeed.
      * @throws PayloadFormatException when raw payload of uplinkMessage doesn't match the field payloadFormat.
      */
-    public List<SensorRecord> decodePayload(Uplink data, Device device) throws PayloadFormatException
+    public List<SensorRecord> decodePayload(TTNUplink data, Device device) throws PayloadFormatException
     {
         List<SensorRecord> records = new LinkedList<>();
         logger.debug("convert raw payload to hex string: {}", Arrays.toString(data.getPayloadRaw()) );
@@ -110,17 +110,17 @@ public class PayloadDecoder
 
     /**
      * This method prepares the SensorBuilder.
-     * It is needed because the payload of same uplinkMessage will have same deviceId and timestamp.
-     * @param uplinkMessage uplinkMessage te be decoded.
+     * It is needed because the payload of same TTNUplinkMessage will have same deviceId and timestamp.
+     * @param TTNUplinkMessage TTNUplinkMessage te be decoded.
      * @return An instance of SensorBuilder with pre-set deviceId and timestamp.
      */
-    private SensorBuilder prepareBuilder(Uplink uplinkMessage)
+    private SensorBuilder prepareBuilder(TTNUplink TTNUplinkMessage)
     {
-        Instant instant = Instant.parse(uplinkMessage.getMetadata().getTime());
+        Instant instant = Instant.parse(TTNUplinkMessage.getMetadata().getTime());
         return new SensorBuilder()
-                .setDeviceId(uplinkMessage.getDevId())
+                .setDeviceId(TTNUplinkMessage.getDevId())
                 .setTimestamp(instant.toEpochMilli())
-                .setCounter(uplinkMessage.getCounter());
+                .setCounter(TTNUplinkMessage.getCounter());
     }
 
     /**
