@@ -1,6 +1,6 @@
-# Weather station
+# Weather station with loRa
 ## Introduction
-The purpose of this project is to build a weather station by using loRa technology and [WSO2 msf4j](http://wso2.com/products/microservices-framework-for-java/) framework. In this demo we will be monitoring the temperature, humidity, pressure and light. 
+The purpose of this project is to build a weather station by using loRa technology and [WSO2 msf4j](http://wso2.com/products/microservices-framework-for-java/) framework. In this demo we will be monitoring the temperature, humidity, pressure and light. These data will be stored, visualized and analyzed.
 
 LoRa is a new standard fot the IoT, It provides a long range, low power, but also low bandwidth communication between lora devices.
 
@@ -31,9 +31,9 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 ### Functional specs
 
 * **Lora microservice**
-	* Receving and storing the loRa packets foward by TTN.
+	* Receving and storing the loRa packets foward by the middleware handler.
 	* Sending the downlink message to specific loRa device.
-	* Managing the connections TTN back-end.
+	* Managing the connections with the middleware handler.
 
 * **Arduino**
 
@@ -51,19 +51,38 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 
 ### <a name="apireferrences">API referrences</a>
 
-##### 1. MQTT client administration 
+#### 1. Connection client administration 
+
+* **start Client**
+
+	It starts the client 
+
 
 | **Method** | **HTTP Request** | **Description** |
 |---|---|---|
-| start  | POST /api/ttn/manage/start  | start the mqtt client of TTN  |
-| stop  | POST /api/ttn/manage/stop  | stop the mqtt client of TTN  |
+| startClient  | POST /lora/api/manage/startClient  | start the client |
+| stopClient  | POST /lora/api/manage/stopClient  | stop the client |
+
+#### 2. LoRa downlink API
+
+| **Method** | **HTTP Request** | **Body** | **Description** |
+|---|---|---|---|
+| sendDownlink proximus  | POST /lora/api/proximus/downlink  | {"deviceId" : "1FFEA", "port": 1, "binaryMessage": "message"}  |send downlink message to specified device through proximus |
+| sendDownlink ttn | POST /lora/api/ttn/downlink  | {"dev_id": "my-dev-id","port":1, "confirmed":false,"payload_raw": "AQIDBA=="} | send downlink message to specified device through ttn |
+
+#### 3. LoRa uplink API(needed by creating the cloudchanel for proximus or the http integration for The thingsnetwork.
+
+| **Method** | **HTTP Request** | **Description** |
+|---|---|---|
+| uplink proximus  | POST /lora/api/proximus/uplink  | Used by proximus to forward the uplinkmessage through HTTP protocol |
+| uplink ttn  | POST /lora/api/ttn/uplink  | Used by the thingsnetwork to forward the uplinkmessage through HTTP protocol |
 
 ## Installation
 * Install on a exist Ubuntu machine
 
 	* With own gateway(MQTT and HTTP):
 		* Arduino: please check [the install folder](demo/weather_station/ttn/mqtt)
-		* Microservice: please check [the install folder](demo/weather_station/ttn/msf4j/install)
+		* Microservice: please check [the install folder](demo/weather_station/common/src/msf4j/install)
 	* With Proximus Enco(MQTT):
 		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)
 
@@ -73,3 +92,16 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 
 		
 * [Automatic Deployment on AWS](deployment/aws)
+
+
+## Known issues
+
+* **Proximus**
+
+	* Send downlink message through Proximus doesn't work currently.
+	* Proximus never sends ack back to confirmed uplink message. which will cause error on loRa device.
+	* Uplink messages don't always got received propertly.
+
+* **Own gateway(through The thingsnetwork)**
+
+	* None
