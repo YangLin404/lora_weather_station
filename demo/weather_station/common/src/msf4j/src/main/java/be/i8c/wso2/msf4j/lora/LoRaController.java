@@ -116,7 +116,7 @@ public class LoRaController {
      * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
      */
     @POST
-    @Path("/proximus/downlink")
+    @Path("/ttn/downlink")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response downlink(TTNDownlinkRequest payload) {
         try {
@@ -155,6 +155,11 @@ public class LoRaController {
         }
     }
 
+    /**
+     * a post method to receive the uplink message through the thingsnetwork.
+     * @param TTNUplinkMessage json object of uplink message
+     * @return code 204 when saving uplink message succeed. code 500 when exception occured
+     */
     @POST
     @Path("/ttn/uplink")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -178,6 +183,11 @@ public class LoRaController {
         }
     }
 
+    /**
+     * a post method to receive the uplink message through proximus.
+     * @param o json object of uplink message
+     * @return code 204 when saving uplink message succeed. code 500 when exception occured
+     */
     @POST
     @Path("/proximus/uplink")
     public Response post(Object o)

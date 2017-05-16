@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * An abstract loraService class which can be implemented into either HTTP or MQTT service depends on the usage.
+ * An abstract loraService class which can be implemented for Proximus or The thingsnetwork depends on the usage.
  * LoRaService is used to handle the uplinkmessages, send the downlink messages and manages the client which is used in communication with TTN back-end.
  * Created by yanglin on 27/04/17.
  */
@@ -191,7 +191,7 @@ public abstract class AbstractLoRaService
 
     /**
      * Send the downlink message.
-     * @param request
+     * @param request The DownlinkRequest, either ProximusDownlinkRequest or TTNDownlinkRequest
      */
     abstract public void sendDownlink(DownlinkRequest request) throws DownlinkException;
 

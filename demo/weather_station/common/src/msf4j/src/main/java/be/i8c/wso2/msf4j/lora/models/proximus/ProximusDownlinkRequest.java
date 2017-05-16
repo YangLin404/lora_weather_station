@@ -4,15 +4,24 @@ import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Created by yanglin on 12/05/17.
+ * This is a implementation of interface DownlinkRequest for sending downlink message through Proximus.
  */
 public class ProximusDownlinkRequest implements DownlinkRequest {
 
 
     @JsonIgnore
     private String payloadString;
+
     private String deviceId;
+
+    /**
+     * port number
+     */
     private int port;
+
+    /**
+     * the Base64 encoded payload
+     */
     private String binaryMessage;
 
 

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Spring configuration class for proximus implementation.
  * Created by yanglin on 12/05/17.
  */
 @Configuration
@@ -39,6 +40,7 @@ public class AppConfigProximus {
                 Device device = new Device(id,null);
                 devices.put(id,device);
         });
+        logger.debug("devices created: {}", devices.keySet().toString() );
         return devices;
     }
 }

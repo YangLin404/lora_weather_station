@@ -22,8 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This is a POJO representation of a downlink message request. It's needed by creating of downlink message.
- * Created by yanglin on 19/04/17.
+ * This is a implementation of interface DownlinkRequest for sending downlink message through The thingsnetwork.
  */
 public class TTNDownlinkRequest implements DownlinkRequest
 {
@@ -37,10 +36,19 @@ public class TTNDownlinkRequest implements DownlinkRequest
      */
     private String deviceId;
 
+    /**
+     * port number
+     */
     private int port;
 
+    /**
+     * is downlink message confirmed?
+     */
     private boolean confirmed;
 
+    /**
+     * the Base64 encoded payload
+     */
     private String payload_raw;
 
     public TTNDownlinkRequest()

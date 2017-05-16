@@ -20,7 +20,6 @@ package be.i8c.wso2.msf4j.lora.services.proximus;
 import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
-import be.i8c.wso2.msf4j.lora.models.proximus.ProximusDownlinkRequest;
 import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
@@ -43,7 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by yanglin on 11/05/17.
+ * LoRaService implementation for Proximus.
  */
 
 @Service
@@ -52,15 +51,27 @@ public class LoRaProximusHTTPService extends AbstractLoRaService {
 
     private static final Logger logger = LogManager.getLogger(LoRaProximusHTTPService.class);
 
+    /**
+     * an instance of JsonConvertor, used to convert proximus uplink message into class SensorRecord
+     */
     @Autowired
     private ProximusJsonConvertor jsonConvertor;
 
+    /**
+     * an instance of ProximusAuthenticator, used to retrieve the access token.
+     */
     @Autowired
     private ProximusAuthenticator authenticator;
 
+    /**
+     * the url to make a HTTP call to send the downlink message
+     */
     @Value("${proximus.downlinkUrl}")
     private String downlinkUrl;
 
+    /**
+     * A variable determines if http client is running or not.
+     */
     private boolean isRunning;
 
     @PostConstruct
@@ -80,6 +91,11 @@ public class LoRaProximusHTTPService extends AbstractLoRaService {
         isRunning = false;
     }
 
+    /**
+     * this method pass through the proximus uplinkmessage to repository class for persistence.
+     * @param jsonString the json object received by proximus
+     * @throws RuntimeException when error occurs which persistence or the device of uplinkmessage cannot be found.
+     */
     @Override
     public void save(String jsonString) throws RuntimeException
     {
@@ -97,6 +113,11 @@ public class LoRaProximusHTTPService extends AbstractLoRaService {
         }
     }
 
+    /**
+     * sends downlink message to device through proximus
+     * @param request The DownlinkRequest, either ProximusDownlinkRequest or TTNDownlinkRequest
+     * @throws DownlinkException
+     */
     @Override
     public void sendDownlink(DownlinkRequest request) throws DownlinkException {
         if (!isRunning)
@@ -135,6 +156,11 @@ public class LoRaProximusHTTPService extends AbstractLoRaService {
         }
     }
 
+    /**
+     * the method builds the downlink url for sending downlink message through proximus
+     * @param request downlink message to be sent.
+     * @return downlink url
+     */
     private String buildDownlinkUrl(DownlinkRequest request)
     {
         StringBuilder stringBuilder = new StringBuilder();

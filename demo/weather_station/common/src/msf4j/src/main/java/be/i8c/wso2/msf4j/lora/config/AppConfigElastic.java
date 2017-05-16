@@ -21,6 +21,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
+ * Spring configuration class for elasticsearch database
  * Created by yanglin on 10/05/17.
  */
 
@@ -79,6 +80,10 @@ public class AppConfigElastic {
         return client;
     }
 
+    /**
+     * this method creates a index with properties of SensorRecord.
+     * @param client an object of TransportClient used to communicate with elasticsearch
+     */
     private void createIndexProperties(TransportClient client)
     {
         SensorRecord sensorRecord = new SensorBuilder().setType(SensorType.Temperature).setValue(20).build();
@@ -90,6 +95,10 @@ public class AppConfigElastic {
     }
 
 
+    /**
+     * this method creates a mapping in elasticsearch to tell the elasticsearch which property of SensorRecord has datatype Time.
+     * @param client an object of TransportClient used to communicate with elasticsearch
+     */
     private void createAndMapIndex(TransportClient client)
     {
         SensorRecord sensorRecord = new SensorBuilder().setType(SensorType.Temperature).setValue(20).build();
@@ -113,6 +122,11 @@ public class AppConfigElastic {
         logger.info("index: [" + this.esIndex + "] created.");
     }
 
+    /**
+     * this method checks if the index defined in application.properties exist in elasticsearch.
+     * @param client
+     * @return
+     */
     private boolean isIndexExist(TransportClient client)
     {
         IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);

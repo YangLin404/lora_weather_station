@@ -1,7 +1,7 @@
 package be.i8c.wso2.msf4j.lora.models.common;
 
 /**
- * Created by yanglin on 12/05/17.
+ *
  */
 public interface DownlinkRequest {
     String getDeviceId();

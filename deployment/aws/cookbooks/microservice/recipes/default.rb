@@ -26,10 +26,9 @@ end
 
 bash 'start microservice ttn' do
 	not_if "ps -aux | grep msf4\[j\]"
-	not_if { node['lora']['database'] == "postgresql"}
 	not_if { node['lora']['middleware_handler'] == "proximus"}
 	#only_if "until netstat -ntl | grep 9200; do echo 'waiting for elasticsearch...'; sleep 2; done", :timeout => 20
-	cwd '/home/lora/git/demo/weather_station/common/src/msf4j'
+	cwd '/home/lora/git/demo/weather_station/common/src/msf4j/target'
 	code <<-EOH
 	nohup java -jar -Dspring.profiles.active=#{database},#{protocol} msf4j-0.1-SNAPSHOT.jar < /dev/null > std.out 2> std.err &
 	EOH
@@ -38,7 +37,6 @@ end
 
 bash 'start microservice proximus' do
 	not_if "ps -aux | grep msf4\[j\]"
-	not_if { node['lora']['database'] == "postgresql"}
 	not_if { node['lora']['middleware_handler'] == "ttn"}
 	#only_if "until netstat -ntl | grep 9200; do echo 'waiting for elasticsearch...'; sleep 2; done", :timeout => 20
 	cwd '/home/lora/git/demo/weather_station/common/src/msf4j/target'

@@ -33,8 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Configuration class used by the Spring IoC container as a source of bean definitions.
- * Created by yanglin on 13/04/17.
+ * Spring configuration class for The thingsnetwork implementation.
  */
 @Configuration
 @Profile({"mqtt","http"})
