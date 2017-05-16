@@ -1,4 +1,4 @@
-# Weather station with LoRa and The Things network(TTN)
+# Weather station with LoRa and Proximus
 
 ## Introduction
 
@@ -7,6 +7,10 @@ In this demo we will be building a weather station with loRa device as sender, P
 ## Components
 This demo contains following components: 
 
-* [LoRa micro service](http/src/)
+* [Arduino appication](arduino)
 
-* [Arduino appication]()
+* Proximus through HTTP protocol
+	* [LoRa micro service](../../../)
+
+* Proximus through MQTT protocol
+	* [MQTT](mqtt)

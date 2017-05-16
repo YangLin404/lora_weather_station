@@ -20,9 +20,9 @@ package be.i8c.wso2.msf4j.lora.models.common;
  * This is a enum which represents all types of sensor.
  */
 public enum SensorType {
-    Temperature(-50,100,10.0d,"temperature","temperature_sensor_value"), Light(0,150, 10.0d,"light","light_value"),
-    Pressure(900,1100, 10.0d,"pressure","pressure_value"), Humidity(0,100, 10.0d, "humidity","humidity_value"),
-    AirQuality(0,1000,10.0d,"air quality","air_quality_value"), BatteryLevel(0,101,1000.0d,"BatteryLevel","batterylevel_value");
+    Temperature(-50,100,10.0d,"Temperature sensor","temperature_sensor_value"), Light(0,150, 10.0d,"Light sensor","light_sensor_value"),
+    Pressure(900,1100, 10.0d,"Pressure sensor","pressure_sensor_value"), Humidity(0,100, 10.0d, "Humidity sensor","humidity_sensor_value"),
+    AirQuality(0,1000,10.0d,"air quality","air_quality_value"), BatteryLevel(0,101,1000.0d,"BatteryLevel sensor","batterylevel_sensor_value");
 
     /**
      * the minimum value which is valid per sensor type.

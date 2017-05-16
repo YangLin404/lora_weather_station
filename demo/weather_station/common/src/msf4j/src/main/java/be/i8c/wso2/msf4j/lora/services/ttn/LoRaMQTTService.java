@@ -93,6 +93,11 @@ public class LoRaMQTTService extends AbstractLoRaService
         }
     }
 
+    @Override
+    public void save(String s) throws RuntimeException {
+
+    }
+
     /**
      * Start the mqtt client.
      * @throws Exception when mqtt client cannot be started or it is already connected.

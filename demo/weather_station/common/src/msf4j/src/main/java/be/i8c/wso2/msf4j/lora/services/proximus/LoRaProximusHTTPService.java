@@ -24,7 +24,7 @@ import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
-import be.i8c.wso2.msf4j.lora.services.common.utils.ProximusJsonConvertor;
+import be.i8c.wso2.msf4j.lora.services.proximus.utils.ProximusJsonConvertor;
 import be.i8c.wso2.msf4j.lora.services.proximus.utils.ProximusAuthenticator;
 import com.google.api.client.auth.oauth2.TokenResponseException;
 import org.apache.logging.log4j.Level;

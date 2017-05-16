@@ -81,6 +81,11 @@ public class LoRaHTTPService extends AbstractLoRaService
 
     }
 
+    @Override
+    public void save(String s) throws RuntimeException {
+
+    }
+
     /**
      * init method, builds the downlink url and initializes the ObjectMapper.
      */

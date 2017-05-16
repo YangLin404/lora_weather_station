@@ -53,11 +53,6 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 
 #### 1. Connection client administration 
 
-* **start Client**
-
-	It starts the client 
-
-
 | **Method** | **HTTP Request** | **Description** |
 |---|---|---|
 | startClient  | POST /lora/api/manage/startClient  | start the client |

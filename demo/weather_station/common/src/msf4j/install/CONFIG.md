@@ -12,7 +12,7 @@ This configurations is used by elasticsearch. Leave it empty if you are using Po
 
 | Config | Description | Default |
 |---|---|---|
-| **elasticsearch.index** | the name of elasticsearch index where the data will be stored. Must be lowercase. | lora-ttn |
+| **elasticsearch.index** | the name of elasticsearch index where the data will be stored. Must be lowercase. | lora |
 | **elasticsearch.host** | the hostname or ip where elasticsearch server can be found. | localhost |
 | **elasticsearch.port** | the port which elasticsearch is listening. | 9300 |
 
@@ -34,6 +34,8 @@ This configurations is used by postgresql database. Leave it empty if you are us
 | **hibernate.dialect** | This property makes Hibernate generate the appropriate SQL for the chosen database | org.hibernate.dialect.PostgreSQLDialect |
 | **hibernate.hbm2ddl.auto** | Automatically validates or exports schema DDL to the database when the SessionFactory is created. | update |
 | **hibernate.show_sql** | enable the logging of all the generated SQL statements to the console. | false |
+| **hibernate.ejb.naming_strategy** | naming strategy | org.hibernate.cfg.ImprovedNamingStrategy |
+| **hibernate.format_sql** | sql format | true|
 
 ## The thingsnetwork
 

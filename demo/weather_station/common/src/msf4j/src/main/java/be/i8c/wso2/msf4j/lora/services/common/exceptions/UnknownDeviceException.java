@@ -23,6 +23,6 @@ package be.i8c.wso2.msf4j.lora.services.common.exceptions;
 public class UnknownDeviceException extends RuntimeException {
     public UnknownDeviceException(String deviceId)
     {
-        super("Device with {} could not be found in config file.");
+        super("Device " + deviceId + " could not be found in config file.");
     }
 }

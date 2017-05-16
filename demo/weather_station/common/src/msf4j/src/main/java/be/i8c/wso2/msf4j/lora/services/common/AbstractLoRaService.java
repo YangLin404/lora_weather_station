@@ -132,10 +132,7 @@ public abstract class AbstractLoRaService
             log(String.format("duplicated data with counter %d received, ignore.", TTNUplinkMessage.getCounter()),Level.INFO);
     }
 
-    public void save(String s) throws RuntimeException
-    {
-
-    }
+    public abstract void save(String s) throws RuntimeException;
 
     /**
      * this method passes a list of valid sensor records to the repository class for serialization.

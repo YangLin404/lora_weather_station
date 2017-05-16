@@ -11,6 +11,7 @@ import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsReques
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.ConnectTransportException;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -72,8 +73,9 @@ public class AppConfigElastic {
                 createAndMapIndex(client);
                 createIndexProperties(client);
             }
-        } catch (UnknownHostException e) {
+        } catch (UnknownHostException | ConnectTransportException e) {
             logger.error("could not connect to node at {}:{}", this.esHost, this.esPort);
+            logger.error(e.getMessage());
             return client;
         }
         logger.info("the connection with elasticsearch server is successfully established");

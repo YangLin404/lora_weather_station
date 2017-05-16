@@ -15,7 +15,7 @@
   * limitations under the License.
   */
 
-package be.i8c.wso2.msf4j.lora.services.common.utils;
+package be.i8c.wso2.msf4j.lora.services.proximus.utils;
 
 
 import be.i8c.wso2.msf4j.lora.models.proximus.ProximusSensor;
@@ -68,6 +68,8 @@ public class ProximusJsonConvertor {
         ProximusSensor r = gson.fromJson(s, ProximusSensor.class);
         JsonObject jo = new JsonParser().parse(s).getAsJsonObject();
         SensorType sensorType = getTypeFromJSON(jo);
+        double sensorValue = this.getValueFromJSON(jo,sensorType);
+        LOGGER.debug("sensor value is: {}", sensorType);
         SensorBuilder sensorBuilder = new SensorBuilder(r);
         SensorRecord record = sensorBuilder
                 .setType(sensorType)
@@ -96,7 +98,6 @@ public class ProximusJsonConvertor {
      */
     private Double getValueFromJSON(JsonObject j, SensorType s)
     {
-        LOGGER.info("getting value from JSONobject: " + j);
         LOGGER.debug("getting sensortype: [" + s + "] value from JSON: " + j);
         return Double.parseDouble(j.get(s.getValueString()).getAsString());
     }
@@ -108,7 +109,7 @@ public class ProximusJsonConvertor {
      */
     private SensorType getTypeFromJSON(JsonObject j)
     {
-        LOGGER.info("getting sensortype from JSONobject: " + j);
+        LOGGER.debug("getting sensortype from JSONobject: " + j);
         String desc = j.get("streamDescription").getAsString();
         LOGGER.debug("streamDescription: [" + desc + "]");
         SensorType sensorType =
@@ -129,6 +130,6 @@ public class ProximusJsonConvertor {
     private boolean compDesc(String desc, String typeDesc)
     {
         LOGGER.debug("comparing [" + desc + "] to [" + typeDesc + "]");
-        return desc.toLowerCase().contains(typeDesc);
+        return desc.toLowerCase().contains(typeDesc.toLowerCase());
     }
 }
