@@ -23,7 +23,7 @@ In orde to receive the uplink message and send the downlink message through Prox
 8. Configure the output:
 	* Click on ![http](doc/img/http.png)
 	* Give a relevant Name
-	* Endpoint: http://localhost:8287/service
+	* Endpoint: http://[your ip]:8287/lora/api/proximus/uplink
 	* HTTP method: POST
 	* Click on Ok
 9. Click Save Changes.

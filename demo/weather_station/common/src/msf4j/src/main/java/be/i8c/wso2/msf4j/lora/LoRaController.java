@@ -116,7 +116,7 @@ public class LoRaController {
      * @return code 204 when downlink message successfully sent out, code 500 when exception occurred.
      */
     @POST
-    @Path("/proximus/downlink")
+    @Path("/ttn/downlink")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response downlink(TTNDownlinkRequest payload) {
         try {
