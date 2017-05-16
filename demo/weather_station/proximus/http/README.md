@@ -7,13 +7,13 @@ In orde to receive the uplink message and send the downlink message through Prox
 
 1. Go to [EnCo DevPortal](http://devs.enco.io/dashboard/) and log in with your Enco account.
 2. Navigate to CloudChannels API. You should get a overview of your CloudChannels API's.
-3. Click on the button ![New CloudChannel](../../doc/img/new-cloudchannel.png) to create a new CloudChannel. You should see something like below:
-	![Create CloudChannel](../../doc/img/create-cloudchannel.png)
+3. Click on the button ![New CloudChannel](doc/img/new-cloudchannel.png) to create a new CloudChannel. You should see something like below:
+	![Create CloudChannel](doc/img/create-cloudchannel.png)
 
 4. Here you can define where the data come from and where the data should go. For this demo we use LoRa as the input and HTTP as the output.
 5. After drag & drop required components to input and output, you need to configure LoRa inbound configuration, CloudChannel definition and HTTP outbound configuration.
 6. Configure the input: 
-	* Click on ![LoRa](../../doc/img/lora-inbound.png)
+	* Click on ![LoRa](doc/img/lora-inbound.png)
 	* Select your device.
 7. Configure CloudChannel definition: 
 	* Click on Edit definition
@@ -21,7 +21,7 @@ In orde to receive the uplink message and send the downlink message through Prox
 	* Select TemperatureSensor
 	* Click Ok
 8. Configure the output:
-	* Click on ![http](../../doc/img/http.png)
+	* Click on ![http](doc/img/http.png)
 	* Give a relevant Name
 	* Endpoint: http://localhost:8287/service
 	* HTTP method: POST
