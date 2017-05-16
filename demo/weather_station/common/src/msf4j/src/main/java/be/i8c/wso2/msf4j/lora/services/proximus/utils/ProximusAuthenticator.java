@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 /**
+ * this class is used to retrieve the access token from proximus Authentication server for sending downlink message through Proximus.
+ * Google oauth2 client is used.
  * Created by yanglin on 12/05/17.
  */
 
@@ -75,7 +77,10 @@ public class ProximusAuthenticator {
                 .setClientAuthentication(new ClientParametersAuthentication(this.apiKey,this.apiSecret));
     }
 
-
+    /**
+     * Request a new access token from Proximus Authentication server.
+     * @throws TokenResponseException when error occurs while retrieving the access token.
+     */
     private void requestToken() throws TokenResponseException
     {
         try {
@@ -96,6 +101,11 @@ public class ProximusAuthenticator {
         }
     }
 
+    /**
+     * returns the current access token, a new one will be retrieved if the current one is expired.
+     * @return access token
+     * @throws TokenResponseException when error occurs while retrieving new access token.
+     */
     public String getAccessToken() throws TokenResponseException
     {
         if (LocalDateTime.now().isAfter(this.accessTokenExpire))

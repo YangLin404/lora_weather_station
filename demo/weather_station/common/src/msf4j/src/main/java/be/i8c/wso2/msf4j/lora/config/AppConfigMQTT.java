@@ -32,7 +32,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 /**
- * Spring Application configuration class for implementation using mqtt protocol.
+ * Spring Application configuration class for implementation using mqtt protocol of the thingsnetwork.
  * Created by yanglin on 27/04/17.
  */
 
@@ -68,7 +68,6 @@ public class AppConfigMQTT {
      * MQTT Client is required for communication with TTN back-end.
      * @return a instance of MQTT Client of TTN.
      */
-
     @Bean
     public Client client()
     {

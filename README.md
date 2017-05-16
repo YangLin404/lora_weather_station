@@ -86,9 +86,10 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 	* With Proximus Enco(MQTT):
 		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)
 
-	* With Proxumus Enco(HTTP)
-		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)
-		* Microservice: please check [the install folder](demo/weather_station/proximus/http/)
+	* With Proximus Enco(HTTP)
+		* Arduino: Please check [the install folder](demo/weather_station/proximus/mqtt)(until step 2)
+		* Configure Proximus cloudplatform: Please check [the install folder](demo/weather_station/proximus/http)
+		* Microservice: please check [the install folder](demo/weather_station/common/src/msf4j/install)
 
 		
 * [Automatic Deployment on AWS](deployment/aws)

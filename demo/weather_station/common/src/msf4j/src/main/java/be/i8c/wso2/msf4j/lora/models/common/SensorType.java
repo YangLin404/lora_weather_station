@@ -18,8 +18,6 @@ package be.i8c.wso2.msf4j.lora.models.common;
 
 /**
  * This is a enum which represents all types of sensor.
- *
- * @author yanglin
  */
 public enum SensorType {
     Temperature(-50,100,10.0d,"temperature","temperature_sensor_value"), Light(0,150, 10.0d,"light","light_value"),
@@ -27,11 +25,17 @@ public enum SensorType {
     AirQuality(0,1000,10.0d,"air quality","air_quality_value"), BatteryLevel(0,101,1000.0d,"BatteryLevel","batterylevel_value");
 
     /**
-     * This is the description of specified type in json object of proximus
+     * the minimum value which is valid per sensor type.
      */
     private final double min;
+    /**
+     * the maximum value which is valid per sensor type
+     */
     private final double max;
     private final double factor;
+    /**
+     * This is the description of specified type in json object of proximus
+     */
     private String desc;
     private String valueString;
     
