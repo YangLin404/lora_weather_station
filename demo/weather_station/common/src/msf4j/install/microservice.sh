@@ -3,7 +3,7 @@ PATHTOSRC="../";
 BUILD="true";
 MAINPATH="~/lora/"
 
-JARPATH="target/msf4j-0.1-SNAPSHOT.jar";
+JARPATH="msf4j-0.1-SNAPSHOT.jar";
 SPRINGPROFILE="-Dspring.profiles.active=";
 BACKGROUND="< /dev/null > std.out 2> std.err &";
 runInbg="false";
@@ -138,7 +138,8 @@ function checkJar()
 
 function startJarInBG()
 {
-	eval nohup java -jar "$SPRINGPROFILE $PATHTOSRC$JARPATH $BACKGROUND";
+	cd "${PATHTOSRC}/target";
+	eval nohup java -jar "$SPRINGPROFILE $JARPATH $BACKGROUND";
 }
 
 function startJar()
@@ -146,7 +147,8 @@ function startJar()
 	if [[ "$runInbg" = "true" ]]; then
 		startJarInBG;
 	else
-		eval java -jar "$SPRINGPROFILE $PATHTOSRC$JARPATH";
+		cd "${PATHTOSRC}/target";
+		eval java -jar "$SPRINGPROFILE $JARPATH";
 	fi	
 }
 
@@ -272,4 +274,7 @@ elif [[ "$1" == "--stop" ]]; then
 	stopElastic;
 	stopJar;
 	stopKibana;
+else
+	echo "no parameter";
+	exit 1;
 fi

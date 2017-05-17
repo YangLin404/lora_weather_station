@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,6 +36,7 @@ import java.util.Map;
 /**
  * Spring configuration class for The thingsnetwork implementation.
  */
+@PropertySource(value = "file:config/application.properties", ignoreResourceNotFound = true)
 @Configuration
 @Profile({"mqtt","http"})
 public class AppConfigTTN

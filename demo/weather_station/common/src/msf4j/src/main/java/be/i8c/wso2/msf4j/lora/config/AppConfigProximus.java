@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Map;
  * Spring configuration class for proximus implementation.
  * Created by yanglin on 12/05/17.
  */
+@PropertySource(value = "file:config/application.properties", ignoreResourceNotFound = true)
 @Configuration
 @Profile("proximus")
 public class AppConfigProximus {

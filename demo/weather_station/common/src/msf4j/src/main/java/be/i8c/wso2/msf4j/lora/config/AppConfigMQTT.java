@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.thethingsnetwork.data.mqtt.Client;
 
 import java.net.URISyntaxException;
@@ -35,7 +36,7 @@ import java.util.Map;
  * Spring Application configuration class for implementation using mqtt protocol of the thingsnetwork.
  * Created by yanglin on 27/04/17.
  */
-
+@PropertySource(value = "file:config/application.properties", ignoreResourceNotFound = true)
 @Configuration
 @Profile("mqtt")
 public class AppConfigMQTT {

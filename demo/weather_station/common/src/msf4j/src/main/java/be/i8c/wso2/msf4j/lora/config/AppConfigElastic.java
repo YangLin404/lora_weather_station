@@ -3,6 +3,7 @@ package be.i8c.wso2.msf4j.lora.config;
 import be.i8c.wso2.msf4j.lora.models.common.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.common.SensorType;
+import be.i8c.wso2.msf4j.lora.repositories.elasticsearch.LoRaElasticsearchAdapter;
 import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,7 +28,7 @@ import java.net.UnknownHostException;
  * Created by yanglin on 10/05/17.
  */
 
-
+@PropertySource(value = "file:config/application.properties", ignoreResourceNotFound = true)
 @Configuration
 @Profile("elastic")
 public class AppConfigElastic {
@@ -55,6 +57,17 @@ public class AppConfigElastic {
      */
     @Value("${elasticsearch.timestampName}")
     private String esTimestampName;
+
+    @Bean
+    public LoRaElasticsearchAdapter loRaElasticsearchAdapter()
+    {
+        LoRaElasticsearchAdapter loRaElasticsearchAdapter = new LoRaElasticsearchAdapter();
+        loRaElasticsearchAdapter.setEsHost(esHost);
+        loRaElasticsearchAdapter.setEsIndex(esIndex);
+        loRaElasticsearchAdapter.setEsPort(esPort);
+        loRaElasticsearchAdapter.setEsTimestampName(esTimestampName);
+        return loRaElasticsearchAdapter;
+    }
 
 
     /**

@@ -168,8 +168,6 @@ public class LoRaElasticsearchAdapter
                  if (exist) {
                      logger.debug("index: [" + indexToBeChecked + "] exist.");
                      this.idSequences = getLastId();
-                     if(this.idSequences < 0)
-                         this.idSequences = 0;
                  } else {
                      logger.debug("index: [" + this.esIndex + "] doesn't exist, it will be created at first index, idSequence set to 0");
                      this.idSequences = 0;
@@ -321,10 +319,27 @@ public class LoRaElasticsearchAdapter
         .execute().actionGet();
         Max max = response.getAggregations().get("maxId");
         long id =  Math.round(max.getValue());
+        if(id < 0)
+            id = 0;
         logger.info("last id is " + id);
         return id;
     }
 
+    public void setEsHost(String esHost) {
+        this.esHost = esHost;
+    }
+
+    public void setEsIndex(String esIndex) {
+        this.esIndex = esIndex;
+    }
+
+    public void setEsPort(int esPort) {
+        this.esPort = esPort;
+    }
+
+    public void setEsTimestampName(String esTimestampName) {
+        this.esTimestampName = esTimestampName;
+    }
 }
 
 

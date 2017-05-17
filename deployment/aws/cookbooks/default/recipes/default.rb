@@ -17,7 +17,7 @@ package 'maven'
 
 user 'user lora' do
 	username 'lora'
-	password '$1$Z4v3/Vcd$RGPhQcSSumhxpA7xAqh1u.'
+	password 'lora'
 	home '/home/lora'
 	manage_home true
 	system false
