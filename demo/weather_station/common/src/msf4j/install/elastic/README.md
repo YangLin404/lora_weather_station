@@ -4,7 +4,7 @@
 
 ### 1. Install elasticsearch and kibana
 
-* Go to the directory where you have clone the source code in this [step](../INSTALL.md#step1).
+* Go to the directory where you have clone the source code in this [step](../README.md#step1).
 
 * Download and unzip Elasticsearch 5.2.2
 		

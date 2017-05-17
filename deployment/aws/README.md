@@ -14,7 +14,7 @@ This Folder contains required instructions and files to automatically deploy lor
 
 * download and install Vagrant at [download link](https://www.vagrantup.com/downloads.html)
 
-* install vagrant aws plugin and add required box.
+* install [vagrant aws plugin](https://github.com/mitchellh/vagrant-aws) and add required box.
 
 	```shell
 	vagrant plugin install vagrant-aws
@@ -52,4 +52,4 @@ cd loRa/deployment
 	
 ### Step 4: configure Kibana (If you are using Kibana)
 
-* Follew [this instruction](../../demo/weather_station/ttn/msf4j/install/README.md#configureKibana).
+* Follew [this instruction](../../demo/weather_station/common/src/msf4j/install/README.md#configureKibana).

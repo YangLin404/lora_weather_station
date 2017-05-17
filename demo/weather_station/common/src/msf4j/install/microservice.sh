@@ -238,6 +238,13 @@ function checkParameter()
 			else
 				SPRINGPROFILE+=",postgresql";
 			fi
+		elif [[ "$par" == "proximus" ]]; then
+			if [[ "$profileAdded" == "false" ]]; then
+				SPRINGPROFILE+="proximus";
+				profileAdded="true"
+			else
+				SPRINGPROFILE+=",proximus";
+            fi
 		fi
 	done
 }
