@@ -29,8 +29,8 @@
 ### 2. Build source code
 
 	```shell
-	cd loRa/demo/weather_station/ttn/mqtt/src/msf4j/
+	cd loRa/demo/weather_station/common/src/msf4j/
 	mvn package
 	```
 	
-### 3. For further instructions please read [this.](../README.md/#step3)
+### 3. For further instructions please read [this.](../README.md#step3)

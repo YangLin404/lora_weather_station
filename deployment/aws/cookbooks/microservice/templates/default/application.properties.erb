@@ -1,0 +1,35 @@
+http.port=8287
+
+elasticsearch.index=<%= @elasticIndex %>
+elasticsearch.host=<%= @elasticHost %>
+elasticsearch.port=<%= @elasticPort %>
+elasticsearch.timestampName=time
+
+db.driver=org.postgresql.Driver
+db.url=<%= @dbUrl %>
+db.username=<%= @dbUsername %>
+db.password=<%= @dbPassword %>
+
+hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+hibernate.hbm2ddl.auto=update
+hibernate.show_sql=false
+hibernate.ejb.naming_strategy=org.hibernate.cfg.ImprovedNamingStrategy
+hibernate.format_sql=true
+
+ttn.region=<%= @ttnRegion %>
+ttn.appId=<%= @ttnAppId %>
+ttn.accessKey=<%= @ttnAccessKey %>
+ttn.http.url=<%= @ttnHttpUrl %>
+ttn.http.procesId=<%= @ttnProcesId %>
+
+ttn.device.deviceid=<%= @ttnDeviceId %>
+ttn.device.format=<%= @ttnDeviceFormat %>
+
+
+#config for proximus
+proximus.tokenAPIUrl=<%= @proximusTokenUrl %>
+proximus.APIKey=<%= @proximusApiKey %>
+proximus.APISecret=<%= @proximusApiSecret %>
+proximus.downlinkUrl=<%= @proximusDownlinkUrl %>
+
+proximus.device.deviceid=<%= @proximusDeviceId %>

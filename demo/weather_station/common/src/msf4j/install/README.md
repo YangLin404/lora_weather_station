@@ -51,10 +51,10 @@ Please read [Config file description](CONFIG.md) and edit where neccessary.
 
 ### Step 4. <a name="configureKibana">Configure Kibana dashboard</a>
 
-* Access Kibana server at http://hostname or ip:5601
+* Access Kibana server at http://\<hostname\>:5601
 * Create index named lora
 * Go to Management > Saved Objects.
-* Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/.
+* Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/
 * To view the imported dashboard, go to Dashboard > open > MyDashboard
 
 ### Step 5: Run
@@ -68,11 +68,12 @@ OPTIONS:
 |---|---|
 | elastic | using elasticsearch as database and kibana as dashboard |
 | postgresql| using postgresql as database |
-| http| receiving lorapackets over http protocol |
-| mqtt| receiving lorapackets over mqtt protocol |
+| proximus | receiving lorapackets from proximus over http protocol |
+| http| receiving lorapackets from the thingsnetwork over http protocol |
+| mqtt| receiving lorapackets from the thingsnetwork over mqtt protocol |
 | bg| run microservice in background |
 
-Example: following command will start microservice in background with elasticsearch as database and receiving lorapacket over http protocol.
+Example: following command will start microservice in background with elasticsearch as database and receiving lorapacket from the thingsnetwork over http protocol.
 
 ```shell
 sudo ./microservice.sh --start elastic http bg
@@ -82,3 +83,4 @@ sudo ./microservice.sh --start elastic http bg
 
 ```shell
 sudo ./microservice.sh --stop
+```

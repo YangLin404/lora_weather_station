@@ -1,5 +1,5 @@
 #
-# Cookbook:: ttn
+# Cookbook:: microservice
 # Recipe:: default
 #
 # Copyright:: 2017, i8c, All Rights Reserved.
@@ -14,6 +14,29 @@ bash 'build project' do
 	mvn clean package
 	EOH
 	user 'lora'
+end
+
+template '/home/lora/git/demo/weather_station/common/src/msf4j/target/config/application.properties' do
+	source 'application.properties.erb'
+	owner 'lora'
+	variables({
+		elasticIndex: node['lora']['elasticIndex'],
+		elasticHost: node['lora']['elasticHost'],
+		elasticPort: node['lora']['elasticPort'],
+		dbUrl: node['lora']['dbUrl'],
+		dbUsername: node['lora']['dbUsername'],
+		dbPassword: node['lora']['dbPassword'],
+		ttnRegion: node['lora']['ttnRegion'],
+		ttnAppId: node['lora']['ttnAppId'],
+		ttnAccessKey: node['lora']['ttnAccessKey'],
+		ttnHttpUrl: node['lora']['ttnHttpUrl'],
+		ttnDeviceFormat: node['lora']['ttnDeviceFormat'],
+		proximusTokenUrl: node['lora']['proximusTokenUrl'],
+		proximusApiKey: node['lora']['proximusApiKey'],
+		proximusApiSecret: node['lora']['proximusApiSecret'],
+		proximusDownlinkUrl: node['lora']['proximusDownlinkUrl'],
+		proximusDeviceId: node['lora']['proximusDeviceId'],
+		})
 end
 
 ruby_block 'waiting elastic server' do

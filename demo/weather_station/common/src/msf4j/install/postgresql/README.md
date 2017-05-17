@@ -39,11 +39,11 @@ host    all             all             ::1/128                 md5
 ```shell
 sudo /etc/init.d/postgresql reload
 ```
-### Step 3. Create postgresql database 'loRaDb'
+### Step 3. Create postgresql database 'loradb'
 ```shell
 sudo -u postgres createdb loradb
 ```
-### Step 4. Create postgresql user 'loRa' with password 'loRa'
+### Step 4. Create postgresql user 'lora' with password 'lora'
 ```shell
 sudo -u postgres psql template1
 ```
@@ -58,7 +58,7 @@ GRANT ALL PRIVILEGES ON DATABASE loradb to lora;
 * Build source code
 
 	```shell
-	cd loRa/demo/weather_station/ttn/src/msf4j/
+	cd loRa/demo/weather_station/common/src/msf4j/
 	mvn package
 	```
 	

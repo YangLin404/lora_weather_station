@@ -23,3 +23,41 @@ microservice:
   database: "elastic"
   #which middelware handler you want to used, either proximus or ttn, required
   middleware_handler: "proximus"
+  #the name of elasticsearch index where the data will be stored. Must be lowercase. required if using elasticsearch
+  elasticIndex: ""
+  #the hostname or ip where elasticsearch server can be found. required if using elasticsearch
+  elasticHost: ""
+  #the port which elasticsearch is listening. required if using elasticsearch
+  elasticPort: 
+  #url of your postgresql database required if using postgresql
+  dbUrl: ""
+  #username of postgresql database required if using postgresql
+  dbUsername: ""
+  #password of postgresql database required if using postgresql
+  dbPassword: ""
+  #The region (e.g. eu) or full hostname (e.g. eu.thethings.network) of the handler to connect to. required if using the thingsnetwork
+  ttnRegion: "eu"
+  #The ID of the application to connect to. required if using the thingsnetwork
+  ttnAppId: ""
+  #An access key for the application, formatted as base64. required if using the thingsnetwork
+  ttnAccessKey: ""
+  #url of api for sending downlink message provided by the thingsnetwork required if using the thingsnetwork
+  ttnHttpUrl: "https://integrations.thethingsnetwork.org/ttn-eu/api/v2/down/"
+  #the proces id of http integration of the thingsnetwork. required if using the thingsnetwork.
+  ttnProcesId: ""
+  #The deviceId of loRa devices, separated by ; (e.g. device1;device2). required if using the thingsnetwork
+  ttnDeviceId: ""
+  #The payload format of device, separated by ; 
+  #(e.g. Temperature,Light;Pressure,BatteryLevel defines the payload formats for device1 and device2 above respectively).  
+  #required if using the thingsnetwork
+  ttnDeviceFormat: "Temperature,Humidity,Pressure,Light,BatteryLevel;Temperature,Humidity,Pressure,Light,BatteryLevel"
+  #The url of oauth2 api provided by Proximus. required if using proximus
+  proximusTokenUrl: "https://api.enco.io/token"
+  #application keys provided by Proximus. required if using proximus
+  proximusApiKey: ""
+  #api secret provided by Proximus. required if using proximus
+  proximusApiSecret: ""
+  #url of api for sending downlink message provided by Proximus required if using proximus
+  proximusDownlinkUrl: "https://api.enco.io/seaas/0.0.1"
+  #The deviceId of loRa devices, separated by ; (e.g. device1;device2).  required if using proximus
+  proximusDeviceId: ""

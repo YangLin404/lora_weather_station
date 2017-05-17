@@ -36,7 +36,23 @@ Vagrant.configure("2") do |config|
       "lora" => {
         "database" => settings['microservice']['database'],
         "protocol" => settings['microservice']['protocol'],
-        "middleware_handler" => settings['microservice']['middleware_handler']
+        "middleware_handler" => settings['microservice']['middleware_handler'],
+        "elasticIndex" => settings['microservice']['elasticIndex'],
+        "elasticHost" => settings['microservice']['elasticHost'],
+        "elasticPort" => settings['microservice']['elasticPort'],
+        "dbUrl" => settings['microservice']['dbUrl'],
+        "dbUsername" => settings['microservice']['dbUsername'],
+        "dbPassword" => settings['microservice']['dbPassword'],
+        "ttnRegion" => settings['microservice']['ttnRegion'],
+        "ttnAppId" => settings['microservice']['ttnAppId'],
+        "ttnAccessKey" => settings['microservice']['ttnAccessKey'],
+        "ttnHttpUrl" => settings['microservice']['ttnHttpUrl'],
+        "ttnDeviceFormat" => settings['microservice']['ttnDeviceFormat'],
+        "proximusTokenUrl" => settings['microservice']['proximusTokenUrl'],
+        "proximusApiKey" => settings['microservice']['proximusApiKey'],
+        "proximusApiSecret" => settings['microservice']['proximusApiSecret'],
+        "proximusDownlinkUrl" => settings['microservice']['proximusDownlinkUrl'],
+        "proximusDeviceId" => settings['microservice']['proximusDeviceId']
       }
     }
 

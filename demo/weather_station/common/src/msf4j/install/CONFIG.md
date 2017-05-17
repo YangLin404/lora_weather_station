@@ -37,18 +37,24 @@ This configurations is used by postgresql database. Leave it empty if you are us
 | **hibernate.ejb.naming_strategy** | naming strategy | org.hibernate.cfg.ImprovedNamingStrategy |
 | **hibernate.format_sql** | sql format | true|
 
-## The thingsnetwork
+## The thingsnetwork(not required if you are using proximus):
 
 | Config | Description | Default |
 |---|---|---|
 | **ttn.region** | The region (e.g. eu) or full hostname (e.g. eu.thethings.network) of the handler to connect to. | eu |
 | **ttn.appId** | The ID of the application to connect to. |
 | **ttn.accessKey** | An access key for the application, formatted as base64. |
+| **device.deviceid** | The deviceId of loRa devices, separated by ; (e.g. device1;device2). | |
+| **device.format** | The payload format of device, separated by ; (e.g. Temperature,Light;Pressure,BatteryLevel defines the payload formats for device1 and device2 above respectively). |
 
-## Devices:
-Here defines your lora devices.
+## Proximus(not required if you are using the thingsnetwork):
+
+this configurations is specific for proximus. For more info, please visit [proximus doc](http://docs.enco.io/docs/)
 
 | Config | Description | Default |
 |---|---|---|
-| **device.deviceid** | The deviceId of loRa devices, separated by ; (e.g. device1;device2). | |
-| **device.format** | The payload format of device, separated by ; (e.g. Temperature,Light;Pressure,BatteryLevel defines the payload formats for device1 and device2 above respectively).
+| proximus.tokenAPIUrl | The url of oauth2 api provided by [Proximus](http://docs.enco.io/docs/authentication-1) | https://api.enco.io/token |
+| proximus.APIKey | application keys provided by [Proximus](http://docs.enco.io/docs/authentication-1) | |
+| proximus.APISecret | api secret provided by [Proximus](http://docs.enco.io/docs/authentication-1) | |
+| proximus.downlinkUrl | url of api for sending downlink message provided by [Proximus](http://docs.enco.io/docs/lora-downlink-api) | https://api.enco.io/seaas/0.0.1 |
+| proximus.devic e.deviceid | The deviceId of loRa devices, separated by ; (e.g. device1;device2). |
