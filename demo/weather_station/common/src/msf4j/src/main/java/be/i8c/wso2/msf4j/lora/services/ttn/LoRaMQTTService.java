@@ -111,6 +111,7 @@ public class LoRaMQTTService extends AbstractLoRaService
 
     /**
      * Stop the mqtt client.
+     * It will stop receiving the uplinkmessages and be unable to send downlinkmessage
      * @throws Exception when mqtt client cannot be stopped.
      */
     @Override

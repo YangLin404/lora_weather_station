@@ -1,9 +1,9 @@
 #!/bin/bash
-PATHTOSRC="../";
+PATHTOSRC="..";
 BUILD="true";
 MAINPATH="~/lora/"
 
-JARPATH="msf4j-0.1-SNAPSHOT.jar";
+JARNAME="msf4j-0.1-SNAPSHOT.jar";
 SPRINGPROFILE="-Dspring.profiles.active=";
 BACKGROUND="< /dev/null > std.out 2> std.err &";
 runInbg="false";
@@ -52,7 +52,6 @@ function build()
 		echo "build project fails."
 		exit 1;
 	fi
-	cd ./install/elastic;
 }
 
 function checkRequirements()
@@ -79,6 +78,13 @@ function checkRequirements()
 		installUnzip;
 	else
 		echo "unzip installed"
+	fi
+
+	if [[ -e "${PATHTOSRC}/target/${JARNAME}" ]]; then
+		echo "no need to build.";
+	else
+		echo "need build";
+		build;
 	fi
 }
 
@@ -139,7 +145,7 @@ function checkJar()
 function startJarInBG()
 {
 	cd "${PATHTOSRC}/target";
-	eval nohup java -jar "$SPRINGPROFILE $JARPATH $BACKGROUND";
+	eval nohup java -jar "$SPRINGPROFILE $JARNAME $BACKGROUND";
 }
 
 function startJar()
@@ -148,7 +154,7 @@ function startJar()
 		startJarInBG;
 	else
 		cd "${PATHTOSRC}/target";
-		eval java -jar "$SPRINGPROFILE $JARPATH";
+		eval java -jar "$SPRINGPROFILE $JARNAME";
 	fi	
 }
 
@@ -202,6 +208,17 @@ function stopJar()
 	fi
 }
 
+function prepareStart()
+{
+	for par in "$@"
+	do
+		if [[ "$par" == "elastic" ]]; then
+			checkElastic;
+			checkKibana;
+		fi
+	done
+}
+
 function checkParameter()
 {
 	for par in "$@"
@@ -249,15 +266,16 @@ function checkParameter()
 	done
 }
 
+sudo apt-get update
 checkParameter "$@";
 checkRequirements;
 if [[ "$1" == "--install" ]]; then
 	if [[ "$2" == "elastic" ]]; then
-		chmod +x ./elastic/install.sh;
-		./elastic/install.sh;
+		chmod +x elastic/install.sh;
+		elastic/install.sh;
 	elif [[ "$2" == "postgresql" ]]; then
-		chmod +x ./postgresql/install.sh;
-		./postgresql/install.sh;
+		chmod +x postgresql/install.sh;
+		postgresql/install.sh;
 	else
 		echo "elasticsearch or postgresql? example: ./microservice.sh --install elastic for elasticsearch";
 		exit 1;
@@ -274,9 +292,8 @@ if [[ "$1" == "--install" ]]; then
 	fi
 
 elif [[ "$1" == "--start" ]]; then
-	checkElastic;
-	checkKibana;
-	checkJar;	
+	prepareStart "$@";
+	checkJar;
 elif [[ "$1" == "--stop" ]]; then
 	stopElastic;
 	stopJar;

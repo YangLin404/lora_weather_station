@@ -31,12 +31,12 @@ The next step is to setup the loRa micro service on your Server. You can either 
 	* Install microservice with elasticsearch and kibana
 
 		```shell
-		sudo ./microservice.sh --install elastic
+		./microservice.sh --install elastic
 		```
 	* Install microservice with Postgresql (Note. Analyzing tool is currently not provided.)
 
 		```shell
-		sudo ./microservice.sh --install postgresql
+		./microservice.sh --install postgresql
 		```
 * ##### Follow step-by-step install instruction
 
@@ -49,19 +49,12 @@ After succesfully install the microservice, you will find the config file applic
 
 Please read [Config file description](CONFIG.md) and edit where neccessary.
 
-### Step 4. <a name="configureKibana">Configure Kibana dashboard</a>
-
-* Access Kibana server at http://\<hostname\>:5601
-* Create index named lora
-* Go to Management > Saved Objects.
-* Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/
-* To view the imported dashboard, go to Dashboard > open > MyDashboard
-
-### Step 5: Run
+### Step 4: Start the microservice
 
 ```shell
 sudo ./microservice.sh --start [OPTIONS]
 ```
+
 OPTIONS:
 
 | **Parameter** | **Description** |
@@ -79,7 +72,16 @@ Example: following command will start microservice in background with elasticsea
 sudo ./microservice.sh --start elastic http bg
 ```
 
-### Step 4: stop 
+
+### Step 5. <a name="configureKibana">Configure Kibana dashboard</a>
+
+* Access Kibana server at http://hostname:5601
+* Create index named lora
+* Go to Management > Saved Objects.
+* Click Import and choose [kibanaExport.json](elastic/kibana-export.json) under directory ./elastic/
+* To view the imported dashboard, go to Dashboard > open > MyDashboard
+
+### Step 6: stop the microservice
 
 ```shell
 sudo ./microservice.sh --stop

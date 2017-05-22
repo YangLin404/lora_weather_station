@@ -41,7 +41,7 @@ function installKibana()
 	if [[ ! -f  ~/lora/kibana-5.2.2-linux-x86_64.tar.gz ]]; then
 		downloadKibana;
 	fi
-	sudo tar -xzf ~/lora/kibana-5.2.2-linux-x86_64.tar.gz -C ~/lora 1> /dev/null;
+	tar -xzf ~/lora/kibana-5.2.2-linux-x86_64.tar.gz -C ~/lora 1> /dev/null;
 	if [[ $? != 0 ]]; then
 		echo "unzip kibana fails"
 		exit 1;
@@ -70,5 +70,5 @@ function checkConfig()
 {
 	sed -i 's/#server.host: "localhost"/server.host: "0.0.0.0"/' ~/lora/kibana-5.2.2-linux-x86_64/config/kibana.yml;
 }
-	checkRequirements;
-	checkConfig;
+checkRequirements;
+checkConfig;

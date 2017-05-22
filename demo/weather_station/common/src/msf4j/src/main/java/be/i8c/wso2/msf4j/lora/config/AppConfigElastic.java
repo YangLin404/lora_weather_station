@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.ResourceAlreadyExistsException;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
+import org.elasticsearch.client.transport.NoNodeAvailableException;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -91,6 +92,7 @@ public class AppConfigElastic {
             logger.error(e.getMessage());
             return client;
         }
+        System.out.println();
         logger.info("the connection with elasticsearch server is successfully established");
         return client;
     }
@@ -139,13 +141,26 @@ public class AppConfigElastic {
 
     /**
      * this method checks if the index defined in application.properties exist in elasticsearch.
-     * @param client
-     * @return
+     * If the NoNodeAvailableException throws, which means the elasticsearch is not available,
+     * it will retry the connection after 10 sec.
+     * @param client an object of TransportClient used to communicate with elasticsearch
+     * @return true if the index exists, false if not.
      */
     private boolean isIndexExist(TransportClient client)
     {
-        IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
-        return client.admin().indices()
-                .exists(indicesExistsRequest).actionGet().isExists();
+        while (true) {
+            try {
+                IndicesExistsRequest indicesExistsRequest = new IndicesExistsRequest(this.esIndex);
+                return client.admin().indices()
+                        .exists(indicesExistsRequest).actionGet().isExists();
+            } catch (NoNodeAvailableException e) {
+                logger.warn("elasticsearch is not available, retrying after 10 sec.");
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 }
