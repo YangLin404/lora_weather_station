@@ -44,7 +44,7 @@ import java.util.*;
 
 @Service
 @Profile("mqtt")
-public class LoRaMQTTService extends AbstractLoRaService
+public class LoRaMQTTService extends AbstractTTNService
 {
     private static final Logger logger = LogManager.getLogger(LoRaMQTTService.class);
 

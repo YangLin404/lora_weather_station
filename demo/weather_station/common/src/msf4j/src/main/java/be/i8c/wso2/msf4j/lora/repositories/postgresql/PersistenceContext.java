@@ -32,7 +32,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * This class consists configurations for postgresql
+ * This class consists Spring jpa configurations for connecting to relational database by using Hibernate, such as postgresql.
  */
 
 @Profile("postgresql")
@@ -52,6 +52,7 @@ public class PersistenceContext
 
         return new HikariDataSource(dataSourceConfig);
     }
+
 
     @Bean
     LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource,

@@ -38,12 +38,12 @@ In our demo, we use both loRa network provided by [Proximus](https://www.enco.io
 * **Arduino**
 
 ### Technical specs
-
+I
 * **Lora microserivce**
 	* Lora microservice is build upon [MSF4j](https://github.com/wso2/msf4j) and [Spring](https://spring.io). 
 	* Both HTTP and MQTT protocol can be used for integration with Middleware handler.
 	* This microservice uses either Postgresql or Elasticsearch as database.
-		* Spring & JPA is used to persist the data to Postgresql database.
+		* Spring Data JPA is used to persist the data to Postgresql database.
 		* Elasticsearch java API is used to persist the data to Elasticsearch database.
 	* This microservice contains a set of REST API for managing the MQTT- or HTTP client and sending the downlink message to specific lora devices.
 

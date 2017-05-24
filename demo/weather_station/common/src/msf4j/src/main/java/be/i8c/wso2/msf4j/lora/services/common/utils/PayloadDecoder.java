@@ -44,20 +44,9 @@ public class PayloadDecoder
 
     private static final Logger logger = LogManager.getLogger(PayloadDecoder.class);
 
-    /**
-     * This class validates the integrity of raw payload.
-     */
-    @Autowired
-    private UplinkMessageValidator validator;
-
-
-    /**
-     * Constructor used by Spring for initialization.
-     * @param validator An instance of uplinkMessageValidator class
-     */
-    public PayloadDecoder(UplinkMessageValidator validator)
+    public PayloadDecoder()
     {
-        this.validator = validator;
+
     }
 
     /**
@@ -72,7 +61,7 @@ public class PayloadDecoder
         logger.debug("convert raw payload to hex string: {}", Arrays.toString(data.getPayloadRaw()) );
         List<String> payloadHexString = convertPayloadToHex(data.getPayloadRaw());
         logger.debug("payloadString to be converted: {}", payloadHexString);
-        if (validator.isRawPayloadValid(payloadHexString, device.getPayloadFormat()))
+        if (this.isRawPayloadValid(payloadHexString, device.getPayloadFormat()))
         {
             int teller = 0;
             SensorBuilder sensorBuilder = prepareBuilder(data);
@@ -146,6 +135,17 @@ public class PayloadDecoder
         else {
             return actualValue;
         }
+    }
+
+    /**
+     * This method is used to check whether the raw payload is valid or not.
+     * @param payloadHex The list of hex string converted from raw payload.
+     * @param sensorsToDecode The list of sensorTypes to be expected.
+     * @return true if raw payload is valid, false if invalid.
+     */
+    public boolean isRawPayloadValid(List<String> payloadHex, List<SensorType> sensorsToDecode)
+    {
+        return payloadHex.size() >= (sensorsToDecode.size() * 2);
     }
 
 

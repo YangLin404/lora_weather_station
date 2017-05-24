@@ -20,6 +20,7 @@ package be.i8c.wso2.msf4j.lora.services.proximus;
 import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.DownlinkRequest;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
+import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.AbstractLoRaService;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.ClientNotRunningException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
@@ -89,6 +90,11 @@ public class LoRaProximusHTTPService extends AbstractLoRaService {
     @Override
     public void stopClient() throws Exception {
         isRunning = false;
+    }
+
+    @Override
+    public void save(TTNUplink TTNUplinkMessage) throws RuntimeException {
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.utils.common;
 
 import be.i8c.wso2.msf4j.lora.models.common.Device;
 import be.i8c.wso2.msf4j.lora.models.common.SensorBuilder;
@@ -6,25 +6,25 @@ import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
 import be.i8c.wso2.msf4j.lora.models.common.SensorType;
 import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadDecoder;
-import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
 import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatException;
 import be.i8c.wso2.msf4j.lora.services.common.utils.exceptions.PayloadFormatNotDefinedException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.thethingsnetwork.data.common.Metadata;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Mockito.when;
 
 
@@ -50,6 +50,7 @@ public class PayloadDecoderTest
     @Mock
     private Metadata metadata;
 
+    @InjectMocks
     private PayloadDecoder payloadDecoder;
 
     @BeforeClass
@@ -75,9 +76,7 @@ public class PayloadDecoderTest
     @Before
     public void setup()
     {
-
         MockitoAnnotations.initMocks(this);
-        payloadDecoder = new PayloadDecoder(new UplinkMessageValidator());
     }
 
 
@@ -93,20 +92,6 @@ public class PayloadDecoderTest
 
         assertEquals(excepted,actual);
     }
-
-    @Test(expected = PayloadFormatException.class)
-    public void decodePayload_RawPayloadTooShort_ShouldThrowPayloadFormatException() throws PayloadFormatException, PayloadFormatNotDefinedException
-    {
-        List<SensorRecord> excepted = LIST_OF_SENSOR_A;
-        byte[] rawPayload = Arrays.copyOf(RAWPAYLOAD_A,7);
-
-        when(TTNUplinkMessage.getPayloadRaw()).thenReturn(rawPayload);
-        when(TTNUplinkMessage.getMetadata()).thenReturn(metadata);
-        when(metadata.getTime()).thenReturn(Instant.EPOCH.plusMillis(1).toString());
-
-        List<SensorRecord> actual = payloadDecoder.decodePayload(TTNUplinkMessage,device);
-    }
-
 
 
 }

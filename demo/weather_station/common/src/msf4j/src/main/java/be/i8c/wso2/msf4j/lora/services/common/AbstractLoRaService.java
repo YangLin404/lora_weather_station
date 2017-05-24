@@ -24,11 +24,9 @@ import be.i8c.wso2.msf4j.lora.models.ttn.TTNUplink;
 import be.i8c.wso2.msf4j.lora.repositories.LoRaRepository;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.DownlinkException;
 import be.i8c.wso2.msf4j.lora.services.common.exceptions.SaveToRepositoryException;
-import be.i8c.wso2.msf4j.lora.services.common.exceptions.UnknownDeviceException;
 import be.i8c.wso2.msf4j.lora.services.common.utils.DataValidator;
 import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadDecoder;
 import be.i8c.wso2.msf4j.lora.services.common.utils.PayloadEncoder;
-import be.i8c.wso2.msf4j.lora.services.common.utils.UplinkMessageValidator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,24 +59,19 @@ public abstract class AbstractLoRaService
      * An instance of PayloadDecoder class, used to decode the payload of uplinkMessage into SensorRecord.
      */
     @Autowired
-    private PayloadDecoder decoder;
+    protected PayloadDecoder decoder;
 
     /**
      * An instance of PayloadEncoder class, used to encode the payload into bytes for downlink message.
      */
     @Autowired
-    private PayloadEncoder encoder;
+    protected PayloadEncoder encoder;
 
     /**
      * An instance of DataValidator class, used to validate the integrity of data to be inserted.
      */
     @Autowired
     protected DataValidator dataValidator;
-    /**
-     * An instance of UplinkMessageValidator class, used to validate the uplinkMessage.
-     */
-    @Autowired
-    private UplinkMessageValidator uplinkMessageValidator;
 
     /**
      * Jackson ObjectMapper, used to serialize object into Json.
@@ -104,33 +97,7 @@ public abstract class AbstractLoRaService
      * After validating and checking for notification, the valid list of sensor records will be passed through to Repository class for persistence.
      * @param TTNUplinkMessage the TTNUplinkMessage coming from TTN.
      */
-    public void save(TTNUplink TTNUplinkMessage) throws RuntimeException
-    {
-        if (!uplinkMessageValidator.isDuplicatedData(TTNUplinkMessage))
-        {
-                log(String.format("uplinkmessage counter %s received.(device: %s)", TTNUplinkMessage.getCounter(), TTNUplinkMessage.getDevId()),Level.INFO);
-                Device receivedDevice = devices.get(TTNUplinkMessage.getDevId());
-                if (receivedDevice == null)
-                    throw new UnknownDeviceException(TTNUplinkMessage.getDevId());
-                log("converting new uplinkmessage", Level.DEBUG);
-                List<SensorRecord> records = decoder.decodePayload(TTNUplinkMessage,devices.get(TTNUplinkMessage.getDevId()));
-                log("uplinkmessage converted.",Level.DEBUG);
-                records.forEach(r -> log(r.simpleString(), Level.DEBUG));
-                log(String.format("start validating %d records", records.size()),Level.DEBUG);
-                records = dataValidator.validateAll(records);
-                log("checking notification",Level.DEBUG);
-                dataValidator.checkForNotification(records,devices.get(TTNUplinkMessage.getDevId()), this::sendDownlink);
-                if (records != null)
-                {
-                    this.saveToRepo(records);
-                    log(String.format("record with counter %d saved", TTNUplinkMessage.getCounter()),Level.INFO);
-                }
-                else
-                    log(String.format("all records are invalid. ignore uplinkmessage counter %d", TTNUplinkMessage.getCounter()),Level.WARN);
-        }
-        else
-            log(String.format("duplicated data with counter %d received, ignore.", TTNUplinkMessage.getCounter()),Level.INFO);
-    }
+    public abstract void save(TTNUplink TTNUplinkMessage) throws RuntimeException;
 
     public abstract void save(String s) throws RuntimeException;
 
@@ -175,13 +142,13 @@ public abstract class AbstractLoRaService
     }
 
     /**
-     * Let service start listening on uplinkmessages.
+     * Let service start listening on uplinkmessages and allow to send downlink messages.
      * @throws Exception
      */
     abstract public void startClient() throws Exception;
 
     /**
-     * Let service stop listening on uplinkmessages.
+     * Let service stop listening on uplinkmessages and disallow to send downlink messages.
      * @throws Exception
      */
     abstract public void stopClient() throws Exception;

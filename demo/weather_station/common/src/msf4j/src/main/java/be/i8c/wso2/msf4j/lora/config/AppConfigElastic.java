@@ -58,7 +58,7 @@ public class AppConfigElastic {
      */
     @Value("${elasticsearch.timestampName}")
     private String esTimestampName;
-
+    
     @Bean
     public LoRaElasticsearchAdapter loRaElasticsearchAdapter()
     {

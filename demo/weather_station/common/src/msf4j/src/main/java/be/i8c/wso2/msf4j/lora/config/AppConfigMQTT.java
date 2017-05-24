@@ -61,6 +61,9 @@ public class AppConfigMQTT {
     @Value("${ttn.accessKey}")
     private String accessKey;
 
+    /**
+     * a list of devices predefined in application.properties
+     */
     @Autowired
     private Map<String,Device> devices;
 

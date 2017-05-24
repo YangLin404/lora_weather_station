@@ -63,6 +63,10 @@ public class AppConfigTTN
     @Bean
     public Map<String,Device> devices()
     {
+        if (deviceIds.isEmpty())
+        {
+            //logger.error();
+        }
         Map<String,Device> devices = new HashMap<>();
         deviceIds.forEach(id -> {
             try {

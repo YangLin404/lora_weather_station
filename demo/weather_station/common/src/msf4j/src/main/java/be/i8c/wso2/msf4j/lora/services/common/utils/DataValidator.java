@@ -45,7 +45,7 @@ public class DataValidator
     }
 
     /**
-     * Validates a list of sensorRecord decoded from uplinkMesssage and filter out the invalid sensorRecord(s)
+     * Validates a list of sensorRecords and filter out the invalid sensorRecord(s)
      * @param records a list of sensorRecord to be validated.
      * @return List of valid sensorRecord. null when param is null or empty, as well as when all sensorRecord are invalid.
      */
@@ -76,6 +76,11 @@ public class DataValidator
         }
     }
 
+    /**
+     * Validates a sensorRecord
+     * @param sensorRecord sensorRecord to be validated.
+     * @return same sensorRecord if valid, null if invalid.
+     */
     public SensorRecord validate(SensorRecord sensorRecord)
     {
         if (sensorRecord == null)
@@ -91,7 +96,7 @@ public class DataValidator
 
     /**
      * checks if the notification is needed for specific device when its sensor values meets certain threshold .
-     * @param records The sensorrecords to be checked.
+     * @param records a list of sensorrecords to be checked.
      * @param device The device to be checked.
      * @param func The callback function when notification should be send.
      */
@@ -119,6 +124,12 @@ public class DataValidator
         });
     }
 
+    /**
+     * checks if the notification is needed for specific device when its sensor values meets certain threshold .
+     * @param record the sensorrecord to be checked.
+     * @param device The device to be checked.
+     * @param func The callback function when notification should be send.
+     */
     public void checkForNotification(SensorRecord record, Device device, Consumer<TTNDownlinkRequest> func)
     {
         List<SensorRecord> records = new ArrayList<>();

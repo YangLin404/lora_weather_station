@@ -1,4 +1,4 @@
-package be.i8c.wso2.msf4j.lora.services.utils;
+package be.i8c.wso2.msf4j.lora.services.utils.common;
 
 import be.i8c.wso2.msf4j.lora.models.common.SensorBuilder;
 import be.i8c.wso2.msf4j.lora.models.common.SensorRecord;
@@ -17,9 +17,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-/**
- * Created by yanglin on 11/04/17.
- */
 public class DataValidatorTest
 {
     private final SensorType sensorTypeToTest = SensorType.Humidity;
@@ -57,10 +54,9 @@ public class DataValidatorTest
         sensorBuilder.flush();
     }
 
-    /*
+
     @Test
     public void validate__RecordWithValueInRange_ShouldReturnSameRecord()
-
     {
         SensorRecord record = sensorBuilder
                 .setValue(sensorTypeToTest.getMin()+1)
@@ -68,6 +64,7 @@ public class DataValidatorTest
         SensorRecord actual = validator.validate(record);
         assertEquals(record, actual);
     }
+
 
     @Test
     public void validate_RecordWithValueLowerThanMin_shouldReturnNull()
@@ -105,7 +102,6 @@ public class DataValidatorTest
         assertEquals(ValidRecords, actual);
     }
 
-    */
     @Test
     public void validateAll_ListOfRecordsWithSomeInvalidRecord_ShouldReturnListOfValidRecord()
     {

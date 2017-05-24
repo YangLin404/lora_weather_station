@@ -30,7 +30,7 @@ import java.util.List;
  * This is a implementation of LoRaRepository which uses the elasticsearch server as back-end database.
  * It used insert the lora packet into elasticsearch database.
  *
- * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=elasticsearch
+ * Note: This class will only be injected when you run with VM argument: -Dspring.profiles.active=elastic
  * @author yanglin
  */
 @Profile("elastic")
@@ -62,6 +62,11 @@ public class LoRaElasticRepository implements LoRaRepository
     }
 
 
+    /**
+     * This method inserts a list of sensorRecords into elasticsearch database.
+     * @param records a list of sensorRecords without id to be inserted.
+     * @return a list of sensorRecords with id. Returns null if the insertion fails.
+     */
     @Override
     public List save(Iterable records) {
         return esa.index((List<SensorRecord>)records);

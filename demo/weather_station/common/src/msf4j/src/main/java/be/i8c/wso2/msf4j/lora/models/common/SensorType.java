@@ -18,6 +18,7 @@ package be.i8c.wso2.msf4j.lora.models.common;
 
 /**
  * This is a enum which represents all types of sensor.
+ * It also holds different the minimum and maximum value for each sensor types.
  */
 public enum SensorType {
     Temperature(-50,100,10.0d,"Temperature sensor","temperature_sensor_value"), Light(0,150, 10.0d,"Light sensor","light_sensor_value"),

@@ -43,6 +43,7 @@ public class Device
 
     /**
      * Constructor used by spring DI.
+     * It initializes the notifiedMap and fills it with default values.
      * @param deviceId the deviceId of the device
      * @param payloadFormat the payload format of the device
      */

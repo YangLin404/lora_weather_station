@@ -43,7 +43,7 @@ import java.net.URL;
 
 @Service
 @Profile("http")
-public class LoRaHTTPService extends AbstractLoRaService
+public class LoRaHTTPService extends AbstractTTNService
 {
     private static final Logger logger = LogManager.getLogger(LoRaHTTPService.class);
 

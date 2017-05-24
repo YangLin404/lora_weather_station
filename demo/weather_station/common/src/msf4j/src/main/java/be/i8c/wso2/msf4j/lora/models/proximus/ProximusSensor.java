@@ -20,6 +20,7 @@ package be.i8c.wso2.msf4j.lora.models.proximus;
 import be.i8c.wso2.msf4j.lora.models.common.SensorType;
 
 /**
+ * This class represents the uplink message in json format received by proximus
  * Created by yanglin on 11/05/17.
  */
 public class ProximusSensor {
